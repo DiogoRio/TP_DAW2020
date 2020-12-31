@@ -5,6 +5,7 @@ const passwordUtils = require('../lib/passwordUtils')
 // os nomes que se espera que os campos de username e password tenham no req.body
 const fields = {
   usernameField: 'username',
+  emailField: 'email',
   passwordField: 'password',
   passReqToCallback: true
 }

@@ -5,6 +5,7 @@ var passport = require('passport');
 const { validatePassword } = require('../lib/passwordUtils');
 const User = require('../models/user')
 const passwordUtils = require('../lib/passwordUtils')
+const registerController = require('../controllers/register')
 
 router.get('/login', (req, res, next) => {
   const errors = req.flash("error")
@@ -41,36 +42,7 @@ router.post('/login', passport.authenticate('local', {
 
 
 router.post('/register', (req, res, next) => {
-  
-  User.findOne({username: req.body.username})
-    .then((user) => {
-      if(user) {
-        req.flash('error', 'Username already used.')
-        res.redirect('/users/register')
-      }else{
-        const saltHash = passwordUtils.genPassword(req.body.password)
-
-        const salt = saltHash.salt
-        const hash = saltHash.hash
-  
-        const newUser = new User({
-          username: req.body.username,
-          hash: hash,
-          salt: salt
-        })
-
-        newUser.save()
-        .then((user) => {
-          console.log(user)
-        })
-
-        res.redirect('/users/login')
-      }
-    })
-    .catch((err) => {
-      console.log(err)
-      res.redirect('/users/register')
-    }) 
+  registerController.register(req,res);
 });
 
 module.exports = router;
