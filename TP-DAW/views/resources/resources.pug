@@ -1,0 +1,14 @@
+html
+  head
+    title= title
+  body
+      header
+        h3 Resources List 
+          table
+            tr 
+            th Title
+            th Type
+            each r in resources
+              tr
+                td= r.title
+                td= r.typeR
