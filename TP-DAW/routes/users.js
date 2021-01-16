@@ -36,7 +36,7 @@ router.get('/protegida', (req, res, next) => {
 router.post('/login', passport.authenticate('local', {
     failureFlash: true,
     failureRedirect: '/users/login', 
-    successRedirect: '/users/protegida'
+    successRedirect: '/resources'
   }))
  
 

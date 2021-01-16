@@ -1,15 +1,16 @@
 <h1>Resource Register Page</h1>
 <form action="/resources" method="post" enctype="multipart/form-data">
-Enter Title:<br>
-<input type="text" name="title"><br>
-Enter TypeR:<br>
-<input type="text" name="typeR"><br>
-Enter DateR:<br>
-<input type="date" name="creDate"><br>
-Enter Author:<br>
-<input type="text" name="author"><br>
-Enter Resource:<br>
-<input type="file" name="cover"><br>
-Enter Visibility:<br>
-<input type="text" name="visibility"><br><br>
+Enter Title:<br/>
+<input type="text" name="title"><br/>
+Enter TypeR:<br/>
+<input type="text" name="typeR"><br/>
+Enter DateR:<br/>
+<input type="date" name="creDate"><br/>
+Enter Resource:<br/>
+<input type="file" name="cover"><br/>
+<label for="visibility">Visibility:</label>
+<select id="visibility" name="visibility">
+    <option value="Public">Public</option>
+    <option value="Private">Private</option>
+</select><br/>
 <input type="submit" value="Submit"></form>

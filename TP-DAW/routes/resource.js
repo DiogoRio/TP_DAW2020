@@ -17,19 +17,26 @@ const upload = multer({
 })
 
 router.get('/', async (req, res) => {
-   try{
-       const resources = await Resource.find({})
-       res.render('resources/resources', {
-           resources: resources
-       })
-   }catch{
-       res.redirect('/')
-
-   }
+    if(req.isAuthenticated()){
+        try{
+            const resources = await Resource.find({})
+            res.render('resources/resources', {
+                resources: resources
+            })
+        }catch{
+            res.redirect('/')
+        }
+      }else{
+        res.redirect('/users/login')
+      }
   });
   
-router.get('/new', async(req, res) => {    
-    renderNewPage(res, new Resource())    
+router.get('/new', async(req, res) => {
+    if(req.isAuthenticated()){  
+        renderNewPage(res, new Resource())
+    }else{
+        res.redirect('/users/login')
+    }     
 });
 
 
@@ -43,7 +50,7 @@ router.post('/', upload.single('cover'), async(req, res)=>{
       regDate: d, //System Date
       visibility: req.body.visibility, //Public or Private
       nameR: fileName,
-      author: req.body.author,
+      author: req.user.username,
     })
 
     try{

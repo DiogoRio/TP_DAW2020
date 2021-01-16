@@ -26,7 +26,10 @@ app.use(session({
   store: sessionStore,
   secret: 'auth',
   resave : false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  cookie: {
+    maxAge: 1000 * 60 * 60 // 1hr
+  }
 }))
 
 app.use(flash());

@@ -43,7 +43,6 @@ module.exports = (passport) => {
   
     // Desserializacao a partir do id obtem-se a informacao do utilizador
     passport.deserializeUser((userId, done) => {
-        console.log('Vou desserializar o user na sessao ' + userId)
         User.findById(userId)
         .then((user) => {
             done(null, user)
