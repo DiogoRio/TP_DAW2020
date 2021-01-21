@@ -1,15 +1,16 @@
-html
-  head
-    title= title
-  body
-      header
-        h3 Resources List 
-          table
-            tr 
-            th Title
-            th Type
-            each r in resources
-              tr
-                td= r.title
-                td= r.typeR
-                  a(href=`/resources/${r._id}`) #{r._id}
+extends ../layout
+
+block content
+  header
+    h3 Resources List 
+      table
+        tr 
+        th Title
+        th Type
+        th 
+          a(href='resources/new' style="margin-left:10px; margin-top:10px").w3-btn.w3-blue New
+        each r in resources
+          tr
+            td= r.title
+            td= r.typeR
+              a(href=`/resources/${r._id}`) #{r._id}

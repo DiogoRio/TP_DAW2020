@@ -4,6 +4,7 @@ const multer = require('multer')
 const path = require('path')
 const fs = require('fs')
 const Resource = require('../models/resource')
+const News = require('../controllers/news')
 const Res = require('../controllers/resource')
 const uploadPath = path.join('public',Resource.resResource)
 const upload = multer({
@@ -17,7 +18,7 @@ const upload = multer({
 })
 
 router.get('/new', async(req, res) => {
-    if(req.isAuthenticated()){  
+    if(req.isAuthenticated()){
         renderNewPage(res, new Resource())
     }else{
         console.log('CENAS')
@@ -73,6 +74,7 @@ router.post('/', upload.single('cover'), async(req, res)=>{
 
     try{
         const newResource = await resource.save()
+        News.addNewPostNews(req.user.username, req.body.title)
         res.redirect(`resources`)
     }catch{
         if(resource.nameR != null){
