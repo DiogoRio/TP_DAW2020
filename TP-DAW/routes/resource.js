@@ -4,7 +4,7 @@ const multer = require('multer')
 const path = require('path')
 const fs = require('fs')
 const Resource = require('../models/resource')
-const resource = require('../models/resource')
+const Res = require('../controllers/resource')
 const uploadPath = path.join('public',Resource.resResource)
 const upload = multer({
     dest: uploadPath,
@@ -16,6 +16,22 @@ const upload = multer({
     }
 })
 
+router.get('/:id', async(req, res) => {
+    if(req.isAuthenticated()){
+        try{
+            const resource = await Res.lookup(req.params.id)
+            console.log(req.params.id)
+            res.render('resources/resource', {
+                res: resource
+            })
+        }catch{
+            res.redirect('/')
+        }
+      }else{
+        res.redirect('/users/login')
+      }
+});
+  
 router.get('/', async (req, res) => {
     if(req.isAuthenticated()){
         try{
@@ -29,8 +45,9 @@ router.get('/', async (req, res) => {
       }else{
         res.redirect('/users/login')
       }
-  });
-  
+});
+
+
 router.get('/new', async(req, res) => {
     if(req.isAuthenticated()){  
         renderNewPage(res, new Resource())
@@ -83,5 +100,8 @@ function renderNewPage(res, resource , hasError = false){
         res.redirect('/resources') 
     }
 }
+
+
+
 
 module.exports = router;

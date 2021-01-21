@@ -40,6 +40,23 @@ function insert(data) {
     return newResource.save()
 }
 
+function lookup(id){
+    return Resource
+    .findOne({_id: id})
+    .exec()
+}
+
+function addComment(idR, comment){
+    return Resource.update({
+        _id: idR
+    }, {
+        $push: {
+            comments: comment
+        }
+    }).exec()
+}
+
 module.exports.listResource = listResource;
 module.exports.createResourse = createResourse;
 module.exports.insert = insert;
+module.exports.lookup = lookup;

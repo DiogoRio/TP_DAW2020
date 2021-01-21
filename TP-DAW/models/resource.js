@@ -4,6 +4,12 @@ const mongoose = require('mongoose')
 const path = require('path')
 const resResource = "uploads/"
 
+var commentSchema = new mongoose.Schema({
+    date: Date,
+    authort: String,
+    description: String
+});
+
 var resourceSchema = new mongoose.Schema({
     typeR: String,
     title: String,
@@ -11,7 +17,8 @@ var resourceSchema = new mongoose.Schema({
     regDate: Date, //System Date
     visibility: String, //Public or Private
     author: String,
-    nameR: String
+    nameR: String,
+    comments: [commentSchema]
 })
 
 //resourceSchema.virtual('resourceImagePath').get(function(){
