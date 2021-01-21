@@ -1,15 +1,24 @@
-html
-  head
-    title= title
-  body
-      header
-        h3 Resources List 
-          table
-            tr 
-            th Title
-            th Type
-            each r in resources
-              tr
-                td= r.title
+extends ../layout
+
+block content
+    .w3-card-4
+      header.w3-container.w3-blue
+        h3 Resources:
+      if resources.length > 0
+           table.w3-table-all
+             tr 
+               th Title
+               th Type
+               th Register Date
+               th Creation Date
+             each r in resources
+               tr
+                td
+                  adress 
+                      a(href=`/resources/${r._id}`) #{r.title}
                 td= r.typeR
-                  a(href=`/resources/${r._id}`) #{r._id}
+                td= r.creDate
+                td= r.regDate
+      else
+          .w3-container
+            p There are no resources...
