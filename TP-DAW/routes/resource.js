@@ -16,6 +16,15 @@ const upload = multer({
     }
 })
 
+router.get('/new', async(req, res) => {
+    if(req.isAuthenticated()){  
+        renderNewPage(res, new Resource())
+    }else{
+        console.log('CENAS')
+        res.redirect('/users/login')
+    }     
+});
+
 router.get('/:id', async(req, res) => {
     if(req.isAuthenticated()){
         try{
@@ -31,7 +40,7 @@ router.get('/:id', async(req, res) => {
         res.redirect('/users/login')
       }
 });
-  
+
 router.get('/', async (req, res) => {
     if(req.isAuthenticated()){
         try{
@@ -47,14 +56,6 @@ router.get('/', async (req, res) => {
       }
 });
 
-
-router.get('/new', async(req, res) => {
-    if(req.isAuthenticated()){  
-        renderNewPage(res, new Resource())
-    }else{
-        res.redirect('/users/login')
-    }     
-});
 
 
 router.post('/', upload.single('cover'), async(req, res)=>{

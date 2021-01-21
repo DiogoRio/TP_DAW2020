@@ -1,16 +1,25 @@
-<h1>Resource Register Page</h1>
-<form action="/resources" method="post" enctype="multipart/form-data">
-Enter Title:<br/>
-<input type="text" name="title"><br/>
-Enter TypeR:<br/>
-<input type="text" name="typeR"><br/>
-Enter DateR:<br/>
-<input type="date" name="creDate"><br/>
-Enter Resource:<br/>
-<input type="file" name="cover"><br/>
-<label for="visibility">Visibility:</label>
-<select id="visibility" name="visibility">
-    <option value="Public">Public</option>
-    <option value="Private">Private</option>
-</select><br/>
-<input type="submit" value="Submit"></form>
+extends layout
+
+block content
+    .w3-container.w3-blue
+        h3 Resource Register Page:
+    form.w3-container(action='/resources' method='POST' enctype="multipart/form-data")
+        label Title:
+        input.w3-input(type="text" name="title")
+        br
+        label Type:
+        input.w3-input(type="text" name="typeR")
+        br
+        label Creation Date:
+        input.w3-input(type="date" name="creDate")
+        br
+        label(for='visibility') Visibility: 
+        select#visibility(name='visibility')
+            option(value='Public') Public
+            option(value='Private') Private
+        br
+        br
+        label Resource:
+        input.w3-input(type="file" name="cover")
+        br
+        input.w3-btn.w3-blue(type="submit" value="Submit").custombutton(style="margin-left:10px; margin-top:10px")
