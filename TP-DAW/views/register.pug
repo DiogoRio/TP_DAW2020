@@ -1,11 +1,10 @@
 extends layout
 
 block content
-  .w3-container.w3-margin.w3-border
     .w3-container.w3-blue
         h3 Register Page:
     form.w3-container(action='register' method='POST')
-        label Name:
+        label(style="padding-top:10px") Name:
         input.w3-input(type="text" name="name")
         label Username:
         input.w3-input(type="text" name="username")
@@ -13,5 +12,5 @@ block content
         input.w3-input(type="text" name="email")
         label Password:
         input.w3-input(type="password" name="password")
-        input.w3-btn.w3-blue(type="submit" value="Submit")
+        input.w3-btn.w3-blue(type="submit" value="Submit").custombutton(style="margin-left:10px; margin-top:10px")
         p= error
