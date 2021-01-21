@@ -47,7 +47,7 @@ function lookup(id){
 }
 
 function addComment(idR, comment){
-    return Resource.update({
+    return Resource.updateOne({
         _id: idR
     }, {
         $push: {
@@ -60,3 +60,4 @@ module.exports.listResource = listResource;
 module.exports.createResourse = createResourse;
 module.exports.insert = insert;
 module.exports.lookup = lookup;
+module.exports.addComment = addComment;

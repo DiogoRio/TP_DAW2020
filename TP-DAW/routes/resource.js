@@ -57,6 +57,15 @@ router.get('/', async (req, res) => {
 });
 
 
+router.post('/:id/addComment', function (req, res) {
+    Res.addComment(req.params.id, req.body)
+    .then(dados => {
+        res.jsonp(dados),
+        res.redirect('/resources')
+    }).catch(erro => {
+        res.status(500).jsonp(erro)
+    })
+})
 
 router.post('/', upload.single('cover'), async(req, res)=>{
     const fileName = req.file != null ? req.file.originalname : null;
