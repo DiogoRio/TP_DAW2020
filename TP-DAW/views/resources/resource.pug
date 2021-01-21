@@ -1,15 +1,30 @@
-html
-  head
-    title= title
-  body
-      header
-        h3 Resource 
-          table
-            tr 
+extends ../layout
+
+block content
+    .w3-card-4
+      header.w3-container.w3-blue
+        h3 Resource:
+      if res
+           table.w3-table-all
+              tr 
                 th Title
                 th Type
-                th Comments
-            tr
+                th Register Date
+                th Creation Date
+                th Author
+
+              tr
                 td= res.title
                 td= res.typeR
-                td= res.comments //Isto está mal, comments é um array
+                td= res.creDate
+                td= res.regDate
+                td= res.author
+      else
+          .w3-container
+            p There are no resource...
+      header.w3-container.w3-blue
+        h3 Comments:
+      form.w3-container(action='/addComment' method='POST' enctype="multipart/form-data")
+        input.w3-input(type="text" name="description")
+        br
+        input.w3-btn.w3-blue(type="submit" value="Comment").custombutton(style="margin-left:10px; margin-top:10px")
