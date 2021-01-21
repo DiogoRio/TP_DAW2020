@@ -2,26 +2,37 @@ extends layout
 
 block content
   div.w3-row
-    div.w3-half.w3-container-w3-green
-      h3 Resources List 
-      table
-        tr 
-        th Title
-        th Type
-        th 
-          a(href='resources/new' style="margin-left:10px; margin-top:10px").w3-btn.w3-blue New
-        each r in resources
-          tr
-            td= r.title
-            td= r.typeR
-              a(href=`/resources/${r._id}`) #{r._id}
-    div.w3-half.w3-container.w3-blue(style = "padding:0px 15px 15px 15px")
-      h1 NEWS
-      ul.w3-ul(style="width:100%")
-        each n in news
-          li.w3-bar(style="border-style:solid;border-width: 1px;")
-            div.w3-bar-item(style = "margin:0;padding:0")
-              label.w3-large #{n.title}!
-              br
-              label #{n.body}
-              label.w3-bar-item.w3-right(style="font-size:13px;") #{n.date}
+    div.w3-half.w3-container
+      div.w3-card-4
+        header.w3-container.w3-blue
+          h3.w3-center RESOURCES
+        if resources.length > 0
+             table.w3-table-all
+               tr 
+                 th Title
+                 th Type
+                 th Register Date
+                 th Creation Date
+               each r in resources
+                 tr
+                  td
+                    adress 
+                        a(href=`/resources/${r._id}`) #{r.title}
+                  td= r.typeR
+                  td= r.creDate
+                  td= r.regDate
+        else
+            .w3-container
+              p There are no resources...
+    div.w3-half.w3-container
+      div.w3-card-4
+        header.w3-container.w3-blue
+            h3.w3-center NEWS
+        ul.w3-ul(style="width:100%")
+          each n in news
+            li.w3-bar(style="border-style:solid;border-width: 1px;")
+              div.w3-bar-item(style = "margin:0;padding:0")
+                label.w3-large #{n.title}!
+                br
+                label #{n.body}
+                label.w3-bar-item.w3-right(style="font-size:13px;") #{n.date}

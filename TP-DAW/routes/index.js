@@ -6,9 +6,10 @@ var Resource = require('../models/resource')
 /* GET home page. */
 router.get('/', async(req, res, next) => {
   var news = await News.getNews()
+  var tmp = news.reverse();
   const resources = await Resource.find({})
   console.log(news)
-  res.render('index', {news: news, resources: resources})
+  res.render('index', {news: tmp, resources: resources})
 });
 
 module.exports = router;
