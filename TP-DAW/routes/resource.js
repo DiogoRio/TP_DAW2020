@@ -66,8 +66,13 @@ router.post('/:id/addComment', async (req, res) => {
     commentSchema.description = req.body.description
     
     try{
-        await Res.addComment(req.params.id, commentSchema)
-        res.redirect('/resources')
+        if(commentSchema.description){
+            await Res.addComment(req.params.id, commentSchema)
+            res.redirect(`/resources/${req.params.id}/`)
+        }
+        else{
+            res.redirect(`/resources/${req.params.id}/`)
+        }
     }
     catch{
         res.redirect('/')
