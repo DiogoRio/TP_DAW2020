@@ -5,16 +5,16 @@ const path = require('path')
 const resResource = "uploads/"
 
 var commentSchema = new mongoose.Schema({
-    date: Date,
-    authort: String,
+    date: String,
+    author: String,
     description: String
 });
 
 var resourceSchema = new mongoose.Schema({
     typeR: String,
     title: String,
-    creDate: Date, 
-    regDate: Date, //System Date
+    creDate: String, 
+    regDate: String, //System Date
     visibility: String, //Public or Private
     author: String,
     nameR: String,
