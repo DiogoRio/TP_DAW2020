@@ -79,6 +79,7 @@ router.post('/', upload.single('cover'), async(req, res)=>{
       visibility: req.body.visibility, //Public or Private
       nameR: fileName,
       author: req.user.username,
+      points: 0 //Sistema de upvote/downvote
     })
 
     try{

@@ -18,7 +18,8 @@ var resourceSchema = new mongoose.Schema({
     visibility: String, //Public or Private
     author: String,
     nameR: String,
-    comments: [commentSchema]
+    comments: [commentSchema],
+    points: Number
 })
 
 //resourceSchema.virtual('resourceImagePath').get(function(){

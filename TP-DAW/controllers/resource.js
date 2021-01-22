@@ -16,6 +16,7 @@ function createResourse(title,type,dateR,visibility,author) {
         regDate: dateReg,
         visibility: visibility, 
         author: author,
+        points: 0
     })
 
     newResource.save()
@@ -34,7 +35,7 @@ function insert(data) {
         regDate: dateReg,
         visibility: data.visibility, 
         author: data.author,
-       
+        points: 0
     })
 
     return newResource.save()

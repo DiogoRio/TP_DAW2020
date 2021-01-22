@@ -4,17 +4,29 @@ block content
     .w3-container.w3-blue
         h3 Resource Register Page:
     form.w3-container(action='/resources' method='POST' enctype="multipart/form-data")
+        br
         label Title:
         input.w3-input(type="text" name="title")
         br
-        label Type:
-        input.w3-input(type="text" name="typeR")
+        label(for='typeR') Type:
+        br
+        br 
+        select.w3-select#typeR(name='typeR')
+            option(value='Report') Report
+            option(value='Thesis') Thesis
+            option(value='Application') Application
+            option(value='Slides') Slides
+            option(value='Evaluation') Evaluation
+            option(value='SolvedProb') Solved Problem
+        br
         br
         label Creation Date:
         input.w3-input(type="date" name="creDate")
         br
         label(for='visibility') Visibility: 
-        select#visibility(name='visibility')
+        br
+        br
+        select.w3-select#visibility(name='visibility')
             option(value='Public') Public
             option(value='Private') Private
         br
