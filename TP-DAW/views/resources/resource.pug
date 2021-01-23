@@ -3,7 +3,7 @@ extends ../layout
 block content
     .w3-card-4
       header.w3-container.w3-blue
-        h3 Resource:
+        h3 Resource
       if res
            table.w3-table-all
               tr 
@@ -23,8 +23,22 @@ block content
           .w3-container
             p There are no resource...
       header.w3-container.w3-blue
-        h3 Comments:
-      form.w3-container(action=`/resources/${res._id}/addComment` method='POST' enctype="multipart/form-data")
+        h3 Comments
+      if res.comments  
+           table.w3-table-all
+              tr 
+                th Description
+                th Date
+                th Author
+              each r in res.comments
+               tr
+                  td= r.description
+                  td= r.date
+                  td= r.author   
+      header.w3-container.w3-dark-grey
+        h3 Add Comment
+      form.w3-container(action=`/resources/${res._id}/addComment` method='POST')
+        br
         input.w3-input(type="text" name="description")
         br
-        input.w3-btn.w3-blue(type="submit" value="Comment").custombutton(style="margin-left:10px; margin-top:10px")
+        input.w3-btn.w3-right.w3-dark-grey(type="submit" value="Comment" style="margin-left:10px; margin-top:10px;margin-bottom:10px")

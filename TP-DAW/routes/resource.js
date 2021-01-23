@@ -58,14 +58,25 @@ router.get('/', async (req, res) => {
 });
 
 
-router.post('/:id/addComment', function (req, res) {
-    Res.addComment(req.params.id, req.body)
-    .then(dados => {
-        res.jsonp(dados),
-        res.redirect('/resources')
-    }).catch(erro => {
-        res.status(500).jsonp(erro)
-    })
+router.post('/:id/addComment', async (req, res) => {
+    var d = new Date().toISOString().substr(0,16);
+    let commentSchema = {}
+    commentSchema.date = d
+    commentSchema.author = req.user.username
+    commentSchema.description = req.body.description
+    
+    try{
+        if(commentSchema.description){
+            await Res.addComment(req.params.id, commentSchema)
+            res.redirect(`/resources/${req.params.id}/`)
+        }
+        else{
+            res.redirect(`/resources/${req.params.id}/`)
+        }
+    }
+    catch{
+        res.redirect('/')
+    }
 })
 
 router.post('/', upload.single('cover'), async(req, res)=>{
