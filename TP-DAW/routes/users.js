@@ -4,6 +4,7 @@ var router = express.Router();
 var passport = require('passport');
 const { validatePassword } = require('../lib/passwordUtils');
 const User = require('../models/user')
+const UserCont = require('../controllers/user')
 const passwordUtils = require('../lib/passwordUtils')
 const registerController = require('../controllers/register')
 
@@ -37,12 +38,20 @@ router.post('/login', passport.authenticate('local', {
     failureFlash: true,
     failureRedirect: '/users/login', 
     successRedirect: '/resources'
-  }))
+ }))
  
-
 
 router.post('/register', (req, res, next) => {
   registerController.register(req,res);
 });
+
+router.get('/edit/:id', function (req, res, next) {
+  console.log("Trying to edit " + req.params.id);
+  var id = req.params.id;
+  UserCont.lookUp(id)
+      .then(user => res.render('editUser', {user:user}))
+      .catch(error => res.render('error', { error: error }))
+});
+
 
 module.exports = router;

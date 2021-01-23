@@ -1,0 +1,29 @@
+extends layout
+
+block content
+  .w3-modal(style='display:block;')
+    .w3-modal-content.w3-card-4
+      header.w3-container.w3-blue.w3-card-4.w3-center
+        h3 Edit #{user.name}
+      .w3-container.w3-margin.w3-padding.w3-section
+      
+        form#form.w3-container.w3-padding-16
+          b
+            label Name
+          input.w3-input.w3-border(type="text" name="name" value=user.name)
+          br
+          b
+            label Mail
+          input.w3-input.w3-border(type="text" name="nome" value=user.email)
+          br
+          b
+            label Location
+          input.w3-input.w3-border(type="text" name="git" value=user.name)
+          br
+          b
+            label Department
+          input.w3-input.w3-border(type="text" name="git" value=user.name)
+          br
+          b
+            label Course
+          input.w3-input.w3-border(type="text" name="git" value=user.name)

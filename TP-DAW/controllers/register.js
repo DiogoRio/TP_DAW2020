@@ -20,7 +20,9 @@ async function register(req,res){
         console.log("salt:" + salt)
         console.log("hash:" + hash)
 
-        userController.createUser(req.body.username,req.body.email,req.body.name,hash,salt)
+        userController
+        .createUser(req.body.username,req.body.email,req.body.name,req.body.location,
+            req.body.department, req.body.course,hash,salt)
         res.redirect('/users/login')
     }
 }
