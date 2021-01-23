@@ -12,14 +12,17 @@ block content
                th Type
                th Register Date
                th Creation Date
+               th Author
              each r in resources
                tr
-                td
-                  adress 
-                      a(href=`/resources/${r._id}`) #{r.title}
-                td= r.typeR
-                td= r.regDate
-                td= r.creDate   
+                if r.visibility == "Public" || r.author == user
+                 td
+                   adress 
+                       a(href=`/resources/${r._id}`) #{r.title}
+                 td= r.typeR
+                 td= r.regDate
+                 td= r.creDate
+                 td= r.author   
       else
           .w3-container
             p There are no resources...

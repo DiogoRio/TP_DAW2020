@@ -46,8 +46,11 @@ router.get('/', async (req, res) => {
     if(req.isAuthenticated()){
         try{
             const resources = await Resource.find({})
+            const user = req.user.username
+            //console.log(req.user.username)
             res.render('resources/resources', {
-                resources: resources
+                resources: resources,
+                user : user
             })
         }catch{
             res.redirect('/')
