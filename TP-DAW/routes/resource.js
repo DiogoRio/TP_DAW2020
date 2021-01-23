@@ -62,6 +62,7 @@ router.get('/', async (req, res) => {
 
 
 router.post('/:id/addComment', async (req, res) => {
+    //provavelmente adiconar isAuthenticated
     var d = new Date().toISOString().substr(0,16);
     let commentSchema = {}
     commentSchema.date = d

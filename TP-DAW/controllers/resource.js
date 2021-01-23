@@ -47,6 +47,12 @@ function lookup(id){
     .exec()
 }
 
+function lookupResource(name){
+    return Resource
+    .count({author:name})
+    .exec()
+}
+
 
 function addComment(pub, comentario){
     return Resource
@@ -58,4 +64,5 @@ module.exports.createResourse = createResourse;
 module.exports.insert = insert;
 module.exports.lookup = lookup;
 module.exports.addComment = addComment;
+module.exports.lookupResource = lookupResource;
 

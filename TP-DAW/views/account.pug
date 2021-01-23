@@ -1,0 +1,61 @@
+extends layout
+
+block content
+      div.w3-card-4.w3-container.w3-blue(style='margin-bottom: 50px')
+        h3.w3-center MY ACCOUNT
+      div.w3-cell-row
+        div.w3-container.w3-cell.w3-mobile(style="max-width: 60%")
+          div.w3-card-4
+            header.w3-container.w3-blue
+              h3.w3-center MY RESOURCES
+            if resources.length > 0 
+              div.w3-responsive
+                 table.w3-table-all
+                   tr 
+                     th Title
+                     th Type
+                     th Register Date
+                     th Creation Date
+                     th Author
+                   each r in resources
+                     tr
+                      if r.author == users.name
+                       td
+                         adress 
+                             a(href=`/resources/${r._id}`) #{r.title}
+                       td= r.typeR
+                       td= r.regDate
+                       td= r.creDate
+                       td= r.author
+            else
+                .w3-container
+                  p There are no resources...
+        div.w3-container.w3-cell.w3-mobile(style="max-width: 40%")
+          div.w3-card-4
+            header.w3-container.w3-blue
+                h3.w3-center MY PROFILE
+            div.w3-responsive
+                 table.w3-table-all
+                    tr 
+                      th  Name
+                      td= users.name
+                    tr   
+                      th  Mail
+                      td= users.email
+                    tr  
+                      th  Username
+                      td= users.name
+                    tr   
+                      th  Location
+                      td= users.email
+                    tr   
+                      th  Department
+                      td= users.email
+                    tr   
+                      th  Course
+                      td= users.email
+                    tr   
+                      th  Number of Resources
+                      td= n
+           
+

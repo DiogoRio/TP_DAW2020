@@ -32,8 +32,14 @@ function createUser(username,email,name,hash,salt){
     })
 }
 
+function getUser(name){
+    return User
+    .findOne({username:name})
+    .exec()
+}
+
 module.exports.getUserByEmail = getUserByEmail;
 module.exports.getUserByName = getUserByName;
 module.exports.createUser = createUser;
-
+module.exports.getUser = getUser;
 
