@@ -1,0 +1,39 @@
+extends ../layout
+
+block content
+  .w3-modal(style='display:block;')
+    .w3-modal-content.w3-card-4
+      header.w3-container.w3-blue.w3-card-4.w3-center
+        h3 Edit #{resource.title}
+      .w3-container.w3-margin.w3-padding.w3-section
+      
+        form.w3-container(action=`/resources/edit/${resource._id}` method='POST')
+          br
+          label Title:
+          input.w3-input(type="text" name="title" value=resource.title)
+          br
+          label(for='typeR') Type:
+          br
+          br 
+          select.w3-select#typeR(name='typeR')
+              option(value='Report') Report
+              option(value='Thesis') Thesis
+              option(value='Application') Application
+              option(value='Slides') Slides
+              option(value='Evaluation') Evaluation
+              option(value='SolvedProb') Solved Problem
+          br
+          br
+          label Creation Date:
+          input.w3-input(type="date" name="creDate" value=resource.creDate)
+          br
+          label(for='visibility') Visibility: 
+          br
+          br
+          select.w3-select#visibility(name='visibility' value=resource.visibility)
+              option(value='Public') Public
+              option(value='Private') Private
+          br
+          br
+          button.w3-btn.w3-right.w3-blue(type="submit" value="Submit" style="margin-left:10px; margin-top:10px") CONFIRM
+          a.w3-btn.w3-right.w3-blue(onclick="window.location.assign('/myaccount')" style="margin-left:10px; margin-top:10px") CANCEL  

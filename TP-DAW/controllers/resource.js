@@ -59,10 +59,15 @@ function addComment(pub, comentario){
         .updateOne({_id: pub}, {$push: {comments: comentario}},{returnOriginal: false})
 }
 
+function updateResource(id, newResource){
+    return Resource
+    .updateOne({ _id: id }, newResource)
+}
+
 module.exports.listResource = listResource;
 module.exports.createResourse = createResourse;
 module.exports.insert = insert;
 module.exports.lookup = lookup;
 module.exports.addComment = addComment;
 module.exports.lookupResource = lookupResource;
-
+module.exports.updateResource = updateResource;

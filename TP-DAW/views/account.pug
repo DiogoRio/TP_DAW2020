@@ -26,7 +26,7 @@ block content
                        td= r.regDate
                        td= r.creDate
                             button.w3-btn.w3-right(onclick='/' class='fa fa-close') 
-                            button.w3-btn.w3-right(onclick="window.location.assign('/resources')" class='fa fa-edit')
+                            a.w3-btn.w3-right(onclick=`window.location.assign('/resources/edit/${r._id}')` class='fa fa-edit')
             else
                 .w3-container
                   p There are no resources...

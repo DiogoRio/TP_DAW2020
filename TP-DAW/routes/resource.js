@@ -25,6 +25,46 @@ router.get('/new', async(req, res) => {
     }     
 });
 
+
+router.get('/edit/:id',async (req, res, next) => {
+    if(req.isAuthenticated()){
+        try{
+            var id = req.params.id;
+            console.log(req.params.id)
+            var resource = await Res.lookup(id)
+            console.log(resource)
+            res.render('resources/editResource', {resource:resource})
+        }
+        catch{
+          const html = '<p>Ocorreu um erro</p>';
+          res.send(html);
+        }
+    }
+    else{
+        res.redirect('/users/login')
+    }  
+});
+  
+router.post("/edit/:id", async (req, res, next) => {
+    if(req.isAuthenticated()){
+        try{
+            var id = req.params.id;
+            console.log(id)
+            await Res.updateResource(id, req.body)
+            console.log(req.body)
+            console.log("Resource update")
+            res.redirect('/myaccount')
+        }
+        catch{
+          const html = '<p>Nao foi possivel efetuar a mudança</p>';
+          res.send(html);
+        }
+    }
+    else{
+        res.redirect('/users/login')
+    } 
+})
+
 router.get('/:id', async(req, res) => {
     if(req.isAuthenticated()){
         try{
