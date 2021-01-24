@@ -49,7 +49,7 @@ function lookup(id){
 
 function lookupResource(name){
     return Resource
-    .count({author:name})
+    .countDocuments({author:name})
     .exec()
 }
 

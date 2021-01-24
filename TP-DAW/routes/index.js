@@ -9,14 +9,10 @@ var User = require('../controllers/user')
 router.get('/myaccount', async (req, res) => {
   if(req.isAuthenticated()){
       try{
-          //console.log(req.user.username)
           var resources = await Resource.find({})
           var users = await User.getUser(req.user.username)
           var number = await Res.lookupResource(req.user.username)
-          //console.log(number)
-          //console.log(users)
-          //console.log(resources)
-          //console.log(req.user.username)
+
           res.render('account', {
               resources: resources,
               users : users,

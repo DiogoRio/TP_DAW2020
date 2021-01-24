@@ -18,7 +18,7 @@ block content
                      th Creation Date
                    each r in resources
                      tr
-                      if r.author == users.name
+                      if r.author == users.username
                        td
                          adress 
                              a(href=`/resources/${r._id}`) #{r.title}
@@ -49,13 +49,13 @@ block content
                       td= users.name
                     tr   
                       th  Location
-                      td= users.email
+                      td= users.location
                     tr   
                       th  Department
-                      td= users.email
+                      td= users.department
                     tr   
                       th  Course
-                      td= users.email
+                      td= users.course
                     tr   
                       th  Number of Resources
                       td= n
