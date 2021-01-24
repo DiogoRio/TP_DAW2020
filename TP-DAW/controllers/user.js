@@ -46,8 +46,14 @@ function getUser(name){
     .exec()
 }
 
+function updateUser(id, newUser){
+    return User
+    .updateOne({ _id: id }, newUser)
+}
+
 module.exports.getUserByEmail = getUserByEmail;
 module.exports.getUserByName = getUserByName;
 module.exports.createUser = createUser;
 module.exports.getUser = getUser;
 module.exports.lookUp = lookUp;
+module.exports.updateUser= updateUser;

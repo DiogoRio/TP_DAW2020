@@ -21,7 +21,6 @@ router.get('/new', async(req, res) => {
     if(req.isAuthenticated()){
         renderNewPage(res, new Resource())
     }else{
-        console.log('CENAS')
         res.redirect('/users/login')
     }     
 });
