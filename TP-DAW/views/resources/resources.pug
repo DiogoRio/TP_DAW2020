@@ -5,24 +5,113 @@ block content
       header.w3-container.w3-blue
         h3 Resources
           button.w3-btn.w3-white.w3-right.w3-medium(onclick="window.location.assign('/resources/new')") New
+      br
       if resources.length > 0
-           table.w3-table-all
-             tr 
-               th Title
-               th Type
-               th Register Date
-               th Creation Date
-               th Author
-             each r in resources
-               tr
-                if r.visibility == "Public" || r.author == user
-                 td
-                   adress 
-                       a(href=`/resources/${r._id}`) #{r.title}
-                 td= r.typeR
-                 td= r.regDate
-                 td= r.creDate
-                 td= r.author  
+        .w3-container(id="searchBox" style="margin-bottom: 40px")
+          h4 Search
+          input.w3-input(type="text" id="search" onkeyup="filterResources()" placeholder="Search resource title.." title="Type in a resource")
+          br
+          div(id="sort" style="margin-bottom: 20px; margin-right: 20px; width: 10%; float: left")
+            h5 Sort By:
+            select.w3-select(name='sort')
+              option(value='newest') Newest
+              option(value='oldest') Oldest
+              option(value='points' onclick="sortByPoints()") Points
+          div.checkbox-inline(id="types" style="margin-bottom: 20px; width: 80%; float: right")
+            h5 Accepted Types:
+            input(id="application" type="checkbox" name="Application" value="" onclick="filterByType()" checked)
+            label(for="thesis")  Application    
+            input(id="evaluation" type="checkbox" name="Evaluation" value="" onclick="filterByType()" checked)
+            label(for="thesis")  Evaluation   
+            input(id="report" type="checkbox" name="Report" value="" onclick="filterByType()" checked)
+            label(for="thesis")  Report    
+            input(id="slides" type="checkbox" name="Slides" value="" onclick="filterByType()" checked)
+            label(for="slides")  Slides    
+            input(id="solvedprob" type="checkbox" name="Solved Problem" onclick="filterByType()" value="" checked)
+            label(for="solvedprob")  Solved Problem   
+            input(id="thesis" type="checkbox" name="Thesis" value="" onclick="filterByType()" checked)
+            label(for="thesis")  Thesis
+        table(id="resourceTable").w3-table-all
+          tr 
+            th Title
+            th Type
+            th Register Date
+            th Creation Date
+            th Author
+            th Points
+          each r in resources
+            tr
+              if r.visibility == "Public" || r.author == user
+                td
+                  adress 
+                    a(href=`/resources/${r._id}`) #{r.title}
+                td= r.typeR
+                td= r.regDate
+                td= r.creDate
+                td= r.author 
+                td= r.points
+        script.
+          // nota, se alterarem a ordem/numero de colunas da tabela, corrigir indices nas funcoes abaixo 
+
+          var filter_types = [];
+          function filterByType(){
+            f_types = []
+            types = document.getElementById("types")
+            inputs = types.getElementsByTagName("input")
+            for(i = 0; i < inputs.length; i++){
+              if(!inputs[i].checked){
+                f_types.push(inputs[i].name)
+                console.log("Added " + inputs[i].name)
+              }
+            }
+            filter_types = f_types;
+            filterResources();
+          }
+          function filterResources() {
+            var input, filter, table, tr, td, i, name, type;
+            input = document.getElementById("search");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("resourceTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+              td = tr[i].getElementsByTagName("td")[0];
+              td1 = tr[i].getElementsByTagName("td")[1];
+              if (td) {
+                name = td.textContent || td.innerText;
+                type = (td1.textContent || td1.innerText);
+                if (name.toUpperCase().indexOf(filter) > -1 && !filter_types.includes(type)) {
+                  tr[i].style.display = "";
+                } else {
+                  tr[i].style.display = "none";
+                }
+              }       
+            }
+          }
+
+          function sortByPoints(){
+            var table, rows, switching, i, x, y, shouldSwitch;
+            table = document.getElementById("resourceTable");
+            switching = true;
+            while (switching) {
+              switching = false;
+              rows = table.rows;
+              // comecar no 1 para ignorar as th
+              for (i = 1; i < (rows.length - 1); i++) {
+                shouldSwitch = false;
+                x = rows[i].getElementsByTagName("td")[5];
+                y = rows[i + 1].getElementsByTagName("td")[5];
+                if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                  shouldSwitch = true;
+                  break;
+                }
+              }
+              if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+              }
+            }
+          }
+
       else
           .w3-container
             p There are no resources...
