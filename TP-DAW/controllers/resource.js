@@ -8,7 +8,7 @@ function listResource(){
 }
 
 function createResourse(title,type,dateR,visibility,author) {
-    var dateReg = new Date().toISOString().slice(0, 10)
+    var dateReg = new Date().toISOString().substr(0, 10)
     const newResource = new Resource({
         title: title,
         typeR: type,
@@ -27,7 +27,7 @@ function createResourse(title,type,dateR,visibility,author) {
 
 
 function insert(data) {
-    var dateReg = new Date().toISOString().slice(0, 10)
+    var dateReg = new Date().toISOString().substr(0, 10)
     const newResource = new Resource({
         title: data.title,
         typeR: data.type,
