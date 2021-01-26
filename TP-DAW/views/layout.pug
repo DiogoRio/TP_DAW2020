@@ -4,5 +4,15 @@ html(style='max-height:100%;')
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
+    script(src='https://unpkg.com/axios/dist/axios.min.js')
+    script(src='/javascripts/resources.js')
   body(style='max-height:100%;')
-    block content
+      
+      .w3-bar.w3-black
+        a.w3-bar-item.w3-button(href='/') Home
+        a.w3-bar-item.w3-button(href='/myaccount') My Account
+        a.w3-bar-item.w3-button(href='/resources') Resources
+        if auth  
+         a.w3-bar-item.w3-button.w3-right(href='/users/logout') Logout
+      
+      block content

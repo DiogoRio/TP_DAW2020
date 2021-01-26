@@ -16,7 +16,8 @@ router.get('/myaccount', async (req, res) => {
           res.render('account', {
               resources: resources,
               users : users,
-              n : number
+              n : number,
+              auth: true 
           })
       }catch{
           res.redirect('/')
@@ -31,7 +32,8 @@ router.get('/', async(req, res, next) => {
   var news = await News.getNews()
   var tmp = news.reverse();
   const resources = await Resource.find({})
-  res.render('index', {news: tmp, resources: resources})
+  const authMain = req.isAuthenticated()
+  res.render('index', {news: tmp, resources: resources, auth:authMain})
 });
 
 module.exports = router;

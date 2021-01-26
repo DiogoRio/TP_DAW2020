@@ -30,9 +30,9 @@ router.get('/edit/:id',async (req, res, next) => {
     if(req.isAuthenticated()){
         try{
             var id = req.params.id;
-            console.log(req.params.id)
+            //console.log(req.params.id)
             var resource = await Res.lookup(id)
-            console.log(resource)
+            //.log(resource)
             res.render('resources/editResource', {resource:resource})
         }
         catch{
@@ -49,10 +49,8 @@ router.post("/edit/:id", async (req, res, next) => {
     if(req.isAuthenticated()){
         try{
             var id = req.params.id;
-            console.log(id)
             await Res.updateResource(id, req.body)
-            console.log(req.body)
-            console.log("Resource update")
+         //   console.log("Resource update")
             res.redirect('/myaccount')
         }
         catch{
@@ -69,9 +67,10 @@ router.get('/:id', async(req, res) => {
     if(req.isAuthenticated()){
         try{
             const resource = await Res.lookup(req.params.id)
-            console.log(req.params.id)
+           // console.log(req.params.id)
             res.render('resources/resource', {
-                res: resource
+                res: resource,
+                auth: true 
             })
         }catch{
             res.redirect('/')
@@ -89,7 +88,8 @@ router.get('/', async (req, res) => {
             //console.log(req.user.username)
             res.render('resources/resources', {
                 resources: resources,
-                user : user
+                user : user,
+                auth: true 
             })
         }catch{
             res.redirect('/')
@@ -120,6 +120,25 @@ router.post('/:id/addComment', async (req, res) => {
     catch{
         res.redirect('/')
     }
+})
+
+router.delete("/delete/:id", async (req, res, next) => {
+    if(req.isAuthenticated()){
+        try{
+            var id = req.params.id;
+            //console.log(id)
+            await Res.deleteResource(id)
+            console.log("Resource delete")
+            res.sendStatus(200)
+        }
+        catch{
+          const html = '<p>Nao foi possivel efetuar a mudança</p>';
+          res.send(html);
+        }
+    }
+    else{
+        res.redirect('/users/login')
+    } 
 })
 
 router.post('/', upload.single('cover'), async(req, res)=>{
@@ -158,7 +177,8 @@ function removeResource(fileName){
 function renderNewPage(res, resource , hasError = false){
     try{
         const params = {
-            resource : resource
+            resource : resource,
+            auth: true 
         }
         if (hasError) params.errorMessage = 'Error Creating Resourse'
         res.render('resources/new', params)

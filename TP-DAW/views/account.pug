@@ -8,6 +8,7 @@ block content
           div.w3-card-4
             header.w3-container.w3-blue
               h3.w3-center MY RESOURCES
+               button.w3-btn.w3-right(onclick="window.location.assign('/resources/new')" class='fa fa-plus') 
             if resources.length > 0 
               div.w3-responsive
                  table.w3-table-all
@@ -16,6 +17,7 @@ block content
                      th Type
                      th Register Date
                      th Creation Date
+                     th
                    each r in resources
                      tr
                       if r.author == users.username
@@ -25,8 +27,9 @@ block content
                        td= r.typeR
                        td= r.regDate
                        td= r.creDate
-                            button.w3-btn.w3-right(onclick='/' class='fa fa-close') 
-                            a.w3-btn.w3-right(onclick=`window.location.assign('/resources/edit/${r._id}')` class='fa fa-edit')
+                       td
+                         button.w3-btn.w3-right(onclick="deleteRes('" + r._id + "')" class='fa fa-close') 
+                         a.w3-btn.w3-right(onclick=`window.location.assign('/resources/edit/${r._id}')` class='fa fa-edit')
             else
                 .w3-container
                   p There are no resources...

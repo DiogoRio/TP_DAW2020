@@ -64,6 +64,11 @@ function updateResource(id, newResource){
     .updateOne({ _id: id }, newResource)
 }
 
+function deleteResource(id){
+    return Resource
+    .deleteOne({_id:id})
+}
+
 module.exports.listResource = listResource;
 module.exports.createResourse = createResourse;
 module.exports.insert = insert;
@@ -71,3 +76,4 @@ module.exports.lookup = lookup;
 module.exports.addComment = addComment;
 module.exports.lookupResource = lookupResource;
 module.exports.updateResource = updateResource;
+module.exports.deleteResource = deleteResource;
