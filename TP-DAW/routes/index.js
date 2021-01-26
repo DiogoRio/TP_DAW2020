@@ -4,6 +4,7 @@ var News = require('../controllers/news')
 var Res = require('../controllers/resource')
 var Resource = require('../models/resource')
 var User = require('../controllers/user')
+var Depart = require('../controllers/depart')
 
 
 router.get('/myaccount', async (req, res) => {
@@ -35,5 +36,35 @@ router.get('/', async(req, res, next) => {
   const authMain = req.isAuthenticated()
   res.render('index', {news: tmp, resources: resources, auth:authMain})
 });
+
+/*
+
+Testes do controlador dos departamentos -> mover para zona de administrador
+
+// devolve todos os departamentos
+
+router.get('/depart', (req, res, next) =>{
+  Depart.listDeparts()
+  .then(dados => res.send(dados))
+  .catch(e => res.send(e))
+})
+
+// adiciona um novo departamento
+
+router.post('/depart', (req, res, next) =>{
+  Depart.addDepart(req.body.id, req.body.designation)
+  .then(dados => res.send(dados))
+  .catch(e => res.send(e))
+})
+
+// adiciona um novo curso a um departamento
+
+router.post('/depart/:id/add', (req, res, next) =>{
+  Depart.addCourse(req.params.id, req.body.id, req.body.designation)
+    .then(dados => res.send(dados))
+    .catch(e => res.send(e))
+})
+
+*/
 
 module.exports = router;
