@@ -10,6 +10,19 @@ function listDeparts(){
         .exec()
 }
 
+// List all courses
+async function listCourses(){
+    var departs = await listDeparts()
+    var result = []
+    for(i = 0; i < departs.length; i++){
+        for(j = 0; j < departs[i].courses.length; j++){
+            course = JSON.parse(JSON.stringify(departs[i].courses[j]))
+            result.push({id: course.id, designation: course.designation})
+        }
+    }
+    return result;
+}
+
 // Add department to database
 function addDepart(id, des){
     const depart = new Depart({
@@ -26,5 +39,6 @@ function addCourse(departId, courseId, courseDes){
 }
 
 module.exports.listDeparts = listDeparts
+module.exports.listCourses = listCourses
 module.exports.addDepart = addDepart
 module.exports.addCourse = addCourse

@@ -6,6 +6,14 @@ var User = require('../models/user')
 //Calls à mongoDB para devolver info
 // ....
 
+function listUsers(){
+    return User
+        .find()
+        .select('-_id -salt -hash -__v')
+        .sort({username:1})
+        .exec()
+}
+
 function getUserByName(username){
     return User.findOne({username: username}).exec()
 }
@@ -51,6 +59,7 @@ function updateUser(id, newUser){
     .updateOne({ _id: id }, newUser)
 }
 
+module.exports.listUsers = listUsers;
 module.exports.getUserByEmail = getUserByEmail;
 module.exports.getUserByName = getUserByName;
 module.exports.createUser = createUser;

@@ -7,6 +7,23 @@ const User = require('../models/user')
 const UserCont = require('../controllers/user')
 const passwordUtils = require('../lib/passwordUtils')
 const registerController = require('../controllers/register')
+const Depart = require('../controllers/depart')
+
+router.get('/', (req, res, next) => {
+  if(req.isAuthenticated()){
+    UserCont.listUsers()
+      .then(users =>{
+        Depart.listDeparts()
+          .then(async(departs) => {
+            var courses = await Depart.listCourses()
+            res.render('users', {users: users, departs: departs, courses: courses})
+          })
+      })
+      .catch(e => res.status(500).jsonp(e))
+  }else{
+    res.redirect('/users/login')
+  }
+})
 
 router.get('/login', (req, res, next) => {
   const errors = req.flash("error")
@@ -22,16 +39,6 @@ router.get('/register', (req, res, next) => {
 router.get('/logout', (req, res, next) => {
   req.logOut()
   res.redirect('/users/login')
-})
-
-
-router.get('/protegida', (req, res, next) => {
-  if(req.isAuthenticated()){
-    const html = '<p>Bem vindo à área protegida --> <a href="/users/logout">logout</a></p>';
-    res.send(html);
-  }else{
-    res.redirect('/users/login')
-  }
 })
 
 router.post('/login', passport.authenticate('local', {

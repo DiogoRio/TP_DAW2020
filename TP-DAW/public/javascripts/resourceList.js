@@ -19,13 +19,14 @@ function filterByType() {
     filter_types = f_types;
     filterResources();
 }
+
 function filterResources() {
     var input, filter, table, tr, td, i, name, type;
     input = document.getElementById("search");
     filter = input.value.toUpperCase();
     table = document.getElementById("resourceTable");
     tr = table.getElementsByTagName("tr");
-    for (i = 0; i < tr.length; i++) {
+    for (i = 1; i < tr.length; i++) {
         td = tr[i].getElementsByTagName("td")[0];
         td1 = tr[i].getElementsByTagName("td")[1];
         if (td) {

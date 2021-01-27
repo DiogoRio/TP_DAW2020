@@ -37,13 +37,14 @@ router.get('/', async(req, res, next) => {
   res.render('index', {news: tmp, resources: resources, auth:authMain})
 });
 
+
 /*
 
-Testes do controlador dos departamentos -> mover para zona de administrador
+//Testes do controlador dos departamentos -> mover para zona de administrador
 
 // devolve todos os departamentos
 
-router.get('/depart', (req, res, next) =>{
+router.get('/departs', (req, res, next) =>{
   Depart.listDeparts()
   .then(dados => res.send(dados))
   .catch(e => res.send(e))
