@@ -54,9 +54,14 @@ function lookupResource(name){
 }
 
 
-function addComment(pub, comentario){
+function addComment(id, comentario){
     return Resource
-        .updateOne({_id: pub}, {$push: {comments: comentario}},{returnOriginal: false})
+        .updateOne({_id: id}, {$push: {comments: comentario}},{returnOriginal: false})
+}
+
+function deleteComment(id, idC){
+    return Resource
+        .updateOne({_id: id}, {$pull: {comments:{ _id:idC}}},{returnOriginal: false})
 }
 
 function updateResource(id, newResource){
@@ -77,3 +82,4 @@ module.exports.addComment = addComment;
 module.exports.lookupResource = lookupResource;
 module.exports.updateResource = updateResource;
 module.exports.deleteResource = deleteResource;
+module.exports.deleteComment = deleteComment;

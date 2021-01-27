@@ -28,18 +28,22 @@ block content
      div.w3-card-4
          header.w3-container.w3-blue
              h3.w3-center Comments
-         if res.comments
-          div.w3-responsive
-              table.w3-table-all
+         div.w3-responsive
+             table.w3-table-all
+                tr
+                  th Description
+                  th Date
+                  th Author
+
+                each r in res.comments
                  tr
-                   th Description
-                   th Date
-                   th Author
-                 each r in res.comments
-                  tr
-                     td= r.description
-                     td= r.date
-                     td= r.author  
+                    td= r.description
+                    td= r.date
+                    td= r.author
+                    td
+                     if userLog == r.author || userLog == res.author
+                       form.w3-container(action=`/resources/${res._id}/deleteComment/${r._id}` method='POST')
+                         button.w3-btn.w3-right(type="submit" class='fa fa-close')
    div.w3-container.w3-cell.w3-mobile(class= "w3-col s5") 
      div.w3-card-4
          header.w3-container.w3-blue

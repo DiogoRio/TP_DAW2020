@@ -6,6 +6,7 @@ const fs = require('fs')
 const Resource = require('../models/resource')
 const News = require('../controllers/news')
 const Res = require('../controllers/resource')
+const { use } = require('passport')
 const uploadPath = path.join('public',Resource.resResource)
 const upload = multer({
     dest: uploadPath,
@@ -67,10 +68,11 @@ router.get('/:id', async(req, res) => {
     if(req.isAuthenticated()){
         try{
             const resource = await Res.lookup(req.params.id)
-           // console.log(req.params.id)
+            const userLog = req.user.username
             res.render('resources/resource', {
                 res: resource,
-                auth: true 
+                auth: true,
+                userLog: userLog
             })
         }catch{
             res.redirect('/')
@@ -121,6 +123,18 @@ router.post('/:id/addComment', async (req, res) => {
         res.redirect('/')
     }
 })
+
+router.post('/:id/deleteComment/:idC', async (req, res) => {
+    var idC = req.params.idC
+    //console.log(idC)
+    try{
+        await Res.deleteComment(req.params.id, idC)
+        res.redirect(`/resources/${req.params.id}/`)
+        }
+    catch{
+        res.redirect('/')
+    }
+});
 
 router.delete("/delete/:id", async (req, res, next) => {
     if(req.isAuthenticated()){
