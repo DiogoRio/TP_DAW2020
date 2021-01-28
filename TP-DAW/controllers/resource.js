@@ -52,6 +52,18 @@ function lookupResource(name){
     .countDocuments({author:name})
     .exec()
 }
+function lookupResourcePoints(id){
+    return Resource
+    .findOne({_id: id})
+    .select({_id:0, points:1})
+    .exec()
+}
+
+function lookupPoints(id, author){
+    return Resource
+        .findOne({_id: id}, {points:{ $elemMatch:{author:author}}})
+        .exec()
+}
 
 
 function addComment(id, comentario){
@@ -64,14 +76,29 @@ function deleteComment(id, idC){
         .updateOne({_id: id}, {$pull: {comments:{ _id:idC}}},{returnOriginal: false})
 }
 
+function addRating(id, rate){
+    return Resource
+        .updateOne({_id: id}, {$push: {points: rate}},{returnOriginal: false})
+}
+
+function ratingResource(id,idR){
+    return Resource
+        .updateOne({_id: id}, {$pull: {points:{ _id:idR}}}, {returnOriginal: false})
+}
+
+function updatePoints(id,tpoints){
+    return Resource
+        .updateOne({_id: id}, {totalP:tpoints})
+}
+
 function updateResource(id, newResource){
     return Resource
-    .updateOne({ _id: id }, newResource)
+        .updateOne({ _id: id }, newResource)
 }
 
 function deleteResource(id){
-    return Resource
-    .deleteOne({_id:id})
+        return Resource
+        .deleteOne({_id:id})
 }
 
 module.exports.listResource = listResource;
@@ -83,3 +110,8 @@ module.exports.lookupResource = lookupResource;
 module.exports.updateResource = updateResource;
 module.exports.deleteResource = deleteResource;
 module.exports.deleteComment = deleteComment;
+module.exports.addRating = addRating;
+module.exports.lookupPoints = lookupPoints;
+module.exports.ratingResource= ratingResource;
+module.exports.lookupResourcePoints =lookupResourcePoints;
+module.exports.updatePoints = updatePoints;

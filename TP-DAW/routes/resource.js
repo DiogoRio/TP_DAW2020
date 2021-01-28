@@ -7,6 +7,8 @@ const Resource = require('../models/resource')
 const News = require('../controllers/news')
 const Res = require('../controllers/resource')
 const { use } = require('passport')
+const { toNamespacedPath } = require('path')
+const { setupMaster } = require('cluster')
 const uploadPath = path.join('public',Resource.resResource)
 const upload = multer({
     dest: uploadPath,
@@ -69,10 +71,15 @@ router.get('/:id', async(req, res) => {
         try{
             const resource = await Res.lookup(req.params.id)
             const userLog = req.user.username
+            //const points = await Res.lookupResourcePoints(req.params.id)
+            //    let r =0;
+            //    for(let i = 0; i< points.points.length; i++){
+            //        r += points.points[i].point
+            //    }
             res.render('resources/resource', {
                 res: resource,
                 auth: true,
-                userLog: userLog
+                userLog: userLog,
             })
         }catch{
             res.redirect('/')
@@ -136,6 +143,49 @@ router.post('/:id/deleteComment/:idC', async (req, res) => {
     }
 });
 
+router.post('/:id/addRating', async (req, res) => {
+    //provavelmente adiconar isAuthenticated
+    let ratings = await Res.lookupPoints(req.params.id, req.user.username);
+    let tmp = ratings.points
+    try{
+        if(tmp.length == 0){
+            let ratingSchema = {}
+            ratingSchema.author = req.user.username
+            ratingSchema.point = req.body.point
+
+            await Res.addRating(req.params.id, ratingSchema)
+            const points = await Res.lookupResourcePoints(req.params.id)
+                let r =0;
+                for(let i = 0; i< points.points.length; i++){
+                    r += points.points[i].point
+                }
+            await Res.updatePoints(req.params.id,r)
+            console.log('ADD RATING NOVO')
+            res.redirect(`/resources/${req.params.id}/`)
+        }
+        else{
+            console.log(ratings.points)
+            let ratingSchema = {}
+            ratingSchema._id = ratings.points[0]._id
+            ratingSchema.author = req.user.username
+            ratingSchema.point = parseInt(req.body.point)
+            await Res.ratingResource(req.params.id,ratings.points[0]._id)
+            await Res.addRating(req.params.id, ratingSchema)
+            const points = await Res.lookupResourcePoints(req.params.id)
+                let r =0;
+                for(let i = 0; i< points.points.length; i++){
+                    r += points.points[i].point
+                }
+            await Res.updatePoints(req.params.id, r)
+            console.log('RATING REPLACE')
+            res.redirect(`/resources/${req.params.id}/`)
+        }
+    }
+    catch{
+        res.redirect('/')
+    }
+})
+
 router.delete("/delete/:id", async (req, res, next) => {
     if(req.isAuthenticated()){
         try{
@@ -166,7 +216,8 @@ router.post('/', upload.single('cover'), async(req, res)=>{
       visibility: req.body.visibility, //Public or Private
       nameR: fileName,
       author: req.user.username,
-      points: 0 //Sistema de upvote/downvote
+      points: [],
+      totalP: 0 //Sistema de upvote/downvote
     })
 
     try{

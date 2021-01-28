@@ -10,6 +10,11 @@ var commentSchema = new mongoose.Schema({
     description: String
 });
 
+var ratingSchema = new mongoose.Schema({
+    author: String,
+    point: Number
+});
+
 var resourceSchema = new mongoose.Schema({
     typeR: String,
     title: String,
@@ -19,7 +24,8 @@ var resourceSchema = new mongoose.Schema({
     author: String,
     nameR: String,
     comments: [commentSchema],
-    points: Number
+    points: [ratingSchema],
+    totalP: Number
 })
 
 //resourceSchema.virtual('resourceImagePath').get(function(){
