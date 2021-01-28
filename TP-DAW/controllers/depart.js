@@ -6,7 +6,7 @@ function listDeparts(){
     return Depart
         .find()
         .select('-_id id designation courses')
-        .sort({id:1})
+        .sort({designation:1})
         .exec()
 }
 
@@ -20,7 +20,7 @@ async function listCourses(){
             result.push({id: course.id, designation: course.designation})
         }
     }
-    return result;
+    return result.sort((a, b) => a.designation > b.designation ? 1 : -1);
 }
 
 // Add department to database
