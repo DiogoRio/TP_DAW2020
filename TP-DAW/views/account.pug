@@ -17,7 +17,7 @@ block content
                      th Type
                      th Register Date
                      th Creation Date
-                     th
+                     th Points
                    each r in resources
                      tr
                       if r.author == users.username
@@ -27,7 +27,7 @@ block content
                        td= r.typeR
                        td= r.regDate
                        td= r.creDate
-                       td
+                       td= r.totalP
                          button.w3-btn.w3-right(onclick="deleteRes('" + r._id + "')" class='fa fa-close') 
                          a.w3-btn.w3-right(onclick=`window.location.assign('/resources/edit/${r._id}')` class='fa fa-edit')
             else
