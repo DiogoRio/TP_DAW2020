@@ -8,30 +8,40 @@ block content
         .w3-container(id="searchBox" style="margin-bottom: 40px")
             div.checkbox-inline(style="margin-bottom: 20px; width: 20%; float: left; padding-right: 100px")
                 h4 Search
-                input.w3-input(type="text" id="search" onkeyup="filterUsers()" placeholder="Search for Username or Name" title="Type in a username or name")
-            div.checkbox-inline(style="margin-bottom: 20px; width: 20%; float: left")
-                h4 Filter Departs
-                
+                input.w3-input(type="text" id="search" onkeyup="filterTable()" placeholder="Search for Username or Name" title="Type in a username or name")
+            div.checkbox-inline(style="margin-bottom: 20px; width: 20%; float: left; padding-right: 100px")
+                h4 Select Department
+                select.w3-select(id="department" name='department')
+                    option(value="All" onclick=`setDepartFilter(\'0\', \'All\'); setDepartCourses(\'empty\')`) All
+                    each d in departs
+                        option(value=d.designation onclick=`setDepartFilter(\'${d.id}\', \'${d.designation}\'); setDepartCourses(\'${d.courses.map(c => c.designation)}\')`) #{d.designation}
+            div.checkbox-inline(style="margin-bottom: 20px; width: 20%; float: left; padding-right: 100px")
+                h4 Select Course
+                select.w3-select(id="course" name='course')
+                    option(value="All" onclick=`setCourseFilter(0, \'All\')`) All
+                    each c in courses
+                        option(value=c.designation onclick=`setCourseFilter(\'${c.id}\', \'${c.designation}\')`) #{c.designation}            
         .w3-card-4
             header.w3-container.w3-blue
                 h4.w3-center USERS LIST
-            table(id="usersTable").w3-table-all
-                tr 
-                    th Username
-                    th Name
-                    th Email
-                    th Department
-                    th Course
-                    th Location
-                each u in users
-                    tr
-                        - var dName
-                        - var cName
-                        - for(i=0; i<departs.length; i++){ if(u.department == departs[i].id) {dName = departs[i].designation; break;}}
-                        - for(i=0; i<courses.length; i++){ console.log("i: " + i + "   u.course: " + u.course + "   courses[i].id: " + courses[i].id);if(u.course == courses[i].id) {cName = courses[i].designation; break;}}
-                        td= u.username
-                        td= u.name
-                        td= u.email
-                        td= dName
-                        td= cName
-                        td= u.location
+            div(style="overflow-y: scroll; max-height: 80vh") 
+                table(id="usersTable").w3-table-all
+                    tr 
+                        th(class="clickable" onclick="sort(0)") Username
+                        th(class="clickable" onclick="sort(1)") Name
+                        th Email
+                        th(class="clickable" onclick="sort(3)") Department
+                        th(class="clickable" onclick="sort(4)") Course
+                        th(class="clickable" onclick="sort(5)") Location
+                    each u in users
+                        tr
+                            - var dName
+                            - var cName
+                            - for(i=0; i<departs.length; i++){ if(u.department == departs[i].id) {dName = departs[i].designation; break;}}
+                            - for(i=0; i<courses.length; i++){ if(u.course == courses[i].id) {cName = courses[i].designation; break;}}
+                            td= u.username
+                            td= u.name
+                            td= u.email
+                            td= dName
+                            td= cName
+                            td= u.location
