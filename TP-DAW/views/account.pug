@@ -10,26 +10,27 @@ block content
               h3.w3-center MY RESOURCES
                button.w3-btn.w3-right(onclick="window.location.assign('/resources/new')" class='fa fa-plus') 
             if resources.length > 0 
-              div.w3-responsive
-                 table.w3-table-all
-                   tr 
-                     th Title
-                     th Type
-                     th Register Date
-                     th Creation Date
-                     th Points
-                   each r in resources
-                     tr
-                      if r.author == users.username
-                       td
-                         adress 
-                             a(href=`/resources/${r._id}`) #{r.title}
-                       td= r.typeR
-                       td= r.regDate
-                       td= r.creDate
-                       td= r.totalP
-                         button.w3-btn.w3-right(onclick="deleteRes('" + r._id + "')" class='fa fa-close') 
-                         a.w3-btn.w3-right(onclick=`window.location.assign('/resources/edit/${r._id}')` class='fa fa-edit')
+              div(style="overflow-y: scroll; max-height: 80vh") 
+               div.w3-responsive
+                  table.w3-table-all
+                    tr 
+                      th Title
+                      th Type
+                      th Register Date
+                      th Creation Date
+                      th Points
+                    each r in resources
+                      tr
+                       if r.author == users.username
+                        td
+                          adress 
+                              a(href=`/resources/${r._id}`) #{r.title}
+                        td= r.typeR
+                        td= r.regDate
+                        td= r.creDate
+                        td= r.totalP
+                          button.w3-btn.w3-right(onclick="deleteRes('" + r._id + "')" class='fa fa-close') 
+                          a.w3-btn.w3-right(onclick=`window.location.assign('/resources/edit/${r._id}')` class='fa fa-edit')
             else
                 .w3-container
                   p There are no resources...

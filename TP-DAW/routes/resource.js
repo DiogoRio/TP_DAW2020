@@ -66,16 +66,31 @@ router.post("/edit/:id", async (req, res, next) => {
     } 
 })
 
+router.get('/user/:username', async(req, res) => {
+    if(req.isAuthenticated()){
+        try{
+            const author = req.params.username
+            const resource = await Res.lookupByAuthor(req.params.username)
+            const userLog = req.user.username
+            res.render('resources/resourcesOfUser', {
+                res: resource,
+                auth: true,
+                userLog: userLog,
+                author : author
+            })
+        }catch{
+            res.redirect('/')
+        }
+      }else{
+        res.redirect('/users/login')
+      }
+});
+
 router.get('/:id', async(req, res) => {
     if(req.isAuthenticated()){
         try{
             const resource = await Res.lookup(req.params.id)
             const userLog = req.user.username
-            //const points = await Res.lookupResourcePoints(req.params.id)
-            //    let r =0;
-            //    for(let i = 0; i< points.points.length; i++){
-            //        r += points.points[i].point
-            //    }
             res.render('resources/resource', {
                 res: resource,
                 auth: true,
@@ -252,8 +267,6 @@ function renderNewPage(res, resource , hasError = false){
         res.redirect('/resources') 
     }
 }
-
-
 
 
 module.exports = router;

@@ -16,7 +16,7 @@ router.get('/', (req, res, next) => {
         Depart.listDeparts()
           .then(async(departs) => {
             var courses = await Depart.listCourses()
-            res.render('users', {users: users, departs: departs, courses: courses})
+            res.render('users', {users: users, departs: departs, courses: courses, auth: true})
           })
       })
       .catch(e => res.status(500).jsonp(e))

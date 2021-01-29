@@ -46,6 +46,11 @@ function lookup(id){
     .findOne({_id: id})
     .exec()
 }
+function lookupByAuthor(name){
+    return Resource
+    .find({author:name})
+    .exec()
+}
 
 function lookupResource(name){
     return Resource
@@ -115,3 +120,4 @@ module.exports.lookupPoints = lookupPoints;
 module.exports.ratingResource= ratingResource;
 module.exports.lookupResourcePoints =lookupResourcePoints;
 module.exports.updatePoints = updatePoints;
+module.exports.lookupByAuthor = lookupByAuthor;

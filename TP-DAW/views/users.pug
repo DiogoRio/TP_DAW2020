@@ -39,7 +39,9 @@ block content
                             - var cName
                             - for(i=0; i<departs.length; i++){ if(u.department == departs[i].id) {dName = departs[i].designation; break;}}
                             - for(i=0; i<courses.length; i++){ if(u.course == courses[i].id) {cName = courses[i].designation; break;}}
-                            td= u.username
+                            td
+                             adress 
+                               a(href=`/resources/user/${u.username}`) #{u.username}
                             td= u.name
                             td= u.email
                             td= dName
