@@ -23,19 +23,43 @@ async function listCourses(){
     return result.sort((a, b) => a.designation > b.designation ? 1 : -1);
 }
 
+// Count departs
+function numDeparts(){
+    return Depart
+        .countDocuments()
+        .exec()
+}
+
+// Count courses
+async function numCourses(){
+    var count = 0;
+    var departs = await listDeparts()
+    for(i = 0; i < departs.length; i++){
+        count += departs[i].courses.length;
+    }
+    return count;
+}
+
+
 // Add department to database
-function addDepart(id, des){
+async function addDepart(des){
+    var dep_num = await numDeparts()
+    console.log(await numCourses());
+    var dep_num_str = dep_num.toString().padStart(6, '0'); // numero de departamentos representado em 6 digitos
+    //ex: 6 -> 000006
     const depart = new Depart({
-        id: id,
+        id: "D" + dep_num_str,
         designation: des,
         courses: []
     })
-    depart.save()
+    return depart.save()
 }
 
 // Add course to department
-function addCourse(departId, courseId, courseDes){
-    return Depart.updateOne({id: departId}, {$push: {courses: {id: courseId, designation: courseDes}}})   
+async function addCourse(departId, courseDes){
+    var num_courses = await numCourses();
+    var num_courses_str = num_courses.toString().padStart(6, '0');
+    return Depart.updateOne({id: departId}, {$push: {courses: {id: "C" + num_courses_str, designation: courseDes}}})   
 }
 
 module.exports.listDeparts = listDeparts

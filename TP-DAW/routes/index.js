@@ -50,7 +50,7 @@ router.get('/departs', (req, res, next) =>{
 // adiciona um novo departamento
 
 router.post('/depart', (req, res, next) =>{
-  Depart.addDepart(req.body.id, req.body.designation)
+  Depart.addDepart(req.body.designation)
   .then(dados => res.send(dados))
   .catch(e => res.send(e))
 })
@@ -58,7 +58,7 @@ router.post('/depart', (req, res, next) =>{
 // adiciona um novo curso a um departamento
 
 router.post('/depart/:id/add', (req, res, next) =>{
-  Depart.addCourse(req.params.id, req.body.id, req.body.designation)
+  Depart.addCourse(req.params.id, req.body.designation)
     .then(dados => res.send(dados))
     .catch(e => res.send(e))
 })
