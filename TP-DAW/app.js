@@ -41,6 +41,7 @@ app.use(passport.session());
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var administrationRouter = require('./routes/administration')
 const resourceRouter = require('./routes/resource');
 const bodyParser = require('body-parser');
 
@@ -62,6 +63,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/', indexRouter)
 app.use('/users', usersRouter)
 app.use('/resources', resourceRouter)
+app.use('/administration', administrationRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

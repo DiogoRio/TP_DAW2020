@@ -1,0 +1,11 @@
+extends ../layout
+
+block content
+    .w3-container.w3-blue
+        h3 Department:
+    form.w3-container(action='/administration/add/depart' method='POST')
+        label Designation:
+        input.w3-input(type="text" name="designation")
+        input.w3-btn.w3-blue(type="submit" value="Register" style="margin-left:10px; margin-top:10px")
+    each val in errors
+      p= val

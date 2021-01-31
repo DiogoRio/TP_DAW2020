@@ -57,6 +57,7 @@ async function addDepart(des){
 
 // Add course to department
 async function addCourse(departId, courseDes){
+    console.log("HERE")
     var num_courses = await numCourses();
     var num_courses_str = num_courses.toString().padStart(6, '0');
     return Depart.updateOne({id: departId}, {$push: {courses: {id: "C" + num_courses_str, designation: courseDes}}})   
