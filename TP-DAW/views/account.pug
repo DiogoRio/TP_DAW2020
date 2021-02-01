@@ -38,7 +38,7 @@ block content
           div.w3-card-4
             header.w3-container.w3-blue
                 h3.w3-center MY PROFILE
-                    button.w3-btn.w3-right(onclick=`window.location.assign('/users/edit/${users._id}')` class='fa fa-edit')
+                    button.w3-btn.w3-right(onclick=`document.getElementById('modal_${users.username}').style.display='block'` class='fa fa-edit')
 
             div.w3-responsive
                  table.w3-table-all
@@ -56,12 +56,45 @@ block content
                       td= users.location
                     tr   
                       th  Department
-                      td= userDep.designation
+                      td= users.department
                     tr   
                       th  Course
-                      td= userCourse.designation
+                      td= users.course
                     tr   
                       th  Number of Resources
                       td= n
-           
-
+            div.w3-modal(id=`modal_${users.username}`)
+              div.w3-modal-content.w3-card-4
+                header.w3-container.w3-blue.w3-card-4.w3-center
+                  h3 Edit #{users.name}
+                .w3-container.w3-margin.w3-padding.w3-section
+                  form.w3-container(action=`/users/edit/${users._id}` method='POST')
+                    label Name
+                      input.w3-input.w3-border(type="text" name="name" value=users.name)
+                    br
+                    label Mail
+                      input.w3-input.w3-border(type="text" name="email" value=users.email)
+                    br
+                    label Location
+                      input.w3-input.w3-border(type="text" name="location" value=users.location)
+                    br
+                    label Department
+                      select.w3-select(id="department" name='department')
+                        - console.log(departs)
+                        each d in departs
+                          if d.designation == users.department.designation
+                            option(value=d.designation selected onclick=`setDepartCourses(\'${d.courses.map(c => c.designation)}\')`) #{d.designation}
+                          else
+                            option(value=d.designation onclick=`setDepartCourses(\'${d.courses.map(c => c.designation)}\')`) #{d.designation}
+                    br
+                    label Course
+                      select.w3-select(id="course" name='course')
+                        each c in courses
+                          if c.designation == users.course
+                            option(value=c.designation selected) #{c.designation} 
+                          else
+                            option(value=c.designation) #{c.designation}
+                    br
+                    br
+                    button.w3-btn.w3-right.w3-blue(type="submit" value="Submit" style="margin-left:10px; margin-top:10px") CONFIRM
+                    a.w3-btn.w3-right.w3-blue(href="/myaccount" style="margin-left:10px; margin-top:10px") CANCEL

@@ -22,7 +22,7 @@ router.get('/myaccount', async (req, res) => {
               resources: resources,
               users : users,
               n : number,
-              depart: departs,
+              departs: departs,
               courses: courses,
               userDep: userDep,
               userCourse: userCourse,
