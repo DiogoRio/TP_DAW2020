@@ -80,7 +80,6 @@ block content
                     br
                     label Department
                       select.w3-select(id="department" name='department')
-                        - console.log(departs)
                         each d in departs
                           if d.designation == users.department.designation
                             option(value=d.designation selected onclick=`setDepartCourses(\'${d.courses.map(c => c.designation)}\')`) #{d.designation}

@@ -15,8 +15,6 @@ router.get('/myaccount', async (req, res) => {
           var number = await Res.lookupResource(req.user.username)
           var departs = await Depart.listDeparts()
           var courses = await Depart.listCourses()
-          var userDep = await Depart.getDepById(users.department)
-          var userCourse = await Depart.getCourseById(users.course)
 
           res.render('account', {
               resources: resources,
@@ -24,8 +22,6 @@ router.get('/myaccount', async (req, res) => {
               n : number,
               departs: departs,
               courses: courses,
-              userDep: userDep,
-              userCourse: userCourse,
               auth: true 
           })
       }catch{
