@@ -1,0 +1,81 @@
+extends ../layout
+
+block content
+    .w3-card-4
+        header.w3-container.w3-blue
+            h3.w3-center USERS ADMINISTRATION PAGE
+        br
+        .w3-container(id="searchBox" style="margin-bottom: 40px")
+            div.checkbox-inline(style="margin-bottom: 20px; width: 20%; float: left; padding-right: 100px")
+                h4 Search
+                input.w3-input(type="text" id="search" onkeyup="filterTable()" placeholder="Search for Username or Name" title="Type in a username or name")
+            div.checkbox-inline(style="margin-bottom: 20px; width: 20%; float: left; padding-right: 100px")
+                h4 Select Department
+                select.w3-select(id="department" name='department')
+                    option(value="All" onclick=`setDepartFilter(\'0\', \'All\'); setDepartCourses(\'empty\')`) All
+                    each d in departs
+                        option(value=d.designation onclick=`setDepartFilter(\'${d.id}\', \'${d.designation}\'); setDepartCourses(\'${d.courses.map(c => c.designation)}\')`) #{d.designation}
+            div.checkbox-inline(style="margin-bottom: 20px; width: 20%; float: left; padding-right: 100px")
+                h4 Select Course
+                select.w3-select(id="course" name='course')
+                    option(value="All" onclick=`setCourseFilter(0, \'All\')`) All
+                    each c in courses
+                        option(value=c.designation onclick=`setCourseFilter(\'${c.id}\', \'${c.designation}\')`) #{c.designation}            
+        .w3-card-4
+            header.w3-container.w3-blue
+                h4.w3-center USERS LIST
+            div(style="overflow-y: scroll; max-height: 80vh") 
+                table(id="usersTable").w3-table-all
+                    tr 
+                        th(class="clickable" onclick="sort(0)") Username
+                        th(class="clickable" onclick="sort(1)") Name
+                        th Email
+                        th(class="clickable" onclick="sort(3)") Department
+                        th(class="clickable" onclick="sort(4)") Course
+                        th(class="clickable" onclick="sort(5)") Location
+                    each u in users
+                        tr
+                            td
+                             adress 
+                               a(href=`/resources/user/${u.username}`) #{u.username}
+                            td= u.name
+                            td= u.email
+                            td= u.department
+                            td= u.course
+                            td= u.location
+                              button.w3-btn.w3-right(onclick="console.log(\"DELETE\")" class='fa fa-close') 
+                              button.w3-btn.w3-right(onclick=`document.getElementById('modal_${u.username}').style.display='block'` class='fa fa-edit')
+                        div.w3-modal(id=`modal_${u.username}`)
+                          div.w3-modal-content.w3-card-4
+                            header.w3-container.w3-blue.w3-card-4.w3-center
+                              h3 Edit #{u.name}
+                            .w3-container.w3-margin.w3-padding.w3-section
+                              form.w3-container(action=`/administration/users/edit/${u.username}` method='POST')
+                                label Name
+                                  input.w3-input.w3-border(type="text" name="name" value=u.name)
+                                br
+                                label Mail
+                                  input.w3-input.w3-border(type="text" name="email" value=u.email)
+                                br
+                                label Location
+                                  input.w3-input.w3-border(type="text" name="location" value=u.location)
+                                br
+                                label Department
+                                  select.w3-select(id="department" name='department')
+                                    each d in departs
+                                      if d.designation == u.department.designation
+                                        option(value=d.designation selected onclick=`setDepartCourses(\'${d.courses.map(c => c.designation)}\')`) #{d.designation}
+                                      else
+                                        option(value=d.designation onclick=`setDepartCourses(\'${d.courses.map(c => c.designation)}\')`) #{d.designation}
+                                br
+                                label Course
+                                  select.w3-select(id="course" name='course')
+                                    each c in courses
+                                      if c.designation == u.course
+                                        option(value=c.designation selected) #{c.designation} 
+                                      else
+                                        option(value=c.designation) #{c.designation}
+                                br
+                                br
+                                button.w3-btn.w3-right.w3-blue(type="submit" value="Submit" style="margin-left:10px; margin-top:10px") CONFIRM
+                                a.w3-btn.w3-right.w3-blue(href="/administration/users" style="margin-left:10px; margin-top:10px") CANCEL 
