@@ -24,10 +24,17 @@ router.get('/users', function(req, res, next) {
 
 router.post('/users/edit/:username', (req,res,next) => {
   const user = JSON.parse(JSON.stringify(req.body));
-  UserCont.updateUserByUsername(req.params.username,user)
+  if(user._id || user.username){
+    console.log("error:")
+    console.log(user)
+    res.status(500)
+  }
+  else {
+    UserCont.updateUserByUsername(req.params.username,user)
     .then(
       res.redirect('/administration/users')
     )
+  }
 })
 
 /* GET all posts */
@@ -58,7 +65,6 @@ router.get('/depart/add', (req, res, next) =>{
 
 // adiciona um novo curso a um departamento
 router.post('/depart/:id/add', (req, res, next) =>{
-  console.log("INSIDE POST")
   Depart.addCourse(req.params.id, req.body.designation)
     .then(dados => res.send(dados))
     .catch(e => res.send(e))

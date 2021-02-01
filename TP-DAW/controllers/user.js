@@ -62,10 +62,8 @@ function updateUser(id, newUser){
     .updateOne({ _id: id }, newUser)
 }
 
-//NOT WORKING
+
 function updateUserByUsername(username, newUser){
-    console.log(username)
-    console.log({newUser})
     return User.updateOne({username:username}, {"$set": newUser})
 }
 
