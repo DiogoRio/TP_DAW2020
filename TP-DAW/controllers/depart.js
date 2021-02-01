@@ -40,6 +40,24 @@ async function numCourses(){
     return count;
 }
 
+async function getDepById(id){
+    var departs = await listDeparts()
+    for (i = 0; i < departs.length; i++) {
+        if(departs[i].id == id){
+            return departs[i]
+        }
+    }
+}
+
+async function getCourseById(id){
+    var courses = await listCourses()
+    for (i = 0; i < courses.length; i++) {
+        if(courses[i].id == id){
+            return courses[i]
+        }
+    }
+}
+
 
 // Add department to database
 async function addDepart(des){
@@ -57,7 +75,6 @@ async function addDepart(des){
 
 // Add course to department
 async function addCourse(departId, courseDes){
-    console.log("HERE")
     var num_courses = await numCourses();
     var num_courses_str = num_courses.toString().padStart(6, '0');
     return Depart.updateOne({id: departId}, {$push: {courses: {id: "C" + num_courses_str, designation: courseDes}}})   
@@ -65,5 +82,7 @@ async function addCourse(departId, courseDes){
 
 module.exports.listDeparts = listDeparts
 module.exports.listCourses = listCourses
+module.exports.getDepById = getDepById
+module.exports.getCourseById = getCourseById
 module.exports.addDepart = addDepart
 module.exports.addCourse = addCourse

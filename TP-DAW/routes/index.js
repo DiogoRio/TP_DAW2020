@@ -4,6 +4,7 @@ var News = require('../controllers/news')
 var Res = require('../controllers/resource')
 var Resource = require('../models/resource')
 var User = require('../controllers/user')
+var Depart = require('../controllers/depart')
 
 
 router.get('/myaccount', async (req, res) => {
@@ -12,11 +13,19 @@ router.get('/myaccount', async (req, res) => {
           var resources = await Resource.find({})
           var users = await User.getUser(req.user.username)
           var number = await Res.lookupResource(req.user.username)
+          var departs = await Depart.listDeparts()
+          var courses = await Depart.listCourses()
+          var userDep = await Depart.getDepById(users.department)
+          var userCourse = await Depart.getCourseById(users.course)
 
           res.render('account', {
               resources: resources,
               users : users,
               n : number,
+              depart: departs,
+              courses: courses,
+              userDep: userDep,
+              userCourse: userCourse,
               auth: true 
           })
       }catch{
