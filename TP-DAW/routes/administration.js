@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var Depart = require('../controllers/depart')
-const UserCont = require('../controllers/user')
+var UserCont = require('../controllers/user')
+var Resource = require('../controllers/resource')
 
 
 
@@ -9,6 +10,19 @@ const UserCont = require('../controllers/user')
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
+
+router.get('/resources', (req, res, next) => {
+  Resource.getResources().then( (resources) =>
+    res.render('administration/resources', {resources:resources})
+  )
+});
+
+// devolve todos os departamentos
+router.get('/departs', (req, res, next) =>{
+  Depart.listDeparts()
+  .then(dados => res.send(dados))
+  .catch(e => res.send(e))
+})
 
 router.get('/users', function(req, res, next) {
   UserCont.listUsers()
@@ -48,16 +62,21 @@ router.post('/users/remove/:username', (req,res,next) => {
   .catch(e => res.status(500).jsonp(e))
 })
 
-/* GET all posts */
-router.get('/posts', function(req, res, next) {
-    res.render('index', { title: 'Express' });
-  });
+//path que edita um recurso
+router.post("/resources/edit/:id", async (req, res, next) => {
+  const resource =  JSON.parse(JSON.stringify(req.body));
+  Resource.updateResource(req.params.id,resource).then(
+    res.redirect("/administration/resources")
+  )
+  .catch(e => res.status(500).jsonp(e))
+})
 
-// devolve todos os departamentos
-router.get('/departs', (req, res, next) =>{
-  Depart.listDeparts()
-  .then(dados => res.send(dados))
-  .catch(e => res.send(e))
+//path que remove um recurso
+router.post("/resources/remove/:id", async (req, res, next) => {
+  Resource.deleteResource(req.params.id).then(
+    res.redirect("/administration/resources")
+  )
+  .catch(e => res.status(500).jsonp(e))
 })
 
 // adiciona um novo departamento

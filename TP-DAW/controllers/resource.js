@@ -7,6 +7,12 @@ function listResource(){
         .exec()
 }
 
+
+// Retorna todos os recursos presentes na base de dados
+function getResources(){
+    return Resource.find({});
+}
+
 function createResourse(title,type,dateR,visibility,author) {
     var dateReg = new Date().toISOString().substr(0, 10)
     const newResource = new Resource({
@@ -127,3 +133,4 @@ module.exports.lookupResourcePoints =lookupResourcePoints;
 module.exports.updatePoints = updatePoints;
 module.exports.lookupByAuthor = lookupByAuthor;
 module.exports.deleteResourceFromUser = deleteResourceFromUser;
+module.exports.getResources = getResources;

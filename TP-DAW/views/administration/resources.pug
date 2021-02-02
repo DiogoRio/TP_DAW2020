@@ -1,0 +1,93 @@
+extends ../layout
+
+
+block content
+    .w3-container-4
+        header.w3-container.w3-blue
+            h3.w3-center USERS ADMINISTRATION PAGE
+        br
+        if resources.length > 0
+          .w3-container(id="searchBox" style="margin-bottom: 40px")
+            div.checkbox-inline(style="margin-bottom: 20px; width: 30%; float: left")
+              h4 Search
+              input.w3-input(type="text" id="search" onkeyup="filterResources()" placeholder="Search resource title.." title="Type in a resource")
+            div.checkbox-inline(id="types" style="margin-bottom: 20px; width: 35%; float: right")
+              h5 Accepted Types:
+              input(id="application" type="checkbox" name="Application" value="" onclick="filterByType()" checked)
+              label(for="thesis")  Application    
+              input(id="evaluation" type="checkbox" name="Evaluation" value="" onclick="filterByType()" checked)
+              label(for="evaluation")  Evaluation   
+              input(id="report" type="checkbox" name="Report" value="" onclick="filterByType()" checked)
+              label(for="report")  Report    
+              input(id="slides" type="checkbox" name="Slides" value="" onclick="filterByType()" checked)
+              label(for="slides")  Slides    
+              input(id="solvedprob" type="checkbox" name="Solved Problem" onclick="filterByType()" value="" checked)
+              label(for="solvedprob")  Solved Problem   
+              input(id="thesis" type="checkbox" name="Thesis" value="" onclick="filterByType()" checked)
+              label(for="thesis")  Thesis
+          .w3-card-4(style="margin: 16px")
+            header.w3-container.w3-blue
+              h4.w3-center RESOURCES LIST
+            div(style="overflow-y: scroll; max-height: 80vh")        
+             table(id="resourceTable").w3-table-all
+               tr 
+                 th(class="clickable" onclick="sortByName()") Title
+                 th Type
+                 th(class="clickable" onclick="sortByDate(2)") Register Date
+                 th(class="clickable" onclick="sortByDate(3)") Creation Date
+                 th Visibility
+                 th Author
+                 th(class="clickable" onclick="sortByPoints()") Points
+               each r in resources
+                    tr
+                        td
+                          adress 
+                            a(href=`/resources/${r._id}`) #{r.title}
+                        td= r.typeR
+                        td= r.regDate
+                        td= r.creDate
+                        td= r.visibility 
+                        td= r.author
+                        td= r.totalP
+                            form(action=`/administration/resources/remove/${r._id}` method='POST' style="display:none" id="deleteForm")
+                            button.w3-btn.w3-hover-none.w3-right(type="submit" value="submit" form="deleteForm"  class='fa fa-close') 
+                            button.w3-btn.w3-hover-none.w3-right(onclick=`document.getElementById('modal_${r._id}').style.display='block'` class='fa fa-edit')
+                    .w3-modal(id=`modal_${r._id}`)
+                        .w3-modal-content.w3-card-4
+                          header.w3-container.w3-blue.w3-card-4.w3-center
+                            h3 Edit #{r.title}
+                                button.w3-button.w3-hover-none.w3-right(onclick=`document.getElementById('modal_${r._id}').style.display='none'` class='fa fa-close')
+                          .w3-container.w3-margin.w3-padding.w3-section
+
+                            form.w3-container(action=`/administration/resources/edit/${r._id}` method='POST')
+                              br
+                              label Title:
+                              input.w3-input(type="text" name="title" value=r.title)
+                              br
+                              label(for='typeR') Type:
+                              br
+                              br 
+                              select.w3-select#typeR(name='typeR')
+                                  option(value='Report') Report
+                                  option(value='Thesis') Thesis
+                                  option(value='Application') Application
+                                  option(value='Slides') Slides
+                                  option(value='Evaluation') Evaluation
+                                  option(value='SolvedProb') Solved Problem
+                              br
+                              br
+                              label Creation Date:
+                              input.w3-input(type="date" name="creDate" value=r.creDate)
+                              br
+                              label(for='visibility') Visibility: 
+                              br
+                              br
+                              select.w3-select#visibility(name='visibility' value=r.visibility)
+                                  option(value='Public') Public
+                                  option(value='Private') Private
+                              br
+                              br
+                              button.w3-btn.w3-right.w3-blue(type="submit" value="Submit" style="margin-left:10px; margin-top:10px") CONFIRM
+        else
+            .w3-container
+              p There are no resources...
