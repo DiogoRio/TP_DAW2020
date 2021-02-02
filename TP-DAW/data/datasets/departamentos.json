@@ -1,0 +1,180 @@
+[
+    {
+        "designation": "Computer Science Dept.",
+        "courses": [
+            "Advanced Computer Science",
+            "Autonomous Intelligent Machines and Systems",
+            "Health Data Science",
+            "Software and Systems Security",
+            "Software Engineering"
+        ]
+    },
+    {
+        "designation": "Chemistry Dept.",
+        "courses": [
+            "Chemical Biology",
+            "Chemistry in Cells",
+            "Inorganic Chemistry",
+            "Inorganic Chemistry for Future Manufacturing",
+            "Organic Chemistry",
+            "Physical and Theoretical Chemistry",
+            "Synthesis for Biology and Medicine",
+            "Theoretical and Computational Chemistry"
+        ]
+    },
+    {
+        "designation": "Mathematics Dept.",
+        "courses": [
+            "Mathematical and Computational Finance",
+            "Mathematical and Theoretical Physics",
+            "Mathematical Modelling and Scientific Computing",
+            "Mathematical Modelling of Random Systems",
+            "Mathematical Sciences",
+            "Mathematics",
+            "Mathematics and Foundations of Computer Science"
+        ]
+    },
+    {
+        "designation": "Physics Dept.",
+        "courses": [
+            "Astrophysics",
+            "Atmospheric, Oceanic and Planetary Physics",
+            "Atomic and Laser Physics",
+            "Condensed Matter Physics",
+            "Mathematical and Theoretical Physics",
+            "Particle Physics",
+            "Theoretical Physics"
+        ]
+    },
+    {
+        "designation": "Statistics Dept.",
+        "courses": [
+            "Modern Statistics and Statistical Machine Learning",
+            "Statistical Science",
+            "Statistics"
+        ]
+    },
+    {
+        "designation": "Earth Sciences Dept.",
+        "courses": [
+            "Earth Sciences"
+        ]
+    },
+    {
+        "designation": "History of Art Dept.",
+        "courses": [
+            "History of Art",
+            "History of Art and Visual Culture"
+        ]
+    },
+    {
+        "designation": "Engineering Science Dept.",
+        "courses": [
+            "Autonomous Intelligent Machines and Systems",
+            "Energy Systems",
+            "Engineering Science",
+            "Future Propulsion and Power",
+            "Nanotechnology for Medicine and Health Care",
+            "Wind and Marine Energy Systems and Structures"
+        ]
+    },
+    {
+        "designation": "Materials Dept.",
+        "courses": [
+            "Materials"
+        ]
+    },
+    {
+        "designation": "Zoology Dept.",
+        "courses": [
+            "International Wildlife Conservation Practice",
+            "Zoology"
+        ]
+    },
+    {
+        "designation": "Biochemistry Dept.",
+        "courses": [
+            "Biochemistry",
+            "Biochemistry (Skaggs-Oxford Programme)"
+        ]
+    },
+    {
+        "designation": "Clinical Medicine Dept.",
+        "courses": [
+            "Clinical Medicine",
+            "International Health and Tropical Medicine",
+            "Modelling for Global Health"
+        ]
+    },
+    {
+        "designation": "Clinical Neurosciences Dept.",
+        "courses": [
+            "Clinical Neurosciences",
+            "Sleep Medicine"
+        ]
+    },
+    {
+        "designation": "Pharmacology Dept.",
+        "courses": [
+            "Pharmacology"
+        ]
+    },
+    {
+        "designation": "Experimental Psychology Dept.",
+        "courses": [
+            "Experimental Psychology",
+            "Psychological Research"
+        ]
+    },
+    {
+        "designation": "Oncology Dept.",
+        "courses": [
+            "Experimental and Translational Therapeutics",
+            "Oncology",
+            "Precision Cancer Medicine",
+            "Radiation Biology"
+        ]
+    },
+    {
+        "designation": "Psychiatry Dept.",
+        "courses": [
+            "Clinical and Therapeutic Neuroscience",
+            "Mindfulness Based Cognitive Therapy",
+            "Psychiatry"
+        ]
+    },
+    {
+        "designation": "Economics Dept.",
+        "courses": [
+            "Economic and Social History",
+            "Economics",
+            "Economics for Development",
+            "Financial Economics"
+        ]
+    },
+    {
+        "designation": "Education Dept.",
+        "courses": [
+            "Applied Linguistics and Second Language Acquisition",
+            "Applied Linguistics for Language Teaching",
+            "Education",
+            "Education (Child Development and Education)",
+            "Education (Comparative and International Education)",
+            "Education (Digital and Social Change)",
+            "Education (Higher Education)",
+            "Education (Research Design and Methodology)",
+            "Educational Assessment",
+            "Learning and Teaching",
+            "Medical Education",
+            "PGCE",
+            "Teacher Education"
+        ]
+    },
+    {
+        "designation": "Sociology Dept.",
+        "courses": [
+            "Sociology",
+            "Sociology and Demography"
+        ]
+    }
+]
