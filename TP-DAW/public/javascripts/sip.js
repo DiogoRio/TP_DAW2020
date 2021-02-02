@@ -16,12 +16,12 @@ module.exports.zip = (path) => {
     var zip = new AdmZip();
 
     fs.readdirSync(path).forEach((file) => {
-        if (fs.lstatSync(path + "/" + file + "/").isDirectory()) {
+        if (fs.lstatSync(path + "/" + file).isDirectory()) {
             zip.addLocalFolder(path + "/" + file + "/");
         } else {
             zip.addLocalFile(path + "/" + file);
         }
     });
 
-    zip.writeZip(path + "_dip");
+    zip.writeZip(path + "dir");
 }

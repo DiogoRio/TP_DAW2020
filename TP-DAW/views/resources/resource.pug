@@ -14,6 +14,7 @@ block content
                   th Creation Date
                   th Author
                   th Points
+
                 tr
                   td= res.title
                   td= res.typeR
@@ -21,6 +22,7 @@ block content
                   td= res.regDate
                   td= res.author
                   td= res.totalP
+                    button.w3-btn.w3-right(onclick=`window.location.assign('/resources/download/${res._id}')` class='fa fa-download')
           else
               .w3-container
                 p There are no resource...

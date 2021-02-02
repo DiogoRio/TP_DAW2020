@@ -1,0 +1,44 @@
+{
+    "files": [
+        {
+            "title": "ficheiro1",
+            "type": "txt"
+
+        }, {
+            "title": "ficheiro2",
+            "type": "txt"
+
+        }, {
+            "title": "ficheiro3",
+            "type": "txt"
+
+        }
+    ],
+    "folders": [
+        {
+            "title": "pasta1",
+            "content": {
+                "files": [
+                    {
+                        "title": "ficheiro_pasta1",
+                        "type": "txt"
+                    }
+                ],
+                "folders": [
+                    {
+                        "title": "pasta2",
+                        "content": {
+                            "files": [
+                                {
+                                    "title": "ficheiro_pasta2",
+                                    "type": "txt"
+                                }
+                            ],
+                            "folders": []
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

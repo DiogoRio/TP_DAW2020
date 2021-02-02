@@ -211,7 +211,8 @@ router.delete("/delete/:id", async (req, res, next) => {
     if(req.isAuthenticated()){
         try{
             var id = req.params.id;
-            //console.log(id)
+            let r =  await Res.lookup(id)
+            RmFolder.rmfolder(r.path)
             await Res.deleteResource(id)
             console.log("Resource delete")
             res.sendStatus(200)
@@ -225,40 +226,6 @@ router.delete("/delete/:id", async (req, res, next) => {
         res.redirect('/users/login')
     } 
 })
-
-//router.post('/', upload.single('cover'), async(req, res)=>{
-//    const fileName = req.file != null ? req.file.originalname : null;
-//    var d = new Date().toISOString().substr(0,16);
-//    const resource = new Resource({
-//      typeR: req.body.typeR,
-//      title: req.body.title,
-//      creDate: req.body.creDate, 
-//      regDate: d, //System Date
-//      visibility: req.body.visibility, //Public or Private
-//      nameR: fileName,
-//      author: req.user.username,
-//      points: [],
-//      totalP: 0 //Sistema de upvote/downvote
-//    })
-//
-//    try{
-//        const newResource = await resource.save()
-//        News.addNewPostNews(req.user.username, req.body.title)
-//        res.redirect(`resources`)
-//    }catch{
-//        if(resource.nameR != null){
-//            removeResource(resource.nameR)
-//        }
-//        renderNewPage(res, resource, true)
-//    }
-//})
-
-//function removeResource(fileName){
-//    fs.unlink(path.join(uploadPath, fileName), err => {
-//        if(err) console.error(err)
-//    })
-//}
-
 
 function renderNewPage(res, resource , hasError = false){
     try{
@@ -282,12 +249,14 @@ router.post("/", upload.single("cover"), async (req, res) => {
             if (req.file.mimetype == 'application/zip') {
                 SIP.unzip(req.file.path);
                 if (CheckManifesto.check(__dirname + '/../' + req.file.path + 'dir')) {
+                    console.log(__dirname + '/../' + req.file.path + 'dir')
+                   
                     var d = new Date().toISOString().substr(0, 16);
                     var jsonObj = __dirname + '/../' + req.file.path + 'dir' + '/manifesto.json'
                     req.body.manifesto = JSON.stringify(require(jsonObj));
                     
                     let quarenPath = __dirname + '/../' + req.file.path + 'dir'
-                    let dirpath = __dirname + "/../public/fileStore/"
+                    let dirpath = __dirname + "/../public/fileStore"
 
                     fs.mkdirSync(dirpath, {recursive: true})
 
@@ -299,7 +268,7 @@ router.post("/", upload.single("cover"), async (req, res) => {
                         }
                     })
 
-                    var d = new Date().toISOString().substr(0, 16);
+                    console.log(newPath)
 
                     const resource = new Resource({
                           typeR: req.body.typeR,
@@ -310,7 +279,8 @@ router.post("/", upload.single("cover"), async (req, res) => {
                           nameR: req.file.originalname,
                           author: req.user.username,
                           points: [],
-                          totalP: 0 //Sistema de upvote/downvote
+                          totalP: 0, //Sistema de upvote/downvote
+                          path: newPath
                         })
 
                     
@@ -341,5 +311,44 @@ router.post("/", upload.single("cover"), async (req, res) => {
         res.redirect("/")
     }
 });
+
+router.get("/download/:id", async (req, res) => {
+    if (req.isAuthenticated()) {
+        try{ 
+            let data = await Res.lookup(req.params.id)
+            //console.log(dados)
+            let path = data.path
+            SIP.zip(path);
+            let quarenPath = path + "dir"
+            let dirpath = __dirname + "/../public/tmpStore" 
+            
+            fs.mkdirSync(dirpath, {recursive: true});
+            
+            let newPath = dirpath + "/" + data.nameR
+            
+            fs.rename(quarenPath, newPath, function (error) {
+                if (error) {
+                    res.status(500).jsonp({error: "Error in the downloads folder"});
+                }
+            })
+
+            res.download(newPath, function (error) {
+                fs.rmSync(newPath);
+                if (error) {
+                    res.status(500).jsonp({error: "Error in the download"});
+                }
+                //console.log('removido')
+              })
+         }
+        catch{
+            const html = '<p>Nao foi possivel efetuar download</p>';
+            res.send(html);
+        }
+    }
+    else{
+        res.redirect('/users/login')
+    } 
+})
+  
 
 module.exports = router;
