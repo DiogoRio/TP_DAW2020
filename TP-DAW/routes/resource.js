@@ -1,24 +1,30 @@
-var express = require('express')
-var router = express.Router()
+const express = require('express')
+const router = express.Router()
 const multer = require('multer')
 const path = require('path')
 const fs = require('fs')
 const Resource = require('../models/resource')
 const News = require('../controllers/news')
 const Res = require('../controllers/resource')
+const RmFolder = require('../public/javascripts/rmFolder')
+const SIP = require('../public/javascripts/sip')
+const CheckManifesto = require('../public/javascripts/checkManifesto')
 const { use } = require('passport')
 const { toNamespacedPath } = require('path')
 const { setupMaster } = require('cluster')
 const uploadPath = path.join('public',Resource.resResource)
-const upload = multer({
-    dest: uploadPath,
-    fileFilter: (req, file, callback) => {
-        console.log(file.originalname)
-        if(!file.originalname.match(/\.(txt|png|pdf)$/))
-            return callback(new Error('File Format Incorrect')) 
-        callback(undefined, true)
-    }
-})
+const upload = multer({dest: "uploads/"});
+
+
+//const upload = multer({
+//    dest: uploadPath,
+//    fileFilter: (req, file, callback) => {
+//        console.log(file.originalname)
+//        if(!file.originalname.match(/\.(txt|png|pdf)$/))
+//            return callback(new Error('File Format Incorrect')) 
+//        callback(undefined, true)
+//    }
+//})
 
 router.get('/new', async(req, res) => {
     if(req.isAuthenticated()){
@@ -220,38 +226,38 @@ router.delete("/delete/:id", async (req, res, next) => {
     } 
 })
 
-router.post('/', upload.single('cover'), async(req, res)=>{
-    const fileName = req.file != null ? req.file.originalname : null;
-    var d = new Date().toISOString().substr(0,16);
-    const resource = new Resource({
-      typeR: req.body.typeR,
-      title: req.body.title,
-      creDate: req.body.creDate, 
-      regDate: d, //System Date
-      visibility: req.body.visibility, //Public or Private
-      nameR: fileName,
-      author: req.user.username,
-      points: [],
-      totalP: 0 //Sistema de upvote/downvote
-    })
+//router.post('/', upload.single('cover'), async(req, res)=>{
+//    const fileName = req.file != null ? req.file.originalname : null;
+//    var d = new Date().toISOString().substr(0,16);
+//    const resource = new Resource({
+//      typeR: req.body.typeR,
+//      title: req.body.title,
+//      creDate: req.body.creDate, 
+//      regDate: d, //System Date
+//      visibility: req.body.visibility, //Public or Private
+//      nameR: fileName,
+//      author: req.user.username,
+//      points: [],
+//      totalP: 0 //Sistema de upvote/downvote
+//    })
+//
+//    try{
+//        const newResource = await resource.save()
+//        News.addNewPostNews(req.user.username, req.body.title)
+//        res.redirect(`resources`)
+//    }catch{
+//        if(resource.nameR != null){
+//            removeResource(resource.nameR)
+//        }
+//        renderNewPage(res, resource, true)
+//    }
+//})
 
-    try{
-        const newResource = await resource.save()
-        News.addNewPostNews(req.user.username, req.body.title)
-        res.redirect(`resources`)
-    }catch{
-        if(resource.nameR != null){
-            removeResource(resource.nameR)
-        }
-        renderNewPage(res, resource, true)
-    }
-})
-
-function removeResource(fileName){
-    fs.unlink(path.join(uploadPath, fileName), err => {
-        if(err) console.error(err)
-    })
-}
+//function removeResource(fileName){
+//    fs.unlink(path.join(uploadPath, fileName), err => {
+//        if(err) console.error(err)
+//    })
+//}
 
 
 function renderNewPage(res, resource , hasError = false){
@@ -268,5 +274,72 @@ function renderNewPage(res, resource , hasError = false){
     }
 }
 
+
+router.post("/", upload.single("cover"), async (req, res) => {
+    if (req.isAuthenticated()) {
+        console.log(req.file)
+        if (req.file != null) {
+            if (req.file.mimetype == 'application/zip') {
+                SIP.unzip(req.file.path);
+                if (CheckManifesto.check(__dirname + '/../' + req.file.path + 'dir')) {
+                    var d = new Date().toISOString().substr(0, 16);
+                    var jsonObj = __dirname + '/../' + req.file.path + 'dir' + '/manifesto.json'
+                    req.body.manifesto = JSON.stringify(require(jsonObj));
+                    
+                    let quarenPath = __dirname + '/../' + req.file.path + 'dir'
+                    let dirpath = __dirname + "/../public/fileStore/"
+
+                    fs.mkdirSync(dirpath, {recursive: true})
+
+                    let newPath = dirpath + "/" + req.file.originalname.split('.')[0] + d
+                    
+                    fs.rename(quarenPath, newPath, function (error) {
+                        if (error) {
+                            console.log("ERROR" + error)
+                        }
+                    })
+
+                    var d = new Date().toISOString().substr(0, 16);
+
+                    const resource = new Resource({
+                          typeR: req.body.typeR,
+                          title: req.body.title,
+                          creDate: req.body.creDate, 
+                          regDate: d, //System Date
+                          visibility: req.body.visibility, //Public or Private
+                          nameR: req.file.originalname,
+                          author: req.user.username,
+                          points: [],
+                          totalP: 0 //Sistema de upvote/downvote
+                        })
+
+                    
+                    await resource.save()
+                    News.addNewPostNews(req.user.username, req.body.title)
+                    res.redirect(`resources`)
+                } 
+                else {
+                    console.log('Erro no manifesto')
+                    RmFolder.rmfolder(__dirname + '/../' + req.file.path + 'dir');
+                    res.redirect("/")
+                }
+            } 
+            else {
+                console.log('Ficheiro nao suportado')
+                RmFolder.rmfolder(__dirname + '/../' + req.file.path + 'dir');
+                fs.unlinkSync(req.file.path);
+                res.redirect("/")
+            }
+        } 
+        else {
+            console.log('Sem ficheiro')
+            res.redirect("/")
+        }
+    }
+    else {
+        console.log('Nao autenticado')
+        res.redirect("/")
+    }
+});
 
 module.exports = router;

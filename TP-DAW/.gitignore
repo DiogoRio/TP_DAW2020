@@ -1,1 +1,3 @@
 # ignore ./public/uploads/
+./uploads
+./public/fileStore
