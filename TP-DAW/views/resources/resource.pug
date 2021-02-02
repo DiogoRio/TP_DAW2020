@@ -62,7 +62,7 @@ block content
      div.w3-card-4
          header.w3-container.w3-blue
              h3.w3-center Rating
-         div.w3-container(style='padding: 16px')
+         div.w3-container(style='padding: 16px; margin-bottom: 50px;')
              form.w3-container(action=`/resources/${res._id}/addRating` method='POST')
                br
                select.w3-select.w3-input.w3-border.w3-light-grey#points(type="text" name='point')
@@ -74,3 +74,10 @@ block content
                 option(value='5') 5
                br
                input.w3-btn.w3-right.w3-dark-grey(type="submit" value="Classify" style="margin-left:10px; margin-top:10px;margin-bottom:10px")
+     
+     div.w3-card-4
+         header.w3-container.w3-blue
+             h3.w3-center Description
+         div.w3-container.w3-panel.w3-padding-16(style='padding: 16px')
+          div.w3-responsive.w3-center
+             p=res.description
