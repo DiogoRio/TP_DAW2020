@@ -31,9 +31,15 @@ router.get('/login', (req, res, next) => {
   res.render('login', {errors});
 })
 
-router.get('/register', (req, res, next) => {
+router.get('/register', async(req, res, next) => {
   const error = req.flash("error")
-  res.render('register', {error})
+  var departs = await Depart.listDeparts()
+  var courses = await Depart.listCourses()
+  res.render('register', {
+    error,
+    departs: departs,
+    courses: courses
+  })
 });
 
 router.get('/logout', (req, res, next) => {

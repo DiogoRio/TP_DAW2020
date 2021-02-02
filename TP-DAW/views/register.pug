@@ -15,8 +15,12 @@ block content
         label Location:
         input.w3-input(type="text" name="location")
         label Department:
-        input.w3-input(type="text" name="department")
+        select.w3-select(id="department" name='department' style="margin-top: 10px; margin-bottom: 10px")
+            each d in departs
+                option(value=d.id name=d.designation onclick=`reg_setDepartFilter(\'${d.id}\', \'${d.designation}\'); reg_setDepartCourses(\'${d.courses.map(c => c.designation)}\')`) #{d.designation}
         label Course:
-        input.w3-input(type="text" name="course")
+        select.w3-select(id="course" name='course')
+            each c in courses
+                option(value=c.id name=c.designation onclick=`reg_setCourseFilter(\'${c.id}\', \'${c.designation}\')`) #{c.designation}
         input.w3-btn.w3-blue(type="submit" value="Submit").custombutton(style="margin-left:10px; margin-top:10px")
         p= error
