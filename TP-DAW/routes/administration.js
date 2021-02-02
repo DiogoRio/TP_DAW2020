@@ -24,6 +24,7 @@ router.get('/users', function(req, res, next) {
 
 router.post('/users/edit/:username', (req,res,next) => {
   const user = JSON.parse(JSON.stringify(req.body));
+  console.log(user)
   if(user._id || user.username){
     console.log("error:")
     console.log(user)
