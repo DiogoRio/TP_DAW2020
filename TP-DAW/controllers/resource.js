@@ -106,6 +106,11 @@ function deleteResource(id){
         .deleteOne({_id:id})
 }
 
+//TODO adicionar mesmas operações que em deleteResource (maybe retunar lista com ids a eliminar e usar deleResource para cada 1 deles)
+function deleteResourceFromUser(username){
+    return Resource.deleteMany({"author": username})
+}
+
 module.exports.listResource = listResource;
 module.exports.createResourse = createResourse;
 module.exports.insert = insert;
@@ -121,3 +126,4 @@ module.exports.ratingResource= ratingResource;
 module.exports.lookupResourcePoints =lookupResourcePoints;
 module.exports.updatePoints = updatePoints;
 module.exports.lookupByAuthor = lookupByAuthor;
+module.exports.deleteResourceFromUser = deleteResourceFromUser;

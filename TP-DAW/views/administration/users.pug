@@ -48,7 +48,8 @@ block content
                             td= dName
                             td= cName
                             td= u.location
-                              button.w3-btn.w3-hover-none.w3-right(onclick="console.log(\"DELETE\")" class='fa fa-close') 
+                              form(action=`/administration/users/remove/${u.username}` method='POST' style="display:none" id="deleteForm")
+                              button.w3-btn.w3-hover-none.w3-right(type="submit" value="submit" form="deleteForm"  class='fa fa-close') 
                               button.w3-btn.w3-hover-none.w3-right(onclick=`document.getElementById('modal_${u.username}').style.display='block'` class='fa fa-edit')
                         div.w3-modal(id=`modal_${u.username}`)
                           div.w3-modal-content.w3-card-4

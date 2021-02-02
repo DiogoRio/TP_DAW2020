@@ -35,7 +35,17 @@ router.post('/users/edit/:username', (req,res,next) => {
     .then(
       res.redirect('/administration/users')
     )
+    .catch(e => res.status(500).jsonp(e))
   }
+})
+
+router.post('/users/remove/:username', (req,res,next) => {
+  req.logout
+  UserCont.removeUserByUsername(req.params.username)
+  .then(
+    res.redirect('/administration/users')
+  )
+  .catch(e => res.status(500).jsonp(e))
 })
 
 /* GET all posts */
