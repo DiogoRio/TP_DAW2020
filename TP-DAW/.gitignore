@@ -1,4 +1,6 @@
-# ignore ./public/uploads/
 # ignore ./uploads
+/uploads
 # ignore ./public/fileStore
+/public/fileStore
 # ignore ./public/tmpStore
+/public/tmpStore
