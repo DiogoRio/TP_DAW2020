@@ -30,7 +30,8 @@ var ResourceType = require('../controllers/resourceType');
 
 router.get('/new', async(req, res) => {
     if(req.isAuthenticated()){
-        renderNewPage(res, new Resource())
+        var types = await ResourceType.getAll()
+        renderNewPage(res, new Resource(), types)
     }else{
         res.redirect('/users/login')
     }     
@@ -44,7 +45,7 @@ router.get('/edit/:id',async (req, res, next) => {
             //console.log(req.params.id)
             var resource = await Res.lookup(id)
             var types = await ResourceType.getAll()
-            //.log(resource)
+            console.log(types)
             res.render('resources/editResource', {resource:resource, types:types})
         }
         catch{
@@ -231,11 +232,12 @@ router.delete("/delete/:id", async (req, res, next) => {
     } 
 })
 
-function renderNewPage(res, resource , hasError = false){
+function renderNewPage (res, resource, types , hasError = false){
     try{
         const params = {
             resource : resource,
-            auth: true 
+            auth: true,
+            types:types
         }
         if (hasError) params.errorMessage = 'Error Creating Resourse'
         res.render('resources/new', params)
@@ -296,26 +298,27 @@ router.post("/", upload.single("cover"), async (req, res) => {
                 else {
                     console.log('Erro no manifesto')
                     RmFolder.rmfolder(__dirname + '/../' + req.file.path + 'dir');
-                    res.redirect("/")
+                    res.render('errors/manifestoError')
                 }
             } 
             else {
                 console.log('Ficheiro nao suportado')
                 RmFolder.rmfolder(__dirname + '/../' + req.file.path + 'dir');
                 fs.unlinkSync(req.file.path);
-                res.redirect("/")
+                res.render('errors/noFileSuport')
             }
         } 
         else {
             console.log('Sem ficheiro')
-            res.redirect("/")
+            res.render('errors/noFile')
         }
     }
     else {
         console.log('Nao autenticado')
-        res.redirect("/")
+        res.redirect("/users/login")
     }
 });
+
 
 router.get("/download/:id", async (req, res) => {
     if (req.isAuthenticated()) {
