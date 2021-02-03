@@ -1,6 +1,5 @@
 //User Controller
 
-const user = require('../models/user');
 var User = require('../models/user')
 var Session = require('../models/session')
 var Resource = require('./resource')

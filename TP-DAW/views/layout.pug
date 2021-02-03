@@ -1,5 +1,5 @@
 doctype html
-html(style='max-height:100%;')
+html(style='height:100%; overflow: hidden;')
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/resources.css')
@@ -11,7 +11,8 @@ html(style='max-height:100%;')
     script(src='/javascripts/resourceList.js')
     script(src='/javascripts/users.js')
     script(src='/javascripts/register.js')
-  body(style='max-height:100%;')
+    script(src='/javascripts/administration.js')
+  body(style='height:100%;')
       
       .w3-bar.w3-black.w3-border.w3-large
         a.w3-bar-item.w3-button(href='/') Home

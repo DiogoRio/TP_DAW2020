@@ -14,6 +14,8 @@ const { toNamespacedPath } = require('path')
 const { setupMaster } = require('cluster')
 const uploadPath = path.join('public',Resource.resResource)
 const upload = multer({dest: "uploads/"});
+var ResourceType = require('../controllers/resourceType');
+
 
 
 //const upload = multer({
@@ -41,8 +43,9 @@ router.get('/edit/:id',async (req, res, next) => {
             var id = req.params.id;
             //console.log(req.params.id)
             var resource = await Res.lookup(id)
+            var types = await ResourceType.getAll()
             //.log(resource)
-            res.render('resources/editResource', {resource:resource})
+            res.render('resources/editResource', {resource:resource, types:types})
         }
         catch{
           const html = '<p>Ocorreu um erro</p>';

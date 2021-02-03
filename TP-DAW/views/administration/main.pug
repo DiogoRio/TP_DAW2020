@@ -1,0 +1,39 @@
+extends ../layout
+
+
+block content
+    .w3-container-4
+        header.w3-container.w3-blue(style="margin-bottom: 50px;")
+            h3.w3-center USERS ADMINISTRATION PAGE
+    div.w3-row(style="height: calc(100% - 150px); overflow: hidden;")
+        div.w3-col.l6(style="max-width: 50%; height: 100%; padding-left: 16px; padding-right: 16px; padding-bottom:16px; overflow: hidden;")
+            div.w3.container.w3-card-4(style="height: auto;")
+                    .w3-container.w3-blue
+                        h3.w3-center CREATE DEPARTMENT
+                    div.w3-container(style="padding: 16px 16px;")
+                        form(action='/administration/add/depart' method='POST')
+                            input.w3-input(type="text" name="designation")
+                            input.w3-btn.w3-blue(type="submit" value="Create" style="margin-left:10px; margin-top:10px")
+            div.w3.container.w3-card-4(style="min-height: 15%; height:auto; margin-top: 16px")
+                    .w3-container.w3-blue
+                        h3.w3-center CREATE DOCUMENT TYPE
+                    div.w3-container(style="padding: 16px 16px;")
+                        form(action='/administration/resourceTypes' method='POST')
+                            input.w3-input(type="text" name="type")
+                            input.w3-btn.w3-blue(type="submit" value="Create" style="margin-left:10px; margin-top:10px")
+            div.w3.container.w3-blue(style="min-height: 15%")
+                p CENAS
+        div.w3-col.l6(style="max-width: 50%; height: 100%; padding-left: 16px; padding-right: 16px; padding-bottom:16px; overflow: hidden;")
+            div.w3.container.w3-card-4(style="height: auto")
+                    .w3-container.w3-blue
+                        h3.w3-center NEW COURSE
+                    div.w3-container(style="padding: 16px 16px;")
+                        select.w3-select(id="department" name='department')
+                            each d in departs
+                                option(value=d.id onclick=``) #{d.designation}
+                        input.w3-input(id="designation" type="text" name="designation")
+                        botton.w3-btn.w3-blue(onclick=`createCourse(document.getElementById("department").value,document.getElementById("designation").value)` style="margin-left:10px; margin-top:10px") Register
+            div.w3.container.w3-green(style="min-height: 15%")
+                p Outras cenas
+            div.w3.container.w3-green(style="min-height: 15%")
+                p Outras cenas

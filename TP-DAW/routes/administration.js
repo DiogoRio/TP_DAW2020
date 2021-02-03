@@ -3,18 +3,26 @@ var router = express.Router();
 var Depart = require('../controllers/depart')
 var UserCont = require('../controllers/user')
 var Resource = require('../controllers/resource')
+var ResourceType = require('../controllers/resourceType');
+
 
 
 
 /* GET administration home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+router.get('/', async(req, res, next) => {
+  const errors = req.flash("error")
+  console.log("errors: " + errors)
+  var departs = await Depart.listDeparts()
+  res.render('administration/main',{errors: errors, departs:departs});
 });
 
 router.get('/resources', (req, res, next) => {
-  Resource.getResources().then( (resources) =>
-    res.render('administration/resources', {resources:resources})
+  ResourceType.getAll().then( (types) => {
+    Resource.getResources().then( (resources) =>
+      res.render('administration/resources', {resources:resources, types:types})
   )
+  })
+  .catch(e => res.send(e))
 });
 
 // devolve todos os departamentos
@@ -35,6 +43,14 @@ router.get('/users', function(req, res, next) {
   })
   .catch(e => res.status(500).jsonp(e))
 });
+
+
+// devolve todos os tipos de recursos
+router.get('/resourceTypes', (req, res, next) =>{
+  ResourceType.getAll()
+  .then(dados => res.send(dados))
+  .catch(e => res.send(e))
+})
 
 router.post('/users/edit/:username', (req,res,next) => {
   const user = JSON.parse(JSON.stringify(req.body));
@@ -107,6 +123,16 @@ router.get('/depart/:id/add', (req, res, next) =>{
   var id = req.params.id
   res.render('administration/newCourse', {errors,id});
 })
+
+//adiciona um novo tipo de recurso
+router.post('/resourceTypes', (req, res, next) =>{
+  console.log(req.body.type)
+  ResourceType.add(req.body.type)
+    .then(() => {res.redirect('/administration/resourceTypes')})
+    .catch(e => res.send(e))
+})
+
+
 
 
 module.exports = router;

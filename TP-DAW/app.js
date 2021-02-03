@@ -9,6 +9,7 @@ const User = require('./models/user')
 const MongoStore = require('connect-mongo')(session);
 var db = require('./config/db')
 flash = require('connect-flash');
+var Type = require('./controllers/resourceType')
 
 
 var app = express();
@@ -64,6 +65,15 @@ app.use('/', indexRouter)
 app.use('/users', usersRouter)
 app.use('/resources', resourceRouter)
 app.use('/administration', administrationRouter)
+
+
+//add default types to DB
+Type.add("Report")
+Type.add("Thesis")
+Type.add("Aplication")
+Type.add("Slides")
+Type.add("Evaluation")
+Type.add("Solved Problem")
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
