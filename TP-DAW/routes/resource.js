@@ -45,12 +45,11 @@ router.get('/edit/:id',async (req, res, next) => {
             //console.log(req.params.id)
             var resource = await Res.lookup(id)
             var types = await ResourceType.getAll()
-            console.log(types)
             res.render('resources/editResource', {resource:resource, types:types})
         }
         catch{
-          const html = '<p>Ocorreu um erro</p>';
-          res.send(html);
+            console.log('Erro ao aceder pagina de editar recurso')
+            res.render('errors/editResourcePageError')
         }
     }
     else{
@@ -63,12 +62,12 @@ router.post("/edit/:id", async (req, res, next) => {
         try{
             var id = req.params.id;
             await Res.updateResource(id, req.body)
-         //   console.log("Resource update")
+         // console.log("Resource update")
             res.redirect('/myaccount')
         }
         catch{
-          const html = '<p>Nao foi possivel efetuar a mudança</p>';
-          res.send(html);
+            console.log('Erro ao editar recurso')
+            res.render('errors/editResourceError')
         }
     }
     else{
@@ -89,7 +88,8 @@ router.get('/user/:username', async(req, res) => {
                 author : author
             })
         }catch{
-            res.redirect('/')
+            console.log('Erro ao aceder à pagina dos recursos do user')
+            res.render('errors/userResourcesError')
         }
       }else{
         res.redirect('/users/login')
@@ -108,7 +108,8 @@ router.get('/:id', async(req, res) => {
                 userLog: userLog,
             })
         }catch{
-            res.redirect('/')
+            console.log('Erro ao aceder à pagina do recurso')
+            res.render('errors/resourcePageError')
         }
       }else{
         res.redirect('/users/login')
@@ -127,7 +128,8 @@ router.get('/', async (req, res) => {
                 auth: true 
             })
         }catch{
-            res.redirect('/')
+            console.log('Erro ao aceder à pagina dos recursos')
+            res.render('errors/resourcesPageError')
         }
       }else{
         res.redirect('/users/login')
@@ -136,80 +138,98 @@ router.get('/', async (req, res) => {
 
 
 router.post('/:id/addComment', async (req, res) => {
-    //provavelmente adiconar isAuthenticated
-    var d = new Date().toISOString().substr(0,16);
-    let commentSchema = {}
-    commentSchema.date = d
-    commentSchema.author = req.user.username
-    commentSchema.description = req.body.description
-    
-    try{
-        if(commentSchema.description){
-            await Res.addComment(req.params.id, commentSchema)
-            res.redirect(`/resources/${req.params.id}/`)
+    if(req.isAuthenticated()){ 
+        var d = new Date().toISOString().substr(0,16);
+        let commentSchema = {}
+        commentSchema.date = d
+        commentSchema.author = req.user.username
+        commentSchema.description = req.body.description
+        
+        try{
+            if(commentSchema.description){
+                await Res.addComment(req.params.id, commentSchema)
+                res.redirect(`/resources/${req.params.id}/`)
+            }
+            else{
+                res.redirect(`/resources/${req.params.id}/`)
+            }
         }
-        else{
-            res.redirect(`/resources/${req.params.id}/`)
+        catch{
+            console.log('Erro ao comentar o recurso')
+            res.render('errors/commentError')
         }
     }
-    catch{
-        res.redirect('/')
-    }
+    else{
+        res.redirect('/users/login')
+    } 
+
 })
 
 router.post('/:id/deleteComment/:idC', async (req, res) => {
-    var idC = req.params.idC
-    //console.log(idC)
-    try{
-        await Res.deleteComment(req.params.id, idC)
-        res.redirect(`/resources/${req.params.id}/`)
+    if(req.isAuthenticated()){        
+        var idC = req.params.idC
+        //console.log(idC)
+        try{
+            await Res.deleteComment(req.params.id, idC)
+            res.redirect(`/resources/${req.params.id}/`)
+            }
+        catch{
+            console.log('Erro ao eliminar comentário sobre o recurso')
+            res.render('errors/commentDeleteError')
         }
-    catch{
-        res.redirect('/')
     }
+    else{
+        res.redirect('/users/login')
+    } 
 });
 
 router.post('/:id/addRating', async (req, res) => {
-    //provavelmente adiconar isAuthenticated
-    let ratings = await Res.lookupPoints(req.params.id, req.user.username);
-    let tmp = ratings.points
-    try{
-        if(tmp.length == 0){
-            let ratingSchema = {}
-            ratingSchema.author = req.user.username
-            ratingSchema.point = req.body.point
+    if(req.isAuthenticated()){
+        let ratings = await Res.lookupPoints(req.params.id, req.user.username);
+        let tmp = ratings.points
+        try{
+            if(tmp.length == 0){
+                let ratingSchema = {}
+                ratingSchema.author = req.user.username
+                ratingSchema.point = req.body.point
 
-            await Res.addRating(req.params.id, ratingSchema)
-            const points = await Res.lookupResourcePoints(req.params.id)
-                let r =0;
-                for(let i = 0; i< points.points.length; i++){
-                    r += points.points[i].point
-                }
-            await Res.updatePoints(req.params.id,r)
-            console.log('ADD RATING NOVO')
-            res.redirect(`/resources/${req.params.id}/`)
+                await Res.addRating(req.params.id, ratingSchema)
+                const points = await Res.lookupResourcePoints(req.params.id)
+                    let r =0;
+                    for(let i = 0; i< points.points.length; i++){
+                        r += points.points[i].point
+                    }
+                await Res.updatePoints(req.params.id,r)
+                console.log('ADD RATING NOVO')
+                res.redirect(`/resources/${req.params.id}/`)
+            }
+            else{
+                console.log(ratings.points)
+                let ratingSchema = {}
+                ratingSchema._id = ratings.points[0]._id
+                ratingSchema.author = req.user.username
+                ratingSchema.point = parseInt(req.body.point)
+                await Res.ratingResource(req.params.id,ratings.points[0]._id)
+                await Res.addRating(req.params.id, ratingSchema)
+                const points = await Res.lookupResourcePoints(req.params.id)
+                    let r =0;
+                    for(let i = 0; i< points.points.length; i++){
+                        r += points.points[i].point
+                    }
+                await Res.updatePoints(req.params.id, r)
+                console.log('RATING REPLACE')
+                res.redirect(`/resources/${req.params.id}/`)
+            }
         }
-        else{
-            console.log(ratings.points)
-            let ratingSchema = {}
-            ratingSchema._id = ratings.points[0]._id
-            ratingSchema.author = req.user.username
-            ratingSchema.point = parseInt(req.body.point)
-            await Res.ratingResource(req.params.id,ratings.points[0]._id)
-            await Res.addRating(req.params.id, ratingSchema)
-            const points = await Res.lookupResourcePoints(req.params.id)
-                let r =0;
-                for(let i = 0; i< points.points.length; i++){
-                    r += points.points[i].point
-                }
-            await Res.updatePoints(req.params.id, r)
-            console.log('RATING REPLACE')
-            res.redirect(`/resources/${req.params.id}/`)
+        catch{
+            console.log('Erro ao classificar recurso')
+            res.render('errors/ratingError')
         }
     }
-    catch{
-        res.redirect('/')
-    }
+    else{
+        res.redirect('/users/login')
+    } 
+
 })
 
 router.delete("/delete/:id", async (req, res, next) => {
@@ -223,8 +243,8 @@ router.delete("/delete/:id", async (req, res, next) => {
             res.sendStatus(200)
         }
         catch{
-          const html = '<p>Nao foi possivel efetuar a mudança</p>';
-          res.send(html);
+            console.log('Erro ao eliminar recurso')
+            res.render('errors/deleteError')
         }
     }
     else{
@@ -239,11 +259,15 @@ function renderNewPage (res, resource, types , hasError = false){
             auth: true,
             types:types
         }
-        if (hasError) params.errorMessage = 'Error Creating Resourse'
+        if (hasError){
+            console.log('Erro no download')
+            res.render('errors/downloadError')
+        }
         res.render('resources/new', params)
     }
     catch{
-        res.redirect('/resources') 
+        console.log('Erro registar recurso')
+        res.render('errors/registerResourceError') 
     }
 }
 
@@ -255,7 +279,7 @@ router.post("/", upload.single("cover"), async (req, res) => {
             if (req.file.mimetype == 'application/zip') {
                 SIP.unzip(req.file.path);
                 if (CheckManifesto.check(__dirname + '/../' + req.file.path + 'dir')) {
-                    console.log(__dirname + '/../' + req.file.path + 'dir')
+                    //console.log(__dirname + '/../' + req.file.path + 'dir')
                    
                     var d = new Date().toISOString().substr(0, 16);
                     var jsonObj = __dirname + '/../' + req.file.path + 'dir' + '/manifesto.json'
@@ -270,11 +294,12 @@ router.post("/", upload.single("cover"), async (req, res) => {
                     
                     fs.rename(quarenPath, newPath, function (error) {
                         if (error) {
-                            console.log("ERROR" + error)
+                            console.log('Erro no download')
+                            res.render('errors/uploadError')
                         }
                     })
 
-                    console.log(newPath)
+                    //console.log(newPath)
 
                     const resource = new Resource({
                           typeR: req.body.typeR,
@@ -336,21 +361,23 @@ router.get("/download/:id", async (req, res) => {
             
             fs.rename(quarenPath, newPath, function (error) {
                 if (error) {
-                    res.status(500).jsonp({error: "Error in the downloads folder"});
+                    console.log('Erro no download')
+                    res.render('errors/downloadError')
                 }
             })
 
             res.download(newPath, function (error) {
                 fs.rmSync(newPath);
                 if (error) {
-                    res.status(500).jsonp({error: "Error in the download"});
+                    console.log('Erro no download')
+                    res.render('errors/downloadError')
                 }
                 //console.log('removido')
               })
          }
         catch{
-            const html = '<p>Nao foi possivel efetuar download</p>';
-            res.send(html);
+            console.log('Erro no download')
+            res.render('errors/downloadError')
         }
     }
     else{
