@@ -6,7 +6,7 @@ block content
     form.w3-container(action='/resources' method='POST' enctype="multipart/form-data")
         br
         label Title:
-        input.w3-input(type="text" name="title")
+        input.w3-input.w3-border(type="text" name="title")
         br
         label(for='typeR') Type:
         br
@@ -21,7 +21,11 @@ block content
         br
         br
         label Creation Date:
-        input.w3-input(type="date" name="creDate")
+        input.w3-input.w3-border(type="date" name="creDate")
+        br
+        br
+        label Description:
+        input.w3-input.w3-border(type="text" name="description")
         br
         label(for='visibility') Visibility: 
         br
@@ -32,6 +36,6 @@ block content
         br
         br
         label Resource:
-        input.w3-input(type="file" name="cover")
+        input.w3-input.w3-border(type="file" name="cover")
         br
         input.w3-btn.w3-blue(type="submit" value="Submit" style="margin-left:10px; margin-top:10px")

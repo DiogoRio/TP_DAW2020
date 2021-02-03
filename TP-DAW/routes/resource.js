@@ -99,6 +99,7 @@ router.get('/:id', async(req, res) => {
     if(req.isAuthenticated()){
         try{
             const resource = await Res.lookup(req.params.id)
+            console.log(resource)
             const userLog = req.user.username
             res.render('resources/resource', {
                 res: resource,
@@ -283,7 +284,8 @@ router.post("/", upload.single("cover"), async (req, res) => {
                           author: req.user.username,
                           points: [],
                           totalP: 0, //Sistema de upvote/downvote
-                          path: newPath
+                          path: newPath,
+                          description: req.body.description
                         })
 
                     
