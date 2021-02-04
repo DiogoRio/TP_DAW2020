@@ -286,12 +286,13 @@ router.post("/", upload.single("cover"), async (req, res) => {
                     req.body.manifesto = JSON.stringify(require(jsonObj));
                     
                     let quarenPath = __dirname + '/../' + req.file.path + 'dir'
-                    let dirpath = __dirname + "/../public/fileStore"
-
+                    //console.log(quarenPath)
+                    let dirpath = __dirname + "/../public/fileStore/" +  req.user.username + "/"
+                    //console.log(dirpath)
                     fs.mkdirSync(dirpath, {recursive: true})
 
                     let newPath = dirpath + "/" + req.file.originalname.split('.')[0] + d
-                    
+                    //console.log(newPath)
                     fs.rename(quarenPath, newPath, function (error) {
                         if (error) {
                             console.log('Erro no download')
