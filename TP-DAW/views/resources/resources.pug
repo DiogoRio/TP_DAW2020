@@ -33,8 +33,7 @@ block content
              tr 
                th(class="clickable" onclick="sortByName()") Title
                th Type
-               th(class="clickable" onclick="sortByDate(2)") Register Date
-               th(class="clickable" onclick="sortByDate(3)") Creation Date
+               th(class="clickable" onclick="sortByDate(2)") Creation Date
                th Author
                th(class="clickable" onclick="sortByPoints()") Points
              each r in resources
@@ -44,7 +43,6 @@ block content
                      adress 
                        a(href=`/resources/${r._id}`) #{r.title}
                    td= r.typeR
-                   td= r.regDate
                    td= r.creDate
                    td= r.author 
                    td= r.totalP

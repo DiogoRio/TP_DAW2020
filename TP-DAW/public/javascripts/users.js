@@ -1,4 +1,4 @@
-var directions = [0, 0, 0, 0, 0, 0]
+var directions = [1, 1, 0, 0, 0, 0]
 var selectedDepart = "";
 var departCourses = [];
 var selectedCourse = "";

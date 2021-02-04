@@ -37,6 +37,7 @@ function createUserDataset(){
             username: username,
             email: username + "@gmail.com",
             name: names.names[i],
+            password: "123",
             location: locations[Math.floor(Math.random() * locations.length)],
             department: department,
             course: course

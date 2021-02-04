@@ -3,9 +3,7 @@ var filter_types = [];
 nameDir = 0;
 regDateDir = 0;
 pointsDir = 0;
-function printDate() {
 
-}
 function filterByType() {
     f_types = []
     types = document.getElementById("types")
@@ -54,12 +52,12 @@ function sortByName() {
             x = rows[i].getElementsByTagName("td")[0];
             y = rows[i + 1].getElementsByTagName("td")[0];
             if (nameDir == 0) {
-                if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                if (x.innerText.toLowerCase() < y.innerText.toLowerCase()) {
                     shouldSwitch = true;
                     break;
                 }
             } else {
-                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                if (x.innerText.toLowerCase() > y.innerText.toLowerCase()) {
                     shouldSwitch = true;
                     break;
                 }
@@ -88,8 +86,8 @@ function sortByPoints() {
         // comecar no 1 para ignorar as th
         for (i = 1; i < (rows.length - 1); i++) {
             shouldSwitch = false;
-            x = rows[i].getElementsByTagName("td")[5];
-            y = rows[i + 1].getElementsByTagName("td")[5];
+            x = rows[i].getElementsByTagName("td")[4];
+            y = rows[i + 1].getElementsByTagName("td")[4];
             if (pointsDir == 0) {
                 if (Number(x.innerHTML) < Number(y.innerHTML)) {
                     shouldSwitch = true;
