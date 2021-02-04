@@ -1,7 +1,28 @@
-extends ../layout
-
-
-block content
+doctype html
+html(style='height:100%; overflow: hidden;')
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/resources.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
+    link(rel='icon' href="/images/favicon.png")
+    script(src='https://unpkg.com/axios/dist/axios.min.js')
+    script(src='/javascripts/resources.js')
+    script(src='/javascripts/resourceList.js')
+    script(src='/javascripts/users.js')
+    script(src='/javascripts/register.js')
+    script(src='/javascripts/administration.js')
+    script(src='/javascripts/graphs.js')
+    script(src="https://canvasjs.com/assets/script/canvasjs.min.js")
+  body(style='height:100%;')
+      
+    .w3-bar.w3-black.w3-border.w3-large
+      a.w3-bar-item.w3-button(href='/') Home
+      a.w3-bar-item.w3-button(href='/myaccount') My Account
+      a.w3-bar-item.w3-button(href='/resources') Resources
+      a.w3-bar-item.w3-button(href='/users') Users
+      if auth  
+       a.w3-bar-item.w3-button.w3-right(href='/users/logout') Logout
     .w3-container-4
         header.w3-container.w3-blue(style="margin-bottom: 50px;")
             h3.w3-center USERS ADMINISTRATION PAGE
@@ -21,8 +42,8 @@ block content
                         form(action='/administration/resourceTypes' method='POST')
                             input.w3-input(type="text" name="type")
                             input.w3-btn.w3-blue(type="submit" value="Create" style="margin-left:10px; margin-top:10px")
-            div.w3.container.w3-blue(style="min-height: 15%")
-                p CENAS
+            div.w3.container.w3-card-4(style="min-height:15%;height:auto;margin-top: 16px;padding-top:16px")
+                div(id="chartContainer2" style="height: 300px; width: 100%;")
         div.w3-col.l6(style="max-width: 50%; height: 100%; padding-left: 16px; padding-right: 16px; padding-bottom:16px; overflow: hidden;")
             div.w3.container.w3-card-4(style="height: auto")
                     .w3-container.w3-blue
@@ -32,8 +53,14 @@ block content
                             each d in departs
                                 option(value=d.id onclick=``) #{d.designation}
                         input.w3-input(id="designation" type="text" name="designation")
-                        botton.w3-btn.w3-blue(onclick=`createCourse(document.getElementById("department").value,document.getElementById("designation").value)` style="margin-left:10px; margin-top:10px") Register
-            div.w3.container.w3-green(style="min-height: 15%")
-                p Outras cenas
-            div.w3.container.w3-green(style="min-height: 15%")
-                p Outras cenas
+                        botton.w3-btn.w3-blue(onclick=`createCourse(document.getElementById("department").value,document.getElementById("designation").value)` style="margin-left:10px; margin-top:10px") Create
+            div.w3.container.w3-card-4(style="min-height: 15%; height:auto; margin-top: 16px")
+                .w3-container.w3-blue
+                        h3.w3-center OTHERS
+                div.w3-container(style="padding: 16px 16px;")
+                    a.w3-btn.w3-blue(href="/administration/resources" style="margin-left:10px; margin-top:10px") Manage Resources
+                    a.w3-btn.w3-blue(href="/administration/users" style="margin-left:10px; margin-top:10px") Manage Users
+                    a.w3-btn.w3-blue(href="/administration/departs" style="margin-left:10px; margin-top:10px") Manage Departments
+                    a.w3-btn.w3-blue(href="/administration/teste" style="margin-left:10px; margin-top:10px") Teste
+            div.w3.container.w3-card-4(style="min-height:15%;height:auto;margin-top: 16px;padding-top:16px")
+                div(id="chartContainer" style="height: 300px; width: 100%;")
