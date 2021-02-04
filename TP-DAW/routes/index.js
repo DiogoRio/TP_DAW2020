@@ -29,7 +29,8 @@ router.get('/myaccount', async (req, res) => {
               auth: true 
           })
       }catch{
-          res.redirect('/')
+          console.log('Erro ao aceder ao myaccount')
+          res.render('errors/myaccountError')
       }
     }else{
       res.redirect('/users/login')

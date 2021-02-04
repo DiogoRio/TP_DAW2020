@@ -59,28 +59,37 @@ router.post('/register', (req, res, next) => {
 });
 
 router.get('/edit/:id',async (req, res, next) => {
-  //console.log("Trying to edit " + req.params.id);
-  try{
-      var id = req.params.id;
-      var user = await UserCont.lookUp(id)
-      res.render('editUser', {user:user})
+  if(req.isAuthenticated()){
+    try{
+        var id = req.params.id;
+        var user = await UserCont.lookUp(id)
+        res.render('editUser', {user:user})
+    }
+    catch{
+      console.log('Erro ao aceder pag editar user')
+      res.render('errors/editUserError')
+    }
   }
-  catch{
-    const html = '<p>Ocorreu um erro</p>';
-    res.send(html);
+  else{
+    res.redirect('/users/login')
   }
 });
 
 router.post("/edit/:id", async (req, res, next) => {
-  try{
-    var id = req.params.id;
-    await UserCont.updateUser(id, req.body)
-    console.log("User update")
-    res.redirect('/myaccount')
+  if(req.isAuthenticated()){
+    try{
+      var id = req.params.id;
+      await UserCont.updateUser(id, req.body)
+      console.log("User update")
+      res.redirect('/myaccount')
+    }
+    catch{
+      console.log('Erro ao editar user')
+      res.render('errors/editUserPageError')
+    }
   }
-  catch{
-    const html = '<p>Nao foi possivel efetuar a mudança</p>';
-    res.send(html);
+  else{
+  res.redirect('/users/login')
   }
 })
 
