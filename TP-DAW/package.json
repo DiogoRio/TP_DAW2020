@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev": "nodemon ./bin/www.js --watch ../TP-DAW/ -e pug,js,json"
+    "dev": "nodemon ./bin/www.js --ignore ./uploads/ --ignore ./public/fileStore --watch ../TP-DAW/ -e pug,js,json"
   },
   "dependencies": {
     "adm-zip": "^0.5.2",

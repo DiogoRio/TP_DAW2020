@@ -1,4 +1,4 @@
-extends ../layout
+extends layout
 
 
 block content
@@ -74,6 +74,9 @@ block content
                               br
                               label Creation Date:
                               input.w3-input(type="date" name="creDate" value=r.creDate)
+                              br
+                              label Description:
+                              input.w3-input.w3-border(type="text" name="description"  value=r.description)
                               br
                               label(for='visibility') Visibility: 
                               br

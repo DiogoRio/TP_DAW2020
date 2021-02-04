@@ -70,7 +70,7 @@ app.use('/administration', administrationRouter)
 //add default types to DB
 Type.add("Report")
 Type.add("Thesis")
-Type.add("Aplication")
+Type.add("Application")
 Type.add("Slides")
 Type.add("Evaluation")
 Type.add("Solved Problem")

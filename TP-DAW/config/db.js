@@ -6,6 +6,7 @@ mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
 
 //Get the default connection
 var db = mongoose.connection;
+mongoose.set('useFindAndModify', false);
 
 
 //Bind connection to error event (to get notification of connection errors)

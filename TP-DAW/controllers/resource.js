@@ -13,6 +13,14 @@ function getResources(){
     return Resource.find({});
 }
 
+function countResources(){
+    return Resource.countDocuments({})
+}
+
+function countResourcesByType(type){
+    return Resource.countDocuments({typeR: type});
+}
+
 function createResourse(title,type,dateR,visibility,author) {
     var dateReg = new Date().toISOString().substr(0, 10)
     const newResource = new Resource({
@@ -134,3 +142,5 @@ module.exports.updatePoints = updatePoints;
 module.exports.lookupByAuthor = lookupByAuthor;
 module.exports.deleteResourceFromUser = deleteResourceFromUser;
 module.exports.getResources = getResources;
+module.exports.countResourcesByType = countResourcesByType
+module.exports.countResources = countResources
