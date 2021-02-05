@@ -11,20 +11,11 @@ block content
           div.checkbox-inline(style="margin-bottom: 20px; width: 30%; float: left")
             h4 Search
             input.w3-input(type="text" id="search" onkeyup="filterResources()" placeholder="Search resource title.." title="Type in a resource")
-          div.checkbox-inline(id="types" style="margin-bottom: 20px; width: 35%; float: right")
+          div.checkbox-inline(id="types" style="margin-bottom: 20px; width: 65%; float: right")
             h5 Accepted Types:
-            input(id="application" type="checkbox" name="Application" value="" onclick="filterByType()" checked)
-            label(for="thesis")  Application    
-            input(id="evaluation" type="checkbox" name="Evaluation" value="" onclick="filterByType()" checked)
-            label(for="evaluation")  Evaluation   
-            input(id="report" type="checkbox" name="Report" value="" onclick="filterByType()" checked)
-            label(for="report")  Report    
-            input(id="slides" type="checkbox" name="Slides" value="" onclick="filterByType()" checked)
-            label(for="slides")  Slides    
-            input(id="solvedprob" type="checkbox" name="Solved Problem" onclick="filterByType()" value="" checked)
-            label(for="solvedprob")  Solved Problem   
-            input(id="thesis" type="checkbox" name="Thesis" value="" onclick="filterByType()" checked)
-            label(for="thesis")  Thesis
+            each t in resourceTypes
+              input(id=`${t.toString().toLowerCase()}` type="checkbox" name=`${t}` value="" onclick="filterByType()" checked)
+              label(for=`${t.toString().toLowerCase()}`)  #{t}   
         .w3-card-4
           header.w3-container.w3-blue
             h4.w3-center PUBLIC RESOURCE LIST

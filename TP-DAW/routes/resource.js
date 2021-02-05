@@ -122,10 +122,13 @@ router.get('/', async (req, res) => {
             const resources = await Resource.find({})
             const user = req.user.username
             //console.log(req.user.username)
-            res.render('resources/resources', {
-                resources: resources,
-                user : user,
-                auth: true 
+            ResourceType.getAll().then( (types) => {
+                res.render('resources/resources', {
+                    resources: resources,
+                    resourceTypes: types.map(t => t.type),
+                    user : user,
+                    auth: true 
+                })
             })
         }catch{
             console.log('Erro ao aceder à pagina dos recursos')
