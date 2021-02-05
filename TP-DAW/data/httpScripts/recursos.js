@@ -18,9 +18,9 @@ var dates = ["2020-04-13", "2020-10-25", "2020-06-30", "2020-08-02", "2020-09-13
 
 function sendReq(credentials, resourceName, title, type, creDate, desc){
 
-    filePath = baseDir + "/resources/" + resourceName
+    let filePath = baseDir + "/resources/" + resourceName
 
-    var post_options = {
+    let post_options = {
         host: 'localhost',
         path: '/users/login',
         port: '7000',
@@ -30,7 +30,7 @@ function sendReq(credentials, resourceName, title, type, creDate, desc){
 
 
     callback = function(response) {
-        var formData = new FormData();
+        let formData = new FormData();
         formData.append("title", title)
         formData.append("typeR", type)
         formData.append("creDate", creDate)
@@ -39,7 +39,7 @@ function sendReq(credentials, resourceName, title, type, creDate, desc){
         formData.append("cover", fs.createReadStream(filePath), resourceName)
         cookie = response.rawHeaders[11]
         formHeaders = formData.getHeaders()
-        var post_options2 = {
+        let post_options2 = {
             host: 'localhost',
             path: '/resources',
             port: '7000',
@@ -47,11 +47,11 @@ function sendReq(credentials, resourceName, title, type, creDate, desc){
             headers: {'content-type': formHeaders['content-type'], 'cookie': cookie},
             data: formData
         };
-        var req2 = http.request(post_options2, null);
+        let req2 = http.request(post_options2, null);
         formData.pipe(req2)
     }
 
-    var req = http.request(post_options, callback);
+    let req = http.request(post_options, callback);
     req.write(JSON.stringify(credentials))
     req.end();
 
@@ -70,4 +70,3 @@ for(let i = 0; i < 10; i++){
             dates[Math.floor(Math.random() * dates.length)], "My first " + types_files[j].type + "!")
     }
 }
-
