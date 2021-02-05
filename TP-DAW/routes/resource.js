@@ -287,7 +287,7 @@ router.post("/", upload.single("cover"), async (req, res) => {
                     
                     let quarenPath = __dirname + '/../' + req.file.path + 'dir'
                     //console.log(quarenPath)
-                    let dirpath = __dirname + "/../public/fileStore/" +  req.user.username + "/"
+                    let dirpath = __dirname + "/../public/fileStore/" +  req.user.username 
                     //console.log(dirpath)
                     fs.mkdirSync(dirpath, {recursive: true})
 
