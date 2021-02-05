@@ -56,10 +56,10 @@ block content
                       td= users.location
                     tr   
                       th  Department
-                      td= users.department
+                      td= userDep.designation
                     tr   
                       th  Course
-                      td= users.course
+                      td= userCourse.designation
                     tr   
                       th  Number of Resources
                       td= n
@@ -81,18 +81,18 @@ block content
                     label Department
                       select.w3-select(id="department" name='department')
                         each d in departs
-                          if d.designation == users.department.designation
-                            option(value=d.designation selected onclick=`setDepartCourses(\'${d.courses.map(c => c.designation)}\')`) #{d.designation}
+                          if d.designation == userDep.designation
+                            option(value=d.id name=d.designation selected onclick=`edit_setDepartFilter(\'${d.id}\', \'${d.designation}\'); edit_setDepartCourses(\'${d.courses.map(c => c.designation)}\')`) #{d.designation}
                           else
-                            option(value=d.designation onclick=`setDepartCourses(\'${d.courses.map(c => c.designation)}\')`) #{d.designation}
+                            option(value=d.id name=d.designation onclick=`edit_setDepartFilter(\'${d.id}\', \'${d.designation}\'); edit_setDepartCourses(\'${d.courses.map(c => c.designation)}\')`) #{d.designation}
                     br
                     label Course
                       select.w3-select(id="course" name='course')
                         each c in courses
-                          if c.designation == users.course
-                            option(value=c.designation selected) #{c.designation} 
+                          if c.designation == userDep.designation
+                            option(value=c.id name=c.designation selected onclick=`edit_setCourseFilter(\'${c.id}\', \'${c.designation}\')`) #{c.designation} 
                           else
-                            option(value=c.designation) #{c.designation}
+                            option(value=c.id name=c.designation onclick=`edit_setCourseFilter(\'${c.id}\', \'${c.designation}\')`) #{c.designation}
                     br
                     br
                     button.w3-btn.w3-right.w3-blue(type="submit" value="Submit" style="margin-left:10px; margin-top:10px") CONFIRM

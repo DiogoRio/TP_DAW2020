@@ -17,6 +17,7 @@ router.get('/myaccount', async (req, res) => {
           var courses = await Depart.listCourses()
           var userDep = await Depart.getDepById(users.department)
           var userCourse = await Depart.getCourseById(users.course)
+          console.log("loading")
 
           res.render('account', {
               resources: resources,
