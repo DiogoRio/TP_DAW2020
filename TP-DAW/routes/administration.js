@@ -7,7 +7,18 @@ var ResourceType = require('../controllers/resourceType');
 var ResourceTypePieGraph = require('../controllers/resourceTypePieGraph')
 
 
+function isAdmin(req, res, next) {
+  if (req.isAuthenticated() && (req.user.type == "admin") ) {
+    next(); 
+  } else {
+    console.log("Not an Admin!")
+    res.status(400);
+  }
+}
 
+router.all("/*", isAdmin, function(req, res, next) {
+  next(); 
+});
 
 /* GET administration home page. */
 router.get('/', async(req, res, next) => {
@@ -20,7 +31,7 @@ router.get('/', async(req, res, next) => {
 //Get data for the administration pie graph
 router.get('/piegraphdata', async(req, res, next) => {
   await ResourceTypePieGraph.updateTypesFromDB()
-  var total = await Resource.countResources()
+  var total = await Resource.countResourcesByType()
     ResourceTypePieGraph.getPieGraphData().then((data) => {
       res.send({data,total})
     }).catch(e => res.status(500).send(e))

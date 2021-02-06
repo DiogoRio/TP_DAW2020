@@ -30,7 +30,7 @@ window.onload = function () {
 	axios.get("/administration/piegraphdata").then( (datap) => {
 
         datap.data.data.forEach(d => {
-            d.percent = d.y / datap.data.total
+            d.percent = ( d.y / datap.data.total ) * 100
             
         });
 
@@ -44,8 +44,8 @@ window.onload = function () {
             data: [{
                 type: "pie",
                 showInLegend: true,
-                indexLabel: "{y}",
-                legendText: "{label}: {percent}%",
+                indexLabel: "{label}: {y}",
+                legendText: "   {label}: {percent}%   ",
                 toolTipContent: "<b>{label}</b>: {percent}%",
                 dataPoints : datap.data.data
             }]
