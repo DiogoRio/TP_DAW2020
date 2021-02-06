@@ -31,6 +31,7 @@ window.onload = function () {
 
         datap.data.data.forEach(d => {
             d.percent = ( d.y / datap.data.total ) * 100
+            console.log(d.y  + " //// " + datap.data.total)
             
         });
 

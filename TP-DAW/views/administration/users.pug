@@ -30,6 +30,7 @@ block content
                     tr 
                         th(class="clickable" onclick="sort(0)") Username
                         th(class="clickable" onclick="sort(1)") Name
+                        th Security clearance
                         th Email
                         th(class="clickable" onclick="sort(3)") Department
                         th(class="clickable" onclick="sort(4)") Course
@@ -40,6 +41,7 @@ block content
                              adress 
                                a(href=`/resources/user/${u.username}`) #{u.username}
                             td= u.name
+                            td= u.type
                             td= u.email
                             - var dName
                             - var cName
@@ -84,4 +86,13 @@ block content
                                         option(value=c.id) #{c.designation}
                                 br
                                 br
+                                - console.log(u.type)
+                                if u.type == "admin"
+                                  input.w3-check(type="checkbox" name="admin" checked="checked")
+                                else
+                                  input.w3-check(type="checkbox" name="admin")
+                                label(style="padding-left: 5px;") Admin
+                                br
+                                br
+                                input.w3-input.w3-border(name="username" value=u.username type="hidden")
                                 button.w3-btn.w3-right.w3-blue(type="submit" value="Submit" style="margin-left:10px; margin-top:10px") CONFIRM

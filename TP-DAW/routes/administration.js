@@ -1,4 +1,5 @@
 var express = require('express');
+var createError = require('http-errors');
 var router = express.Router();
 var Depart = require('../controllers/depart')
 var UserCont = require('../controllers/user')
@@ -12,7 +13,7 @@ function isAdmin(req, res, next) {
     next(); 
   } else {
     console.log("Not an Admin!")
-    res.status(400);
+    next(createError(404))
   }
 }
 
@@ -31,7 +32,7 @@ router.get('/', async(req, res, next) => {
 //Get data for the administration pie graph
 router.get('/piegraphdata', async(req, res, next) => {
   await ResourceTypePieGraph.updateTypesFromDB()
-  var total = await Resource.countResourcesByType()
+  var total = await Resource.countResources()
     ResourceTypePieGraph.getPieGraphData().then((data) => {
       res.send({data,total})
     }).catch(e => res.status(500).send(e))
@@ -75,19 +76,17 @@ router.get('/resourceTypes', (req, res, next) =>{
 
 router.post('/users/edit/:username', (req,res,next) => {
   const user = JSON.parse(JSON.stringify(req.body));
-  console.log(user)
-  if(user._id || user.username){
-    console.log("error:")
-    console.log(user)
-    res.status(500)
-  }
-  else {
-    UserCont.updateUserByUsername(req.params.username,user)
-    .then(
-      res.redirect('/administration/users')
-    )
-    .catch(e => res.status(500).jsonp(e))
-  }
+  UserCont.updateUserByUsername(req.params.username,user)
+  .then(() => {
+    if(user.admin){
+      console.log(user.admin)
+      UserCont.grantAdminPriviledges(user.username).then(res.redirect('/administration/users'))
+    }
+    else{
+      UserCont.removeAdminPriviledges(user.username).then(res.redirect('/administration/users'))
+    }
+  })
+  .catch(e => {console.log(e);res.status(500).jsonp(e)})
 })
 
 router.post('/users/remove/:username', (req,res,next) => {
@@ -147,7 +146,6 @@ router.get('/depart/:id/add', (req, res, next) =>{
 
 //adiciona um novo tipo de recurso
 router.post('/resourceTypes', (req, res, next) =>{
-  console.log(req.body.type)
   ResourceType.add(req.body.type)
     .then(() => {res.redirect('/administration/resourceTypes')})
     .catch(e => res.send(e))

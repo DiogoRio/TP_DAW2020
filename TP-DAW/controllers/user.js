@@ -3,6 +3,8 @@
 var User = require('../models/user')
 var Session = require('../models/session')
 var Resource = require('./resource')
+const { model } = require('../models/user')
+const { use } = require('../routes')
 
 
 //Calls à mongoDB para devolver info
@@ -71,7 +73,6 @@ function updateUserByUsername(username, newUser){
 
 function removeUserByUsername(username){
     return getUserByName(username).then(user => {
-        console.log(user)
         var regex = new RegExp(`"user\":\"${user._id}\"`)
         Session.deleteMany({ "session": regex }).then( 
             Resource.deleteResourceFromUser(username).then(
@@ -79,6 +80,16 @@ function removeUserByUsername(username){
             )
         )
     })
+}
+
+function grantAdminPriviledges(username){
+    console.log("username:" + username)
+    return User.updateOne({username:username},{$set : {type:"admin"}})
+
+}
+
+function removeAdminPriviledges(username){
+    return User.updateOne({username:username},{$set : {type:"user"}})
 }
 
 module.exports.listUsers = listUsers;
@@ -90,3 +101,5 @@ module.exports.lookUp = lookUp;
 module.exports.updateUser= updateUser;
 module.exports.updateUserByUsername = updateUserByUsername;
 module.exports.removeUserByUsername = removeUserByUsername;
+module.exports.grantAdminPriviledges = grantAdminPriviledges;
+module.exports.removeAdminPriviledges = removeAdminPriviledges;
