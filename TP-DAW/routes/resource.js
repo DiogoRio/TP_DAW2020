@@ -316,7 +316,8 @@ router.post("/", upload.single("cover"), async (req, res) => {
                           points: [],
                           totalP: 0, //Sistema de upvote/downvote
                           path: newPath,
-                          description: req.body.description
+                          description: req.body.description,
+                          downloads: 0
                         })
 
                     
@@ -373,11 +374,13 @@ router.get("/download/:id", async (req, res) => {
             })
 
             res.download(newPath, function (error) {
+                Res.updateDownloads(req.params.id)
                 fs.rmSync(newPath);
                 if (error) {
                     console.log('Erro no download')
                     res.render('errors/downloadError')
                 }
+                
                 //console.log('removido')
               })
          }

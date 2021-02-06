@@ -6,6 +6,10 @@ function createCourse(depid,designation){
     .catch(error => console.log(error));
 }
 
+function roundToTwo(num) {    
+    return +(Math.round(num + "e+2")  + "e-2");
+}
+
 window.onload = function () {
 	var chart = new CanvasJS.Chart("chartContainer", {
 		title:{
@@ -30,8 +34,8 @@ window.onload = function () {
 	axios.get("/administration/piegraphdata").then( (datap) => {
 
         datap.data.data.forEach(d => {
-            d.percent = ( d.y / datap.data.total ) * 100
-            console.log(d.y  + " //// " + datap.data.total)
+            var tmp = ( d.y / datap.data.total ) * 100
+            d.percent = roundToTwo(tmp)
             
         });
 

@@ -27,7 +27,8 @@ var resourceSchema = new mongoose.Schema({
     points: [ratingSchema],
     totalP: Number,
     path: String,
-    description: String
+    description: String,
+    downloads: Number
 })
 
 //resourceSchema.virtual('resourceImagePath').get(function(){

@@ -1,6 +1,6 @@
 var Pie = require('../models/resourceTypePieGraph')
-var Resource = require('../controllers/resource')
-var ResourceType = require('../controllers/resourceType')
+var Resource = require('./resource')
+var ResourceType = require('./resourceType')
 const { updateUserByUsername } = require('./user')
 
 async function updateTypesFromDB(){

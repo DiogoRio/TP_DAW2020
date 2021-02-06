@@ -110,6 +110,12 @@ function updatePoints(id,tpoints){
         .updateOne({_id: id}, {totalP:tpoints})
 }
 
+function updateDownloads(id){
+    return Resource
+        .updateOne({_id:id}, {$inc:{ download:+1}})
+
+}
+
 function updateResource(id, newResource){
     return Resource
         .updateOne({ _id: id }, newResource)
@@ -144,3 +150,4 @@ module.exports.deleteResourceFromUser = deleteResourceFromUser;
 module.exports.getResources = getResources;
 module.exports.countResourcesByType = countResourcesByType
 module.exports.countResources = countResources
+module.exports.updateDownloads = updateDownloads

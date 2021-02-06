@@ -5,7 +5,7 @@ var Depart = require('../controllers/depart')
 var UserCont = require('../controllers/user')
 var Resource = require('../controllers/resource')
 var ResourceType = require('../controllers/resourceType');
-var ResourceTypePieGraph = require('../controllers/resourceTypePieGraph')
+var Graph = require('../controllers/graphs')
 
 
 function isAdmin(req, res, next) {
@@ -31,9 +31,9 @@ router.get('/', async(req, res, next) => {
 
 //Get data for the administration pie graph
 router.get('/piegraphdata', async(req, res, next) => {
-  await ResourceTypePieGraph.updateTypesFromDB()
+  await Graph.updateTypesFromDB()
   var total = await Resource.countResources()
-    ResourceTypePieGraph.getPieGraphData().then((data) => {
+    Graph.getPieGraphData().then((data) => {
       res.send({data,total})
     }).catch(e => res.status(500).send(e))
 });
