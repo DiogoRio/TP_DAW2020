@@ -14,16 +14,24 @@ function addNews(author,title,body,date){
 }
 
 
-function addNewPostNews(author,article_name){
+function addNewResourceNew(author,article_name,type){
     var date = new Date().toISOString().slice(0, 10)
-    var body = `The user ${author} published an article called ${article_name}!`
-    var title = `New article by ${author}`
+    var body = `The user ${author} published an ${type} called ${article_name}!`
+    var title = `New ${type} by ${author}`
     addNews(author,title,body,date)
+}
+
+function addNewUserNew(username,name){
+    var date = new Date().toISOString().slice(0, 10)
+    var body = `${name} just registered in our website with the username: ${username}, Welcome!`
+    var title = `Welcome ${name} (${username})!`
+    addNews(username,title,body,date)
 }
 
 function getNews(){
     return News.find({},{_id:0, __v:0}).exec();
 }
 
-module.exports.addNewPostNews = addNewPostNews
+module.exports.addNewResourceNew = addNewResourceNew
 module.exports.getNews = getNews
+module.exports.addNewUserNew = addNewUserNew

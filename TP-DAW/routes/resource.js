@@ -323,7 +323,7 @@ router.post("/", upload.single("cover"), async (req, res) => {
                     await resource.save()
 
 
-                    News.addNewPostNews(req.user.username, req.body.title)
+                    News.addNewResourceNew(req.user.username, req.body.title, req.body.typeR)
                     res.redirect(`resources`)
                 } 
                 else {

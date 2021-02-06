@@ -1,5 +1,7 @@
 const userController = require('../controllers/user')
 const passwordUtils = require('../lib/passwordUtils')
+const News = require('./news')
+
 
 async function register(req,res){
     if(await userController.getUserByName(req.body.username)){
@@ -23,6 +25,7 @@ async function register(req,res){
         userController
         .createUser(req.body.username,req.body.email,req.body.name,req.body.location,
             req.body.department, req.body.course,hash,salt)
+        News.addNewUserNew(req.body.username,req.body.name)
         res.redirect('/users/login')
     }
 }
