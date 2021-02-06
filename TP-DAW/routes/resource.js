@@ -277,14 +277,14 @@ function renderNewPage (res, resource, types , hasError = false){
 
 router.post("/", upload.single("cover"), async (req, res) => {
     if (req.isAuthenticated()) {
-        console.log(req.file)
+        //console.log(req.file)
         if (req.file != null) {
             if (req.file.mimetype == 'application/zip') {
                 SIP.unzip(req.file.path);
                 if (CheckManifesto.check(__dirname + '/../' + req.file.path + 'dir')) {
                     //console.log(__dirname + '/../' + req.file.path + 'dir')
                    
-                    var d = new Date().toISOString().substr(0, 16);
+                    var d1 = new Date().toISOString().substr(0, 16);
                     var jsonObj = __dirname + '/../' + req.file.path + 'dir' + '/manifesto.json'
                     req.body.manifesto = JSON.stringify(require(jsonObj));
                     
@@ -294,7 +294,7 @@ router.post("/", upload.single("cover"), async (req, res) => {
                     //console.log(dirpath)
                     fs.mkdirSync(dirpath, {recursive: true})
 
-                    let newPath = dirpath + "/" + req.file.originalname.split('.')[0] + d
+                    let newPath = dirpath + "/" + req.file.originalname.split('.')[0] + d1
                     //console.log(newPath)
                     fs.rename(quarenPath, newPath, function (error) {
                         if (error) {
@@ -302,14 +302,16 @@ router.post("/", upload.single("cover"), async (req, res) => {
                             res.render('errors/uploadError')
                         }
                     })
-
+                    
+                    var d2 = new Date().toISOString().substr(0, 10);
+                    
                     //console.log(newPath)
 
                     const resource = new Resource({
                           typeR: req.body.typeR,
                           title: req.body.title,
                           creDate: req.body.creDate, 
-                          regDate: d, //System Date
+                          regDate: d2, //System Date
                           visibility: req.body.visibility, //Public or Private
                           nameR: req.file.originalname,
                           author: req.user.username,
