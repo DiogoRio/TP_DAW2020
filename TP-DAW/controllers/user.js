@@ -5,6 +5,8 @@ var Session = require('../models/session')
 var Resource = require('./resource')
 const { model } = require('../models/user')
 const { use } = require('../routes')
+const passwordUtils = require('../lib/passwordUtils')
+const { pass } = require('../config/db')
 
 
 //Calls à mongoDB para devolver info
@@ -92,6 +94,15 @@ function removeAdminPriviledges(username){
     return User.updateOne({username:username},{$set : {type:"user"}})
 }
 
+function alterPassword(username, password){
+    const saltHash = passwordUtils.genPassword(password)
+
+    const salt = saltHash.salt
+    const hash = saltHash.hash
+    console.log("username: " + username + "; new password: " + password + "; newHash: " + hash + "; newSalt: " + salt)
+    return User.findOneAndUpdate({username:username}, {$set: {hash:hash, salt:salt}}).exec()
+}
+
 module.exports.listUsers = listUsers;
 module.exports.getUserByEmail = getUserByEmail;
 module.exports.getUserByName = getUserByName;
@@ -103,3 +114,4 @@ module.exports.updateUserByUsername = updateUserByUsername;
 module.exports.removeUserByUsername = removeUserByUsername;
 module.exports.grantAdminPriviledges = grantAdminPriviledges;
 module.exports.removeAdminPriviledges = removeAdminPriviledges;
+module.exports.alterPassword = alterPassword;

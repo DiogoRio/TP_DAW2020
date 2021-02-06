@@ -19,8 +19,6 @@ async function register(req,res){
 
         const salt = saltHash.salt
         const hash = saltHash.hash
-        console.log("salt:" + salt)
-        console.log("hash:" + hash)
 
         userController
         .createUser(req.body.username,req.body.email,req.body.name,req.body.location,
