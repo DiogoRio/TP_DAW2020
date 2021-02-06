@@ -373,13 +373,15 @@ router.get("/download/:id", async (req, res) => {
                 }
             })
 
-            res.download(newPath, function (error) {
-                Res.updateDownloads(req.params.id)
+            res.download(newPath, async function (error) {
+                await Res.updateDownloads(req.params.id)
+                console.log('Update download')
                 fs.rmSync(newPath);
                 if (error) {
                     console.log('Erro no download')
                     res.render('errors/downloadError')
                 }
+                
                 
                 //console.log('removido')
               })

@@ -112,8 +112,7 @@ function updatePoints(id,tpoints){
 
 function updateDownloads(id){
     return Resource
-        .updateOne({_id:id}, {$inc:{ download:+1}})
-
+        .updateOne({_id:id}, {$inc:{"downloads":+1}})
 }
 
 function updateResource(id, newResource){
