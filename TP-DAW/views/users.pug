@@ -34,6 +34,7 @@ block content
                         th(class="clickable" onclick="sort(4)") Course
                         th(class="clickable" onclick="sort(5)") Location
                     each u in users
+                       if u.name != "admin"
                         tr
                             - var dName
                             - var cName

@@ -17,6 +17,7 @@ function isAdmin(req, res, next) {
   }
 }
 
+//comentar isto para correr os scripts de povoamento
 router.all("/*", isAdmin, function(req, res, next) {
   next(); 
 });
