@@ -22,7 +22,7 @@ window.onload = function () {
             animationEnabled: true,
             theme: "light2",
             title: {
-                text: "Numero de Downloads por Recurso",
+                text: "Number of Downloads by Resource",
                 fontWeight: "normal"
             },
             data: [{

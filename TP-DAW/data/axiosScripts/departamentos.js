@@ -13,7 +13,7 @@ let departs = JSON.parse(rawJson);
 // os ids sao criados foram da bd, logo a sua criacao nao e atomica
 async function sendRequests(departs){
     for(i = 0; i < departs.length; i++){
-        await axios.post('http://localhost:7000/administration/add/depart', {designation: departs[i].designation})
+        await axios.post('http://localhost:7000/administration/departs/add', {designation: departs[i].designation})
         var departId = "D" + i.toString().padStart(6, '0');
         for(j = 0; j < departs[i].courses.length; j++){
             await axios.post('http://localhost:7000/administration/depart/' + departId + '/add', {designation: departs[i].courses[j]})
