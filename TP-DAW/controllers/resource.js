@@ -1,4 +1,5 @@
 var Resource = require('../models/resource')
+var fs = require('fs');
 
 function listResource(){
     return Resource
@@ -130,8 +131,21 @@ function deleteResource(id){
         .deleteOne({_id:id})
 }
 
-//TODO adicionar mesmas operações que em deleteResource (maybe retunar lista com ids a eliminar e usar deleResource para cada 1 deles)
+//Utilizada na parte de administração, elimina todos os recursos do utilizador quando o mesmo é eliminado por um admin
 function deleteResourceFromUser(username){
+    var path = __dirname + '/../public/fileStore/'+ username
+    console.log(path)
+    if (fs.existsSync(path)) {
+        fs.readdirSync(path).forEach(function (file) {
+            var currPath = path + "/" + file;
+            if (fs.lstatSync(currPath).isDirectory()) {
+                rmfolders(currPath);
+            } else {
+                fs.unlinkSync(currPath);
+            }
+        });
+        fs.rmdirSync(path);
+    }
     return Resource.deleteMany({"author": username})
 }
 

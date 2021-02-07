@@ -95,7 +95,6 @@ router.post('/users/edit/:username', (req,res,next) => {
 })
 
 router.post('/users/remove/:username', (req,res,next) => {
-  console.log("Removing " + req.params.username)
   UserCont.removeUserByUsername(req.params.username)
   .then(
     Resource.deleteResourceFromUser(req.params.username).then(
