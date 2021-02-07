@@ -81,11 +81,13 @@ router.get('/user/:username', async(req, res) => {
             const author = req.params.username
             const resource = await Res.lookupByAuthor(req.params.username)
             const userLog = req.user.username
+            var adminUser = req.user.type
             res.render('resources/resourcesOfUser', {
                 res: resource,
                 auth: true,
                 userLog: userLog,
-                author : author
+                author : author,
+                adminUser:adminUser 
             })
         }catch{
             console.log('Erro ao aceder à pagina dos recursos do user')
@@ -102,10 +104,12 @@ router.get('/:id', async(req, res) => {
             const resource = await Res.lookup(req.params.id)
             console.log(resource)
             const userLog = req.user.username
+            var adminUser = req.user.type
             res.render('resources/resource', {
                 res: resource,
                 auth: true,
                 userLog: userLog,
+                adminUser:adminUser 
             })
         }catch{
             console.log('Erro ao aceder à pagina do recurso')
@@ -121,13 +125,15 @@ router.get('/', async (req, res) => {
         try{
             const resources = await Resource.find({})
             const user = req.user.username
+            var adminUser = req.user.type
             //console.log(req.user.username)
             ResourceType.getAll().then( (types) => {
                 res.render('resources/resources', {
                     resources: resources,
                     resourceTypes: types.map(t => t.type),
                     user : user,
-                    auth: true 
+                    auth: true ,
+                    adminUser:adminUser 
                 })
             })
         }catch{

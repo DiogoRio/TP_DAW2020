@@ -18,7 +18,7 @@ router.get('/myaccount', async (req, res) => {
           var userDep = await Depart.getDepById(users.department)
           var userCourse = await Depart.getCourseById(users.course)
           console.log("loading")
-
+          var adminUser = req.user.type
           res.render('account', {
               resources: resources,
               users : users,
@@ -27,7 +27,8 @@ router.get('/myaccount', async (req, res) => {
               courses: courses,
               userDep: userDep,
               userCourse: userCourse,
-              auth: true 
+              auth: true,
+              adminUser:adminUser 
           })
       }catch{
           console.log('Erro ao aceder ao myaccount')
@@ -44,7 +45,7 @@ router.get('/', async(req, res, next) => {
   var tmp = news.reverse();
   const resources = await Resource.find({})
   const authMain = req.isAuthenticated()
-  res.render('index', {news: tmp, resources: resources, auth:authMain})
+  res.render('index', {news: tmp, resources: resources, auth:authMain })
 });
 
 

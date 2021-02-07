@@ -22,5 +22,6 @@ html(style='height:100%;')
         if auth  
          a.w3-bar-item.w3-button.w3-xlarge.w3-right(href='/users/logout' class='fa fa-sign-out')
          a.w3-bar-item.w3-button.w3-large.w3-right(href='/myaccount') MY ACCOUNT 
-        
+        if adminUser == 'admin'
+          a.w3-bar-item.w3-button.w3-large.w3-right(href='/administration') ADMIN
       block content

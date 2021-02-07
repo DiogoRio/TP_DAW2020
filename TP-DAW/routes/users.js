@@ -11,12 +11,13 @@ const Depart = require('../controllers/depart')
 
 router.get('/', (req, res, next) => {
   if(req.isAuthenticated()){
+    var adminUser = req.user.type
     UserCont.listUsers()
       .then(users =>{
         Depart.listDeparts()
           .then(async(departs) => {
             var courses = await Depart.listCourses()
-            res.render('users', {users: users, departs: departs, courses: courses, auth: true})
+            res.render('users', {users: users, departs: departs, courses: courses, auth: true, adminUser:adminUser })
           })
       })
       .catch(e => res.status(500).jsonp(e))
