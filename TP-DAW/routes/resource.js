@@ -263,7 +263,7 @@ function renderNewPage (res, resource, types , hasError = false){
             types:types
         }
         if (hasError){
-            console.log('Erro no download')
+            console.log('Erro render page')
             res.render('errors/downloadError')
         }
         res.render('resources/new', params)
@@ -283,8 +283,7 @@ router.post("/", upload.single("cover"), async (req, res) => {
                 SIP.unzip(req.file.path);
                 if (CheckManifesto.check(__dirname + '/../' + req.file.path + 'dir')) {
                     //console.log(__dirname + '/../' + req.file.path + 'dir')
-                   
-                    var d1 = new Date().toISOString().substr(0, 16);
+                    var d1 = new Date().toISOString().substr(0, 19);
                     var jsonObj = __dirname + '/../' + req.file.path + 'dir' + '/manifesto.json'
                     req.body.manifesto = JSON.stringify(require(jsonObj));
                     
@@ -298,19 +297,35 @@ router.post("/", upload.single("cover"), async (req, res) => {
                     //console.log(newPath)
                     fs.rename(quarenPath, newPath, function (error) {
                         if (error) {
-                            console.log('Erro no download')
+                            console.log('Erro no upload' + error)
                             res.render('errors/uploadError')
                         }
                     })
-                    
                     var d2 = new Date().toISOString().substr(0, 10);
-                    
+                    var d3 = await req.body.creDate;
+                    if(d3 == '') d3 = d2
+                    var title = await req.body.title;
+                    if(title == '') title = req.file.originalname.split('.')[0]
                     //console.log(newPath)
 
+                    //await Res.createResourse(
+                    //    req.body.typeR,
+                    //    req.body.title,
+                    //    tmp,
+                    //    d2,
+                    //    req.body.visibility,
+                    //    req.file.originalname,
+                    //    req.user.username,
+                    //    [],
+                    //    0,
+                    //    newPath,
+                    //    req.body.description,
+                    //    0
+                    //)
                     const resource = new Resource({
                           typeR: req.body.typeR,
-                          title: req.body.title,
-                          creDate: req.body.creDate, 
+                          title: title,
+                          creDate: d3, 
                           regDate: d2, //System Date
                           visibility: req.body.visibility, //Public or Private
                           nameR: req.file.originalname,
@@ -322,9 +337,8 @@ router.post("/", upload.single("cover"), async (req, res) => {
                           downloads: 0
                         })
 
-                    
                     await resource.save()
-
+                    console.log(resource)
 
                     News.addNewResourceNew(req.user.username, req.body.title, req.body.typeR)
                     res.redirect(`resources`)
