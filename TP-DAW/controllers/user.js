@@ -47,10 +47,10 @@ function createUser(username,email,name,location,department,course,hash,salt){
     })
 
     newUser.save()
-    .then((user) => {
-        console.log(user)
-    })
 }
+
+
+
 function lookUp(id){
     return User
     .findOne({_id:id})

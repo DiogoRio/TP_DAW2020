@@ -10,6 +10,7 @@ const MongoStore = require('connect-mongo')(session);
 var db = require('./config/db')
 flash = require('connect-flash');
 var Type = require('./controllers/resourceType')
+var reg = require('./controllers/register')
 
 
 var app = express();
@@ -66,6 +67,7 @@ app.use('/users', usersRouter)
 app.use('/resources', resourceRouter)
 app.use('/administration', administrationRouter)
 
+reg.register_admin()
 
 //add default types to DB
 Type.add("Report")

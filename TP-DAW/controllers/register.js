@@ -28,4 +28,16 @@ async function register(req,res){
     }
 }
 
+async function register_admin(){
+    if( !(await userController.getUser("admin")) ){
+        const saltHash = passwordUtils.genPassword("admin")
+
+        const salt = saltHash.salt
+        const hash = saltHash.hash
+        userController.createUser("admin","admin","admin","NONE",
+            "ADMIN", "ADMIN",hash,salt)
+    }
+}
+
 module.exports.register = register;
+module.exports.register_admin = register_admin;
