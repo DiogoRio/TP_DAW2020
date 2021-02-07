@@ -5,16 +5,30 @@ function roundToTwo(num) {
 window.onload = function () {
 
     axios.get("/administration/doughnut").then( (datap) => {
+
+        var total = 0;
+        datap.data.forEach( e => {
+            total += e.y;
+        })
+
+        datap.data.forEach(d => {
+            var tmp = ( d.y / total ) * 100
+            d.percent = roundToTwo(tmp)
+        });
+
+
+
         var chart = new CanvasJS.Chart("chartContainer", {
             animationEnabled: true,
             theme: "light2",
             title: {
-                text: "Numero de Downloads por Recurso"
+                text: "Numero de Downloads por Recurso",
+                fontWeight: "normal"
             },
             data: [{
                 type: "doughnut",
                 indexLabel: "{type}: {y}",
-                toolTipContent: "{y}",
+                toolTipContent: "<b>{type}</b>: {percent}%",
                 dataPoints : datap.data
             }]
         });
@@ -32,13 +46,12 @@ window.onload = function () {
         var chart = new CanvasJS.Chart("chartContainer2", {
             animationEnabled: true,
             title:{
-                text: "Types of Resources"
+                text: "Types of Resources",
+                fontWeight: "normal"
             },
             data: [{
                 type: "pie",
-                showInLegend: true,
                 indexLabel: "{label}: {y}",
-                legendText: "   {label}: {percent}%   ",
                 toolTipContent: "<b>{label}</b>: {percent}%",
                 dataPoints : datap.data.data
             }]
