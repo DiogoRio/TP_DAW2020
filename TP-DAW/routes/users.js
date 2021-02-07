@@ -58,6 +58,32 @@ router.post('/register', (req, res, next) => {
   registerController.register(req,res);
 });
 
+router.get("/edit/pass", async (req, res, next) => {
+  if(req.isAuthenticated()){
+    //testar se a oldPass esta correta
+    res.render('editPassword', {errors: []})
+  }else{
+    res.redirect('/users/login')
+  }
+})
+
+router.post("/edit/pass", async (req, res, next) => {
+  if(req.isAuthenticated()){
+    isValid = validatePassword(req.body.currPassword, req.user.hash, req.user.salt)
+    if(isValid && req.body.password == req.body.confirmPassword){
+      UserCont.alterPassword(req.user.username, req.body.password)
+      res.redirect('/myaccount')
+    }else if(req.body.password == req.body.confirmPassword){
+      res.render('editPassword', {errors: ["\"Current password\" field doesn't match user password."]})
+    }else{
+      res.render('editPassword', {errors: ["\"New password\" field doesn't match \"Confirm new password\" field."]})
+    } 
+  }else{
+    res.redirect('users/login')
+  }
+})
+
+
 router.get('/edit/:id',async (req, res, next) => {
   if(req.isAuthenticated()){
     try{
@@ -74,6 +100,7 @@ router.get('/edit/:id',async (req, res, next) => {
     res.redirect('/users/login')
   }
 });
+
 
 router.post("/edit/:id", async (req, res, next) => {
   if(req.isAuthenticated()){

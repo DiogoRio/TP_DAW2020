@@ -1,37 +1,41 @@
 extends ../layout
 
 block content
-    .w3-container.w3-blue
-        h3 Resource Register Page:
-    form.w3-container(action='/resources' method='POST' enctype="multipart/form-data")
-        br
-        label Title:
-        input.w3-input.w3-border(type="text" name="title")
-        br
-        label(for='typeR') Type:
-        br
-        br 
-        select.w3-select#typeR(name='typeR')
-           each t in types
-             option(value=t.type) #{t.type}
-        br
-        br
-        label Creation Date:
-        input.w3-input.w3-border(type="date" name="creDate")
-        br
-        br
-        label Description:
-        input.w3-input.w3-border(type="text" name="description")
-        br
-        label(for='visibility') Visibility: 
-        br
-        br
-        select.w3-select#visibility(name='visibility')
-            option(value='Public') Public
-            option(value='Private') Private
-        br
-        br
-        label Resource:
-        input.w3-input.w3-border(type="file" name="cover")
-        br
-        input.w3-btn.w3-blue(type="submit" value="Submit" style="margin-left:10px; margin-top:10px")
+     .w3-modal(style='display:block;')
+        .w3-modal-content.w3-card-4
+          header.w3-container.w3-blue.w3-card-4.w3-center
+            h3 REGISTER RESOURCE
+          .w3-container.w3-margin.w3-padding.w3-section
+            form.w3-container(action='/resources' method='POST' enctype="multipart/form-data")
+                br
+                label Title:
+                input.w3-input.w3-border(type="text" name="title")
+                br
+                label(for='typeR') Type:
+                br
+                br 
+                select.w3-select#typeR(name='typeR')
+                   each t in types
+                     option(value=t.type) #{t.type}
+                br
+                br
+                label Creation Date:
+                input.w3-input.w3-border(type="date" name="creDate")
+                br
+                br
+                label Description:
+                input.w3-input.w3-border(type="text" name="description")
+                br
+                label(for='visibility') Visibility: 
+                br
+                br
+                select.w3-select#visibility(name='visibility')
+                    option(value='Public') Public
+                    option(value='Private') Private
+                br
+                br
+                label Resource:
+                input.w3-input.w3-border(type="file" name="cover")
+                br
+                a.w3-btn.w3-left.w3-blue(href="/myaccount" style="margin-left:10px; margin-top:10px") CANCEL
+                input.w3-btn.w3-blue(type="submit" value="SUBMIT" style="margin-left:10px; margin-top:10px")

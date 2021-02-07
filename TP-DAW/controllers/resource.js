@@ -21,16 +21,21 @@ function countResourcesByType(type){
     return Resource.countDocuments({typeR: type});
 }
 
-function createResourse(title,type,dateR,visibility,author) {
-    var dateReg = new Date().toISOString().substr(0, 10)
+function createResourse(typeR,title,creDate,regDate,visibility,nameR,author,
+                        points,totalP,path,description,downloads) {
     const newResource = new Resource({
+        typeR: typeR,
         title: title,
-        typeR: type,
-        creDate: dateR, 
-        regDate: dateReg,
+        creDate: creDate, 
+        regDate: regDate,
         visibility: visibility, 
+        nameR: nameR,
         author: author,
-        points: 0
+        points: points,
+        totalP:totalP,
+        path:path,
+        description : description,
+        downloads:downloads
     })
 
     newResource.save()
