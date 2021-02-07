@@ -15,12 +15,12 @@ html(style='height:100%;')
     script(src='/javascripts/administration.js')
   body(style='height:100%;')
       
-      .w3-bar.w3-black.w3-border.w3-large
-        a.w3-bar-item.w3-button(href='/') HOME
-        a.w3-bar-item.w3-button(href='/myaccount') MY ACCOUNT
-        a.w3-bar-item.w3-button(href='/resources') RESOURCES
-        a.w3-bar-item.w3-button(href='/users') USERS
+      .w3-bar.w3-black.w3-border
+        a.w3-bar-item.w3-button.w3-xlarge(href='/' class='fa fa-home') 
+        a.w3-bar-item.w3-button.w3-large(href='/resources') RESOURCES
+        a.w3-bar-item.w3-button.w3-large(href='/users') USERS
         if auth  
-         a.w3-bar-item.w3-button.w3-right(href='/users/logout') LOGOUT
-      
+         a.w3-bar-item.w3-button.w3-xlarge.w3-right(href='/users/logout' class='fa fa-sign-out')
+         a.w3-bar-item.w3-button.w3-large.w3-right(href='/myaccount') MY ACCOUNT 
+        
       block content
