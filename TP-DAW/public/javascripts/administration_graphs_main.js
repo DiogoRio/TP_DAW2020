@@ -3,25 +3,23 @@ function roundToTwo(num) {
 }
 
 window.onload = function () {
-	var chart = new CanvasJS.Chart("chartContainer", {
-		title:{
-			text: "O QUE METER AQUI?"              
-		},
-		data: [              
-		{
-			// Change type to "doughnut", "line", "splineArea", etc.
-			type: "column",
-			dataPoints: [
-				{ label: "apple",  y: 10  },
-				{ label: "orange", y: 15  },
-				{ label: "banana", y: 25  },
-				{ label: "mango",  y: 30  },
-				{ label: "grape",  y: 28  }
-			]
-		}
-		]
-	});
-	chart.render();
+
+    axios.get("/administration/doughnut").then( (datap) => {
+        var chart = new CanvasJS.Chart("chartContainer", {
+            animationEnabled: true,
+            theme: "light2",
+            title: {
+                text: "Numero de Downloads por Recurso"
+            },
+            data: [{
+                type: "doughnut",
+                indexLabel: "{type}: {y}",
+                toolTipContent: "{y}",
+                dataPoints : datap.data
+            }]
+        });
+        chart.render();
+    })
 	
 	axios.get("/administration/piegraphdata").then( (datap) => {
 
@@ -30,8 +28,6 @@ window.onload = function () {
             d.percent = roundToTwo(tmp)
             
         });
-
-        console.log(datap.data)
 
         var chart = new CanvasJS.Chart("chartContainer2", {
             animationEnabled: true,

@@ -22,7 +22,7 @@ router.all("/*", isAdmin, function(req, res, next) {
 });
 
 router.get('/teste', (req, res, next) => {
-  Resource.deleteResourceFromUser("ze2").then(res.redirect('/administration/resources'))
+  Graph.getDoughnutGraphData()
 });
 
 /* GET administration home page. */
@@ -41,6 +41,12 @@ router.get('/piegraphdata', async(req, res, next) => {
     }).catch(e => res.status(500).send(e))
 });
 
+//Get data for the administration Doughnut graph
+router.get('/doughnut', async(req, res, next) => {
+  var data = await Graph.getDoughnutGraphData();
+  res.send(data)
+});
+
 router.get('/resources', (req, res, next) => {
   ResourceType.getAll().then( (types) => {
     Resource.getResources().then( (resources) =>
@@ -52,7 +58,6 @@ router.get('/resources', (req, res, next) => {
 
 // devolve todos os departamentos
 router.get('/departs', (req, res, next) =>{
-  console.log("HERE")
   Depart.listDeparts()
   .then(
     (departs) => res.render('administration/departs', {departs:departs})

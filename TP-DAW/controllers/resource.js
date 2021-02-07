@@ -134,7 +134,6 @@ function deleteResource(id){
 //Utilizada na parte de administração, elimina todos os recursos do utilizador quando o mesmo é eliminado por um admin
 function deleteResourceFromUser(username){
     var path = __dirname + '/../public/fileStore/'+ username
-    console.log(path)
     if (fs.existsSync(path)) {
         fs.readdirSync(path).forEach(function (file) {
             var currPath = path + "/" + file;
@@ -147,6 +146,15 @@ function deleteResourceFromUser(username){
         fs.rmdirSync(path);
     }
     return Resource.deleteMany({"author": username})
+}
+
+async function getDownloadsByType(type){
+    var tmp = await Resource.find({typeR:type},{_id:0,downloads:1}) //Lista com o numero de downloads de todos os recursos do tipo dado
+    var total = 0;
+    tmp.forEach(e => {
+        total  += e.downloads;
+    });
+    return({type:type,y:total})
 }
 
 module.exports.listResource = listResource;
@@ -169,3 +177,4 @@ module.exports.getResources = getResources;
 module.exports.countResourcesByType = countResourcesByType
 module.exports.countResources = countResources
 module.exports.updateDownloads = updateDownloads
+module.exports.getDownloadsByType = getDownloadsByType

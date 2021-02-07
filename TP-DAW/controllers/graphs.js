@@ -29,5 +29,18 @@ async function updateTypesFromDB(){
 async function getPieGraphData(){
     return Pie.find({},{_id:0,label:1,y:1})
 }
+
+
+async function getDoughnutGraphData(){
+    var types = await ResourceType.getAll()
+    var data = []
+    for (let i = 0; i < types.length; i++) {
+        var d = await Resource.getDownloadsByType(types[i].type)
+        data.push(d)
+    }
+    return data;
+}
+
 module.exports.updateTypesFromDB = updateTypesFromDB;
 module.exports.getPieGraphData = getPieGraphData;
+module.exports.getDoughnutGraphData = getDoughnutGraphData;
