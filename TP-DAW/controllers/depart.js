@@ -73,6 +73,10 @@ async function addDepart(des){
     return depart.save()
 }
 
+function deleteDepart(id){
+    return Depart.deleteOne({id:id})
+}
+
 // Add course to department
 async function addCourse(departId, courseDes){
     var num_courses = await numCourses();
@@ -86,3 +90,4 @@ module.exports.getDepById = getDepById
 module.exports.getCourseById = getCourseById
 module.exports.addDepart = addDepart
 module.exports.addCourse = addCourse
+module.exports.deleteDepart = deleteDepart

@@ -52,8 +52,11 @@ router.get('/resources', (req, res, next) => {
 
 // devolve todos os departamentos
 router.get('/departs', (req, res, next) =>{
+  console.log("HERE")
   Depart.listDeparts()
-  .then(dados => res.send(dados))
+  .then(
+    (departs) => res.render('administration/departs', {departs:departs})
+  )
   .catch(e => res.send(e))
 })
 
@@ -121,9 +124,16 @@ router.post("/resources/remove/:id", async (req, res, next) => {
 })
 
 // adiciona um novo departamento
-router.post('/add/depart', (req, res, next) =>{
+router.post('/departs/add', (req, res, next) =>{
   Depart.addDepart(req.body.designation)
-  .then(dados => res.send(dados))
+  .then(res.redirect('/administration/departs'))
+  .catch(e => res.send(e))
+})
+
+// Remove um departamento
+router.post('/departs/remove/:id', (req, res, next) =>{
+  Depart.deleteDepart(req.params.id)
+  .then(res.redirect('/administration/departs'))
   .catch(e => res.send(e))
 })
 

@@ -6,56 +6,51 @@ function createCourse(depid,designation){
     .catch(error => console.log(error));
 }
 
-function roundToTwo(num) {    
-    return +(Math.round(num + "e+2")  + "e-2");
+//Filtros para o modal de edição de utilizadores
+var adm_selectedDepart = "";
+var adm_departCourses = [];
+var adm_selectedCourse = "";
+
+
+function adm_setDepartFilter(id, dep){
+    d = dep.toLowerCase();
+    if(reg_selectedDepart != d){
+        reg_selectedDepart = d;
+    }
 }
 
-window.onload = function () {
-	var chart = new CanvasJS.Chart("chartContainer", {
-		title:{
-			text: "O QUE METER AQUI?"              
-		},
-		data: [              
-		{
-			// Change type to "doughnut", "line", "splineArea", etc.
-			type: "column",
-			dataPoints: [
-				{ label: "apple",  y: 10  },
-				{ label: "orange", y: 15  },
-				{ label: "banana", y: 25  },
-				{ label: "mango",  y: 30  },
-				{ label: "grape",  y: 28  }
-			]
-		}
-		]
-	});
-	chart.render();
-	
-	axios.get("/administration/piegraphdata").then( (datap) => {
+function adm_setCourseFilter(id, course){
+    c = course.toLowerCase();
+    if(adm_selectedCourse != c){
+        adm_selectedCourse = c;
+    }
+}
 
-        datap.data.data.forEach(d => {
-            var tmp = ( d.y / datap.data.total ) * 100
-            d.percent = roundToTwo(tmp)
-            
-        });
+function adm_setDepartCourses(courses){
+    adm_departCourses = courses.split(',');
+    adm_filterCourseOptions();
+}
 
-        console.log(datap.data)
 
-        var chart = new CanvasJS.Chart("chartContainer2", {
-            animationEnabled: true,
-            title:{
-                text: "Types of Resources"
-            },
-            data: [{
-                type: "pie",
-                showInLegend: true,
-                indexLabel: "{label}: {y}",
-                legendText: "   {label}: {percent}%   ",
-                toolTipContent: "<b>{label}</b>: {percent}%",
-                dataPoints : datap.data.data
-            }]
-        });
-        chart.render();
-    })
-    
+function adm_filterCourseOptions(){
+    selected = false;
+    select = document.getElementById("edit-course");
+    options = select.getElementsByTagName("option")
+    if(adm_departCourses.length > 0){
+        for(i=0; i<options.length; i++){
+            if(!adm_departCourses.includes(options[i].attributes.name.value)){
+                options[i].style.display = "none";
+            }else{
+                if(!selected){
+                    options[i].selected = 'selected'
+                    selected = true
+                }
+                options[i].style.display = "";
+            }
+        }
+    }else{
+        for(i=0; i<options.length; i++){
+            options[i].style.display = ""; 
+        }
+    }
 }

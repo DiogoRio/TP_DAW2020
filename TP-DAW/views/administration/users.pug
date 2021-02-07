@@ -70,23 +70,22 @@ block content
                                   input.w3-input.w3-border(type="text" name="location" value=u.location)
                                 br
                                 label Department
-                                  select.w3-select(id="department" name='department')
+                                  select.w3-select(id="edit-department" name='department')
                                     each d in departs
                                       if d.id == u.department
-                                        option(value=d.id selected onclick=`setDepartCourses(\'${d.courses.map(c => c.designation)}\')`) #{d.designation}
+                                        option(value=d.id selected name=d.designation onclick=`adm_setDepartFilter(\'${d.id}\', \'${d.designation}\'); adm_setDepartCourses(\'${d.courses.map(c => c.designation)}\')`) #{d.designation}
                                       else
-                                        option(value=d.id onclick=`setDepartCourses(\'${d.courses.map(c => c.designation)}\')`) #{d.designation}
+                                        option(value=d.id name=d.designation onclick=`adm_setDepartFilter(\'${d.id}\', \'${d.designation}\'); adm_setDepartCourses(\'${d.courses.map(c => c.designation)}\')`) #{d.designation}
                                 br
                                 label Course
-                                  select.w3-select(id="course" name='course')
+                                  select.w3-select(id="edit-course" name='course')
                                     each c in courses
                                       if c.id == u.course
-                                        option(value=c.id selected) #{c.designation} 
+                                        option(value=c.id selected name=c.designation onclick=`adm_setCourseFilter(\'${c.id}\', \'${c.designation}\')`) #{c.designation}
                                       else
-                                        option(value=c.id) #{c.designation}
+                                        option(value=c.id name=c.designation onclick=`adm_setCourseFilter(\'${c.id}\', \'${c.designation}\')`) #{c.designation}
                                 br
                                 br
-                                - console.log(u.type)
                                 if u.type == "admin"
                                   input.w3-check(type="checkbox" name="admin" checked="checked")
                                 else
