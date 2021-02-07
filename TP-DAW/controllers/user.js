@@ -46,7 +46,7 @@ function createUser(username,email,name,location,department,course,hash,salt){
         course:course
     })
 
-    newUser.save()
+    return newUser.save()
 }
 
 

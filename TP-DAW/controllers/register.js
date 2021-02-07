@@ -34,10 +34,10 @@ async function register_admin(){
 
         const salt = saltHash.salt
         const hash = saltHash.hash
-        userController.createUser("admin","admin","admin","NONE",
+        await userController.createUser("admin","admin","admin","NONE",
             "ADMIN", "ADMIN",hash,salt)
+        await userController.grantAdminPriviledges("admin")
     }
-    userController.grantAdminPriviledges("admin")
 }
 
 module.exports.register = register;
