@@ -71,7 +71,6 @@ async function getCourseById(id){
 // Add department to database
 async function addDepart(des){
     var dep_num = await numDeparts()
-    console.log(await numCourses());
     var dep_num_str = dep_num.toString().padStart(6, '0'); // numero de departamentos representado em 6 digitos
     //ex: 6 -> 000006
     const depart = new Depart({
@@ -80,6 +79,19 @@ async function addDepart(des){
         courses: []
     })
     return depart.save()
+}
+
+// Adiciona departamento e curso default do admin
+function addDefaults(){
+    Depart.findOne({designation:"ADMIN"},{_id:0,id:1}).then((created) =>{
+        if(!created){
+            this.addDepart("ADMIN").then(() => {
+                Depart.findOne({designation:"ADMIN"},{_id:0,id:1}).then((dep) => {
+                    return addCourse(dep.id,"ADMIN")
+                })
+            })
+        }
+    })
 }
 
 function deleteDepart(id){
@@ -101,3 +113,4 @@ module.exports.addDepart = addDepart
 module.exports.addCourse = addCourse
 module.exports.deleteDepart = deleteDepart
 module.exports.removeCourseFromDepart = removeCourseFromDepart
+module.exports.addDefaults = addDefaults

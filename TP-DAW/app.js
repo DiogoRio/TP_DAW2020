@@ -10,6 +10,7 @@ const MongoStore = require('connect-mongo')(session);
 var db = require('./config/db')
 flash = require('connect-flash');
 var Type = require('./controllers/resourceType')
+var Depart = require('./controllers/depart')
 var reg = require('./controllers/register')
 
 
@@ -67,7 +68,8 @@ app.use('/users', usersRouter)
 app.use('/resources', resourceRouter)
 app.use('/administration', administrationRouter)
 
-reg.register_admin()
+//Add default depart and course 
+Depart.addDefaults()
 
 //add default types to DB
 Type.add("Report")
@@ -76,6 +78,9 @@ Type.add("Application")
 Type.add("Slides")
 Type.add("Evaluation")
 Type.add("Solved Problem")
+
+//Add default user admin
+reg.register_admin()
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
