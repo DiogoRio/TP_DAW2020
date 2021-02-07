@@ -49,6 +49,15 @@ async function getDepById(id){
     }
 }
 
+async function removeCourseFromDepart(dep_id,c_id){
+    var dep = await getDepById(dep_id)
+    for (let i = 0; i < dep.courses.length; i++) {
+        if (dep.courses[i].id === c_id)
+            dep.courses.splice(i, 1);
+    }
+    return Depart.updateOne({id:dep_id},dep)
+}
+
 async function getCourseById(id){
     var courses = await listCourses()
     for (i = 0; i < courses.length; i++) {
@@ -91,3 +100,4 @@ module.exports.getCourseById = getCourseById
 module.exports.addDepart = addDepart
 module.exports.addCourse = addCourse
 module.exports.deleteDepart = deleteDepart
+module.exports.removeCourseFromDepart = removeCourseFromDepart

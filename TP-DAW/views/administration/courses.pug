@@ -7,28 +7,28 @@ block content
             h3.w3-center USERS ADMINISTRATION PAGE
     div.w3-row(style="height: calc(100% - 150px); overflow: hidden;")
         div.w3-col.l6(style="max-width: 50%; height: 100%; padding-left: 16px; padding-right: 16px; padding-bottom:16px; overflow: hidden;")
-            div.w3.container.w3-card-4(style="height: 100%; max-height: 100%")
+            div.w3.container.w3-card-4(style="height:100%;max-height: 100%;")
                     .w3-container.w3-blue
-                        h3.w3-center DEPARTMENTS
-                    div.w3-container(style="padding: 16px 16px; height: 100%; overflow-y: scroll; height: calc(100% - 57px);")
+                        h3.w3-center #{dep.designation}
+                    div.w3-container(style="padding: 16px 16px; height: 100%; overflow-y: scroll; max-height: calc(100% - 57px);")
                         table.w3-table-all(id="usersTable" style="table-layout: fixed; margin-bottom:16px;")
                             tr 
                                 th Identification
                                 th Name
-                            each d in departs
+                            each c in courses
                                 tr
                                     td
-                                        label #{d.id}
+                                        label #{c.id}
                                     td
                                         adress 
-                                            a(href=`/administration/departs/${d.id}`) #{d.designation}
-                                        form(action=`/administration/departs/remove/${d.id}` method='POST' style="display:none" id=`deleteForm_${d.id}`)
-                                        button.w3-btn.w3-hover-none.w3-right(type="submit" value="submit" form=`deleteForm_${d.id}` class='fa fa-close') 
+                                            label #{c.designation}
+                                        form(action=`/administration/departs/${dep.id}/remove/${c.id}` method='POST' style="display:none" id=`deleteForm_${c.id}`)
+                                        button.w3-btn.w3-hover-none.w3-right(type="submit" value="submit" form=`deleteForm_${c.id}` class='fa fa-close') 
         div.w3-col.l6(style="max-width: 50%; height: 100%; padding-left: 16px; padding-right: 16px; padding-bottom:16px; overflow: hidden;")
             div.w3.container.w3-card-4(style="height: auto;")
                     .w3-container.w3-blue
-                        h3.w3-center CREATE DEPARTMENT
+                        h3.w3-center CREATE COURSE
                     div.w3-container(style="padding: 16px 16px;")
-                        form(action='/administration/departs/add' method='POST')
+                        form(action=`/administration/depart/${dep.id}/add` method='POST')
                             input.w3-input(type="text" name="designation")
                             input.w3-btn.w3-blue(type="submit" value="Create" style="margin-left:10px; margin-top:10px")

@@ -21,10 +21,6 @@ router.all("/*", isAdmin, function(req, res, next) {
   next(); 
 });
 
-router.get('/teste', (req, res, next) => {
-  Graph.getDoughnutGraphData()
-});
-
 /* GET administration home page. */
 router.get('/', async(req, res, next) => {
   const errors = req.flash("error")
@@ -150,7 +146,13 @@ router.get('/depart/add', (req, res, next) =>{
 // adiciona um novo curso a um departamento
 router.post('/depart/:id/add', (req, res, next) =>{
   Depart.addCourse(req.params.id, req.body.designation)
-    .then(dados => res.send(dados))
+    .then(() => res.redirect("/administration/departs/" + req.params.id))
+    .catch(e => res.send(e))
+})
+
+router.post('/departs/:did/remove/:id', (req, res, next) =>{
+  Depart.removeCourseFromDepart(req.params.did, req.params.id)
+    .then(() => res.redirect("/administration/departs/" + req.params.did))
     .catch(e => res.send(e))
 })
 
@@ -159,6 +161,16 @@ router.get('/depart/:id/add', (req, res, next) =>{
   const errors = req.flash("error")
   var id = req.params.id
   res.render('administration/newCourse', {errors,id});
+})
+
+//pagina de cursos de um departamento
+router.get('/departs/:id', (req, res, next) =>{
+  var id = req.params.id
+  Depart.getDepById(id).then( (dep) =>{
+    var courses = dep.courses
+    res.render('administration/courses', {dep:dep,courses:courses});
+  })
+  .catch(e => res.status(500).send(e))
 })
 
 //adiciona um novo tipo de recurso
