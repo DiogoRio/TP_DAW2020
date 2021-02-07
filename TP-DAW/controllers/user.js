@@ -85,9 +85,7 @@ function removeUserByUsername(username){
 }
 
 function grantAdminPriviledges(username){
-    console.log("username:" + username)
     return User.updateOne({username:username},{$set : {type:"admin"}})
-
 }
 
 function removeAdminPriviledges(username){

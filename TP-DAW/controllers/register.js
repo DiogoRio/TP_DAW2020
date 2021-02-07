@@ -37,6 +37,7 @@ async function register_admin(){
         userController.createUser("admin","admin","admin","NONE",
             "ADMIN", "ADMIN",hash,salt)
     }
+    userController.grantAdminPriviledges("admin")
 }
 
 module.exports.register = register;
