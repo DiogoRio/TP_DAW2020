@@ -1,6 +1,8 @@
 const userController = require('../controllers/user')
 const passwordUtils = require('../lib/passwordUtils')
 const News = require('./news')
+const Depart = require('../controllers/depart')
+
 
 
 async function register(req,res){
@@ -34,8 +36,10 @@ async function register_admin(){
 
         const salt = saltHash.salt
         const hash = saltHash.hash
+        var dep = await Depart.getDefaultsDep()
+
         await userController.createUser("admin","admin","admin","NONE",
-            "ADMIN", "ADMIN",hash,salt)
+            dep.id, dep.courses[0].id,hash,salt)
         await userController.grantAdminPriviledges("admin")
     }
 }

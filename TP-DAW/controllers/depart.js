@@ -94,6 +94,10 @@ function addDefaults(){
     })
 }
 
+function getDefaultsDep(){
+    return Depart.findOne({designation:"ADMIN"},{_id:0})
+}
+
 function deleteDepart(id){
     return Depart.deleteOne({id:id})
 }
@@ -114,3 +118,4 @@ module.exports.addCourse = addCourse
 module.exports.deleteDepart = deleteDepart
 module.exports.removeCourseFromDepart = removeCourseFromDepart
 module.exports.addDefaults = addDefaults
+module.exports.getDefaultsDep = getDefaultsDep
