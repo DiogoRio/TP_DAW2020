@@ -69,7 +69,10 @@ app.use('/resources', resourceRouter)
 app.use('/administration', administrationRouter)
 
 //Add default depart and course 
-Depart.addDefaults()
+
+
+async function defaults() {await Depart.addDefaults(); await reg.register_admin()}
+defaults();
 
 //add default types to DB
 Type.add("Report")
@@ -80,7 +83,7 @@ Type.add("Evaluation")
 Type.add("Solved Problem")
 
 //Add default user admin
-reg.register_admin()
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

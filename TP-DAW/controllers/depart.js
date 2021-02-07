@@ -82,16 +82,13 @@ async function addDepart(des){
 }
 
 // Adiciona departamento e curso default do admin
-function addDefaults(){
-    Depart.findOne({designation:"ADMIN"},{_id:0,id:1}).then((created) =>{
+async function addDefaults(){
+    var created = await Depart.findOne({designation:"ADMIN"},{_id:0,id:1})
         if(!created){
-            this.addDepart("ADMIN").then(() => {
-                Depart.findOne({designation:"ADMIN"},{_id:0,id:1}).then((dep) => {
-                    return addCourse(dep.id,"ADMIN")
-                })
-            })
+            await this.addDepart("ADMIN")
+            var dep = await Depart.findOne({designation:"ADMIN"},{_id:0,id:1})
+            await addCourse(dep.id,"ADMIN")
         }
-    })
 }
 
 function getDefaultsDep(){
