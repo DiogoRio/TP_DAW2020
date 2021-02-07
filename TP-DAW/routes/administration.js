@@ -21,10 +21,13 @@ router.all("/*", isAdmin, function(req, res, next) {
   next(); 
 });
 
+router.get('/teste', (req, res, next) => {
+  Resource.deleteResourceFromUser("ze2").then(res.redirect('/administration/resources'))
+});
+
 /* GET administration home page. */
 router.get('/', async(req, res, next) => {
   const errors = req.flash("error")
-  console.log("errors: " + errors)
   var departs = await Depart.listDeparts()
   res.render('administration/main',{errors: errors, departs:departs});
 });
@@ -79,7 +82,6 @@ router.post('/users/edit/:username', (req,res,next) => {
   UserCont.updateUserByUsername(req.params.username,user)
   .then(() => {
     if(user.admin){
-      console.log(user.admin)
       UserCont.grantAdminPriviledges(user.username).then(res.redirect('/administration/users'))
     }
     else{
@@ -90,10 +92,13 @@ router.post('/users/edit/:username', (req,res,next) => {
 })
 
 router.post('/users/remove/:username', (req,res,next) => {
-  req.logout
+  console.log("Removing " + req.params.username)
   UserCont.removeUserByUsername(req.params.username)
   .then(
-    res.redirect('/administration/users')
+    Resource.deleteResourceFromUser(req.params.username).then(
+      res.redirect('/administration/users')
+    )
+    .catch(e => res.status(500).jsonp(e))
   )
   .catch(e => res.status(500).jsonp(e))
 })
@@ -125,7 +130,6 @@ router.post('/add/depart', (req, res, next) =>{
 //Add departments page
 router.get('/depart/add', (req, res, next) =>{
   const errors = req.flash("error")
-  console.log("errors: " + errors)
   res.render('administration/newDepart', {errors});
 })
 
@@ -139,7 +143,6 @@ router.post('/depart/:id/add', (req, res, next) =>{
 //pagina de adicionar novo curso
 router.get('/depart/:id/add', (req, res, next) =>{
   const errors = req.flash("error")
-  console.log("errors: " + errors)
   var id = req.params.id
   res.render('administration/newCourse', {errors,id});
 })
